@@ -5,10 +5,14 @@ namespace Raytracer
     internal class Renderer
     {
         private Scene _scene;
+        private int pictureWidth;
+        private int pictureHeight;
 
         public void Render(Bitmap bmp, Scene scene)
         {
             _scene = scene;
+            pictureHeight = bmp.Height;
+            pictureWidth = bmp.Width;
             for (int y = 0; y < bmp.Size.Height; y++)
             {
                 for (int x = 0; x < bmp.Size.Width; x++)
@@ -20,7 +24,7 @@ namespace Raytracer
         
         private Color RenderPixel(int x, int y)
         {
-            var ray = new Ray(Vector3.Zero, new Vector3(x, y, 1.0f));
+            var ray = new Ray(Vector3.Zero, new Vector3((float)x/pictureWidth - 0.5f, ((float)y)/pictureHeight - 0.5f, 1.0f));
             RaycastHit hitInfo;
             bool hit = Raycast(_scene.Meshes[0], ray, out hitInfo);
             return hit ? Color.Red : Color.White;
@@ -29,7 +33,17 @@ namespace Raytracer
         private bool Raycast(Mesh mesh, Ray ray, out RaycastHit hitInfo)
         {
             hitInfo = new RaycastHit();
-            return RaycastTriangle(mesh.Vertices, mesh.Triangles, 0, ray, hitInfo);
+            RaycastHit closestHit;
+            float closestHitDistance = float.MaxValue;
+            hitInfo.t = closestHitDistance;
+            for (int i = 0; i < mesh.TriangleCount; i++)
+            {
+                if (!RaycastTriangle(mesh.Vertices, mesh.Triangles, i, ray, hitInfo) ||
+                    !(closestHitDistance > hitInfo.t)) continue;
+                closestHit = hitInfo;
+                closestHitDistance = hitInfo.t;
+            }
+            return closestHitDistance != float.MaxValue;
         }
 
         private bool RaycastTriangle(Vector3[] vertices, int[] triangles, int triangleId, Ray ray, RaycastHit hitInfo)
