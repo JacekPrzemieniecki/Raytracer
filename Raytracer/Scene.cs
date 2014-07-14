@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Raytracer
 {
-    class Scene
+    internal class Scene
     {
-        public List<Mesh> meshes;
+        public List<Mesh> Meshes;
 
         public Scene()
         {
-            meshes = new List<Mesh>();
-            meshes.Add(new Mesh());
+            Meshes = new List<Mesh> {new Mesh()};
+            Camera = new Camera();
         }
+
+        public Camera Camera { get; set; }
     }
 }
