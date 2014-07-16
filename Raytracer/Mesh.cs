@@ -9,14 +9,14 @@
         public Mesh()
         {
             Vertices = new[] {
-                new Vector3(-0.5f, -0.3f, 1.0f), 
-                new Vector3(0.1f, 0.0f, 1.0f), 
-                new Vector3(0.0f, 0.15f, 1.0f),
-                new Vector3(0.3f, 0.3f, 1.0f),
-                new Vector3(0.25f, -0.5f, 1),
-                new Vector3(0.45f, 0.45f, 1)  
+                new Vector3(0.0f, 0.0f, -5.0f), 
+                new Vector3(3.0f, 3.0f, -5.0f), 
+                new Vector3(0.0f, 3.0f, -5.0f),
+                new Vector3(3.0f, -3.0f, -5.0f),
+                new Vector3(0.25f, -0.5f, -5.0f),
+                new Vector3(0.45f, 0.45f, -5.0f)  
             };
-            Triangles = new[] {0, 1, 2, 3, 4, 5};
+            Triangles = new[] {0, 1, 2};
             TriangleCount = Triangles.Length/3;
         }
     }

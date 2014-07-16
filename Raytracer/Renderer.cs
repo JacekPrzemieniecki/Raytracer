@@ -21,13 +21,23 @@ namespace Raytracer
                 }
             }
         }
-        
-        private Color RenderPixel(int x, int y)
+
+        private Color RenderPixel(int screenX, int screenY)
         {
-            var ray = new Ray(Vector3.Zero, new Vector3((float)x/pictureWidth - 0.5f, ((float)y)/pictureHeight - 0.5f, 1.0f));
+            float viewportX = ((float)screenX + 0.5f) / pictureWidth * 2 - 1;
+            // Screen Y is pointed down
+            float viewportY = 1 - ((float)screenY + 0.5f) / pictureHeight * 2;
+            var ray = _scene.Camera.ViewportPointToRay(viewportX, viewportY);
             RaycastHit hitInfo;
             bool hit = Raycast(_scene.Meshes[0], ray, out hitInfo);
-            return hit ? Color.Red : Color.White;
+            if (hit)
+            {
+                return Color.FromArgb((int)(0xFF * (1 - hitInfo.u - hitInfo.v)), (int)(0xFF * hitInfo.u), (int)(0xFF * hitInfo.v));
+            }
+            else
+            {
+                return Color.White;
+            }
         }
 
         private bool Raycast(Mesh mesh, Ray ray, out RaycastHit hitInfo)
@@ -48,7 +58,7 @@ namespace Raytracer
 
         private bool RaycastTriangle(Vector3[] vertices, int[] triangles, int triangleId, Ray ray, RaycastHit hitInfo)
         {
-            int triangleOffset = triangleId*3;
+            int triangleOffset = triangleId * 3;
             Vector3 vert0 = vertices[triangles[triangleOffset]];
             Vector3 vert1 = vertices[triangles[triangleOffset + 1]];
             Vector3 vert2 = vertices[triangles[triangleOffset + 2]];
@@ -57,15 +67,15 @@ namespace Raytracer
             Vector3 pVec = Vector3.Cross(ray.Direction, edge2);
             float determinant = Vector3.Dot(edge1, pVec);
             if (determinant == 0) return false;
-            float invDeterminant = 1/determinant;
+            float invDeterminant = 1 / determinant;
             Vector3 tVec = ray.Origin - vert0;
-            hitInfo.u = Vector3.Dot(tVec, pVec)*invDeterminant;
+            hitInfo.u = Vector3.Dot(tVec, pVec) * invDeterminant;
             if (hitInfo.u < 0 || hitInfo.u > 1) return false;
             Vector3 qVec = Vector3.Cross(tVec, edge1);
-            hitInfo.v = Vector3.Dot(ray.Direction, qVec)*invDeterminant;
+            hitInfo.v = Vector3.Dot(ray.Direction, qVec) * invDeterminant;
             if (hitInfo.v < 0 || hitInfo.v + hitInfo.u > 1) return false;
-            hitInfo.t = Vector3.Dot(edge2, qVec)*invDeterminant;
-            return true;
+            hitInfo.t = Vector3.Dot(edge2, qVec) * invDeterminant;
+            return hitInfo.t > 0;
         }
     }
 }
