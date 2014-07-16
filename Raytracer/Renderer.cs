@@ -5,14 +5,14 @@ namespace Raytracer
     internal class Renderer
     {
         private Scene _scene;
-        private int pictureWidth;
-        private int pictureHeight;
+        private int _pictureWidth;
+        private int _pictureHeight;
 
         public void Render(Bitmap bmp, Scene scene)
         {
             _scene = scene;
-            pictureHeight = bmp.Height;
-            pictureWidth = bmp.Width;
+            _pictureHeight = bmp.Height;
+            _pictureWidth = bmp.Width;
             for (int y = 0; y < bmp.Size.Height; y++)
             {
                 for (int x = 0; x < bmp.Size.Width; x++)
@@ -24,34 +24,30 @@ namespace Raytracer
 
         private Color RenderPixel(int screenX, int screenY)
         {
-            float viewportX = ((float)screenX + 0.5f) / pictureWidth * 2 - 1;
+            float viewportX = (screenX + 0.5f) / _pictureWidth * 2 - 1;
             // Screen Y is pointed down
-            float viewportY = 1 - ((float)screenY + 0.5f) / pictureHeight * 2;
+            float viewportY = 1 - (screenY + 0.5f) / _pictureHeight * 2;
             var ray = _scene.Camera.ViewportPointToRay(viewportX, viewportY);
             RaycastHit hitInfo;
             bool hit = Raycast(_scene.Meshes[0], ray, out hitInfo);
             if (hit)
             {
-                return Color.FromArgb((int)(0xFF * (1 - hitInfo.u - hitInfo.v)), (int)(0xFF * hitInfo.u), (int)(0xFF * hitInfo.v));
+                return Color.FromArgb((int)(0xFF * (hitInfo.t/7)), 0, 0);
             }
-            else
-            {
-                return Color.White;
-            }
+            return Color.White;
         }
 
-        private bool Raycast(Mesh mesh, Ray ray, out RaycastHit hitInfo)
+        private bool Raycast(Mesh mesh, Ray ray, out RaycastHit closestHit)
         {
-            hitInfo = new RaycastHit();
-            RaycastHit closestHit;
+            closestHit = new RaycastHit();
             float closestHitDistance = float.MaxValue;
-            hitInfo.t = closestHitDistance;
             for (int i = 0; i < mesh.TriangleCount; i++)
             {
+                var hitInfo = new RaycastHit();
                 if (!RaycastTriangle(mesh.Vertices, mesh.Triangles, i, ray, hitInfo) ||
-                    !(closestHitDistance > hitInfo.t)) continue;
-                closestHit = hitInfo;
+                    (closestHitDistance < closestHit.t)) continue;
                 closestHitDistance = hitInfo.t;
+                closestHit = hitInfo;
             }
             return closestHitDistance != float.MaxValue;
         }
