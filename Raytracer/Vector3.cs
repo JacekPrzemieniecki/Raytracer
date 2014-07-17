@@ -52,6 +52,11 @@ namespace Raytracer
                 lhs.x*rhs.y - lhs.y*rhs.x);
         }
 
+        public static Vector3 operator +(Vector3 lhs, Vector3 rhs)
+        {
+            return  new Vector3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
+        }
+
         public static Vector3 operator -(Vector3 lhs, Vector3 rhs)
         {
             return new Vector3(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
