@@ -32,7 +32,7 @@ namespace Raytracer
             bool hit = Raycast(_scene.Meshes[0], ray, out hitInfo);
             if (hit)
             {
-                return Color.FromArgb((int)(0xFF * (hitInfo.t/7)), 0, 0);
+                return Color.FromArgb((int)(0xFF * (hitInfo.t / 7)), 0, 0);
             }
             return Color.White;
         }
@@ -40,20 +40,22 @@ namespace Raytracer
         private bool Raycast(Mesh mesh, Ray ray, out RaycastHit closestHit)
         {
             closestHit = new RaycastHit();
-            float closestHitDistance = float.MaxValue;
+            closestHit.t = float.MaxValue;
             for (int i = 0; i < mesh.TriangleCount; i++)
             {
-                var hitInfo = new RaycastHit();
-                if (!RaycastTriangle(mesh.Vertices, mesh.Triangles, i, ray, hitInfo) ||
-                    (closestHitDistance < closestHit.t)) continue;
-                closestHitDistance = hitInfo.t;
+                RaycastHit hitInfo;
+                if (!RaycastTriangle(mesh, i, ray, out hitInfo) ||
+                    (closestHit.t < hitInfo.t)) continue;
                 closestHit = hitInfo;
             }
-            return closestHitDistance != float.MaxValue;
+            return closestHit.t != float.MaxValue;
         }
 
-        private bool RaycastTriangle(Vector3[] vertices, int[] triangles, int triangleId, Ray ray, RaycastHit hitInfo)
+        private bool RaycastTriangle(Mesh mesh, int triangleId, Ray ray, out RaycastHit hitInfo)
         {
+            Vector3[] vertices = mesh.Vertices;
+            int[] triangles = mesh.Triangles;
+            hitInfo = new RaycastHit();
             int triangleOffset = triangleId * 3;
             Vector3 vert0 = vertices[triangles[triangleOffset]];
             Vector3 vert1 = vertices[triangles[triangleOffset + 1]];
