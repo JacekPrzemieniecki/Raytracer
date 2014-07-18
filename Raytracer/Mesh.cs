@@ -6,7 +6,7 @@ namespace Raytracer
     {
         public int[] Triangles;
         public Vector3[] Vertices;
-        public int TriangleCount { get; private set; }
+        public int TriangleCount { get; protected set; }
 
         public Mesh(Vector3[] vertices, int[] triangles)
         {
