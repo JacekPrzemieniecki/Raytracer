@@ -29,7 +29,15 @@ namespace Raytracer
             float viewportY = 1 - (screenY + 0.5f) / _pictureHeight * 2;
             var ray = _scene.Camera.ViewportPointToRay(viewportX, viewportY);
             Color pixel = Color.White;
-            float distance = _scene.Meshes[0].Raycast(ray, ref pixel, float.MaxValue);
+            float distance = float.MaxValue;
+            foreach (var mesh in _scene.Meshes)
+            {
+                float meshDistance = mesh.Raycast(ray, ref pixel, distance);
+                if (meshDistance < distance)
+                {
+                    distance = meshDistance;
+                }
+            }
             return pixel;
         }
     }
