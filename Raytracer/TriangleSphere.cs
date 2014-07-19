@@ -7,12 +7,13 @@ namespace Raytracer
         /// <summary>
         /// Triangle approximation of a sphere
         /// </summary>
-        /// <param name="origin">Center of the sphere</param>
+        /// <param name="position">Center of the sphere</param>
         /// <param name="radius">Radius of the sphere</param>
         /// <param name="rings">Nummber of horizontal vertex rings approximating the sphere. Poles not included</param>
         /// <param name="segments">Number of segments per ring</param>
-        public TriangleSphere(Vector3 origin, double radius, int rings, int segments)
+        public TriangleSphere(Vector3 position, double radius, int rings, int segments)
         {
+            Position = position;
             int polygonRings = rings - 1;
             TriangleCount = segments * rings * 2;
             int vertexCount = 2 + rings*segments;
@@ -22,10 +23,10 @@ namespace Raytracer
             Triangles = new int[3 * TriangleCount];
 
             // build poles
-            Vertices[0] = new Vector3(0, (float)radius, 0) + origin;
-            Vertices[lastVertex] = new Vector3(0, (float) -radius, 0) + origin;
+            Vertices[0] = new Vector3(0, (float)radius, 0);
+            Vertices[lastVertex] = new Vector3(0, (float) -radius, 0);
 
-            BuildVertices(origin, radius, segments, rings, segments);
+            BuildVertices(radius, segments, rings, segments);
 
             // Build pole triangles - connect pole with each edge on the first/last ring
             for (int triangle = 0; triangle < segments; triangle++)
@@ -65,7 +66,7 @@ namespace Raytracer
             }
         }
 
-        private void BuildVertices(Vector3 origin, double radius, int segments, int polygonRings, int verticesPerRing)
+        private void BuildVertices(double radius, int segments, int polygonRings, int verticesPerRing)
         {
             double verticalAngleStep = Math.PI / polygonRings;
             double horizontalAngleStep = 2*Math.PI / segments;
@@ -81,7 +82,7 @@ namespace Raytracer
                     double x = radius * Math.Sin(horizontalAngle) * cosVerticalAngle;
                     double z = radius * Math.Cos(horizontalAngle) * cosVerticalAngle;
                     int vertIndex = (ring - 1)*verticesPerRing + vertex + 1;
-                    Vertices[vertIndex] = new Vector3((float)x, (float)y, (float)z) + origin;
+                    Vertices[vertIndex] = new Vector3((float)x, (float)y, (float)z);
                 }
             }
         }

@@ -7,12 +7,14 @@ namespace Raytracer
         public int[] Triangles;
         public Vector3[] Vertices;
         public int TriangleCount { get; protected set; }
+        public Vector3 Position { get; set; }
 
-        public Mesh(Vector3[] vertices, int[] triangles)
+        public Mesh(Vector3[] vertices, int[] triangles, Vector3 position)
         {
             Vertices = vertices;
             Triangles = triangles;
             TriangleCount = Triangles.Length / 3;
+            Position = position;
         }
 
         protected Mesh()
@@ -28,16 +30,16 @@ namespace Raytracer
         /// <returns>Distance along the ray the hit was found</returns>
         public float Raycast(Ray ray, ref Color color, float maxDistance)
         {
+            Ray localRay = new Ray(ray.Origin - Position, ray.Direction);
             var closestHit = new RaycastHit { t = maxDistance };
             for (int i = 0; i < TriangleCount; i++)
             {
                 RaycastHit hitInfo;
-                if (RaycastTriangle(i, ray, out hitInfo) && (closestHit.t > hitInfo.t))
+                if (RaycastTriangle(i, localRay, out hitInfo) && (closestHit.t > hitInfo.t))
                 {
                     closestHit = hitInfo;
                 }
             }
-// ReSharper disable once CompareOfFloatsByEqualityOperator
             if (closestHit.t < maxDistance)
             {
                 color = Color.Red;
