@@ -57,8 +57,9 @@
     <Compile Include="Ray.cs" />
     <Compile Include="RaycastHit.cs" />
     <Compile Include="Renderer.cs" />
+    <Compile Include="SampleShapes\Cube.cs" />
     <Compile Include="Scene.cs" />
-    <Compile Include="TriangleSphere.cs" />
+    <Compile Include="SampleShapes\TriangleSphere.cs" />
     <Compile Include="Vector3.cs" />
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

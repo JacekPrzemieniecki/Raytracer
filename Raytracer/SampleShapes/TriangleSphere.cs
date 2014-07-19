@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Raytracer
+namespace Raytracer.SampleShapes
 {
     class TriangleSphere : Mesh
     {
