@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Raytracer
@@ -21,7 +22,12 @@ namespace Raytracer
             display.Padding = new Padding(25);
 
             var s = new Scene();
+            var watch = Stopwatch.StartNew();
             renderer.Render(drawTarget, s);
+            watch.Stop();
+            RenderTimeLabel.Text = string.Format("{0} s, {1} ms", watch.Elapsed.Seconds, watch.Elapsed.Milliseconds);
+            RaysCastLabel.Text = Debugging.Counters.RaysCast.ToString();
+            RayTriangleTestsLabel.Text = Debugging.Counters.RayTriangleTests.ToString();
         }
     }
 }

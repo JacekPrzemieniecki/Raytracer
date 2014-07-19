@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Threading;
 
 namespace Raytracer
 {
@@ -30,6 +31,9 @@ namespace Raytracer
         /// <returns>Distance along the ray the hit was found</returns>
         public float Raycast(Ray ray, ref Color color, float maxDistance)
         {
+            #if DEBUG
+            Interlocked.Increment(ref Debugging.Counters.RaysCast);
+            #endif
             Ray localRay = new Ray(ray.Origin - Position, ray.Direction);
             var closestHit = new RaycastHit { t = maxDistance };
             for (int i = 0; i < TriangleCount; i++)
@@ -49,6 +53,9 @@ namespace Raytracer
 
         private bool RaycastTriangle(int triangleId, Ray ray, out RaycastHit hitInfo)
         {
+            #if DEBUG
+            Interlocked.Increment(ref Debugging.Counters.RayTriangleTests);
+            #endif
             hitInfo = new RaycastHit();
             int triangleOffset = triangleId * 3;
             Vector3 vert0 = Vertices[Triangles[triangleOffset]];

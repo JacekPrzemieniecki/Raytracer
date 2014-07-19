@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="Debugging\Counters.cs" />
     <Compile Include="Mesh.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
