@@ -28,6 +28,7 @@ namespace Raytracer
             RenderTimeLabel.Text = string.Format("{0} s, {1} ms", watch.Elapsed.Seconds, watch.Elapsed.Milliseconds);
             RaysCastLabel.Text = Debugging.Counters.RaysCast.ToString();
             RayTriangleTestsLabel.Text = Debugging.Counters.RayTriangleTests.ToString();
+            RayHitsLabel.Text = Debugging.Counters.RayHits.ToString();
         }
     }
 }

@@ -75,7 +75,16 @@ namespace Raytracer
             hitInfo.v = Vector3.Dot(ray.Direction, qVec) * invDeterminant;
             if (hitInfo.v < 0 || hitInfo.v + hitInfo.u > 1) return false;
             hitInfo.t = Vector3.Dot(edge2, qVec) * invDeterminant;
+            #if DEBUG
+            if (hitInfo.t > 0)
+            {
+                Interlocked.Increment(ref Debugging.Counters.RayHits);
+                return true;
+            }
+            return false;
+            #else
             return hitInfo.t > 0;
+            #endif
         }
     }
 }
