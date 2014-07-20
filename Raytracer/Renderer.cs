@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Threading;
 
 namespace Raytracer
 {
@@ -32,6 +33,13 @@ namespace Raytracer
             float distance = float.MaxValue;
             foreach (var mesh in _scene.Meshes)
             {
+                if (!mesh.BoundingBox.Raycast(ray, distance))
+                {
+                    continue;
+                }
+                #if DEBUG
+                Interlocked.Increment(ref Debugging.Counters.BoundingBoxHits);
+                #endif
                 float meshDistance = mesh.Raycast(ray, ref pixel, distance);
                 if (meshDistance < distance)
                 {

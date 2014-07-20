@@ -64,6 +64,7 @@ namespace Raytracer.SampleShapes
                 }
                 
             }
+            Init();
         }
 
         private void BuildVertices(double radius, int segments, int polygonRings, int verticesPerRing)

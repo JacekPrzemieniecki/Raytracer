@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Raytracer
 {
-    internal struct Vector3
+    internal class Vector3
     {
         // ReSharper disable InconsistentNaming
         public float x;
@@ -69,6 +69,11 @@ namespace Raytracer
         public static Vector3 operator -(Vector3 lhs, Vector3 rhs)
         {
             return new Vector3(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
+        }
+
+        public static Vector3 operator *(Vector3 lhs, float rhs)
+        {
+            return new Vector3(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace Raytracer
@@ -26,9 +27,11 @@ namespace Raytracer
             renderer.Render(drawTarget, s);
             watch.Stop();
             RenderTimeLabel.Text = string.Format("{0} s, {1} ms", watch.Elapsed.Seconds, watch.Elapsed.Milliseconds);
-            RaysCastLabel.Text = Debugging.Counters.RaysCast.ToString();
-            RayTriangleTestsLabel.Text = Debugging.Counters.RayTriangleTests.ToString();
-            RayHitsLabel.Text = Debugging.Counters.RayHits.ToString();
+            RaysCastLabel.Text = Debugging.Counters.RaysCast.ToString(CultureInfo.InvariantCulture);
+            RayTriangleTestsLabel.Text = Debugging.Counters.RayTriangleTests.ToString(CultureInfo.InvariantCulture);
+            RayHitsLabel.Text = Debugging.Counters.RayHits.ToString(CultureInfo.InvariantCulture);
+            BoundingBoxChecksLabel.Text = Debugging.Counters.BoundingBoxChecks.ToString(CultureInfo.InvariantCulture);
+            BoundingBoxHitsLabel.Text = Debugging.Counters.BoundingBoxHits.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

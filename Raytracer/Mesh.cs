@@ -3,12 +3,24 @@ using System.Threading;
 
 namespace Raytracer
 {
-    internal class Mesh
+    internal class Mesh : IRaycastable
     {
         public int[] Triangles;
         public Vector3[] Vertices;
         public int TriangleCount { get; protected set; }
         public Vector3 Position { get; set; }
+        private Box _boundingBox;
+        private bool _boundingBoxDirty = true;
+        public Box BoundingBox {
+            get
+            {
+                if (_boundingBoxDirty)
+                {
+                    CalculateBoundingBox();
+                }
+                return _boundingBox;
+            }
+            protected set { _boundingBox = value; } }
 
         public Mesh(Vector3[] vertices, int[] triangles, Vector3 position)
         {
@@ -16,10 +28,57 @@ namespace Raytracer
             Triangles = triangles;
             TriangleCount = Triangles.Length / 3;
             Position = position;
+            Init();
         }
 
         protected Mesh()
         {
+        }
+
+        protected void Init()
+        {
+            CalculateBoundingBox();
+        }
+
+        private void CalculateBoundingBox()
+        {
+            Vector3 firstVertex = Vertices[0];
+            _boundingBox = new Box(firstVertex.x, firstVertex.x, firstVertex.y, firstVertex.y, firstVertex.z, firstVertex.z);
+            foreach (var vertex in Vertices)
+            {
+                if (_boundingBox.MaxX < vertex.x)
+                {
+                    _boundingBox.MaxX = vertex.x;
+                }
+                if (_boundingBox.MinX > vertex.x)
+                {
+                    _boundingBox.MinX = vertex.x;
+                }
+                if (_boundingBox.MaxY < vertex.y)
+                {
+                    _boundingBox.MaxY = vertex.y;
+                }
+                if (_boundingBox.MinY > vertex.y)
+                {
+                    _boundingBox.MinY = vertex.y;
+                }
+                if (_boundingBox.MaxZ < vertex.z)
+                {
+                    _boundingBox.MaxZ = vertex.z;
+                }
+                if (_boundingBox.MinZ > vertex.z)
+                {
+                    _boundingBox.MinZ = vertex.z;
+                }
+            }
+            _boundingBox.MaxX += Position.x;
+            _boundingBox.MinX += Position.x;
+            _boundingBox.MaxY += Position.y;
+            _boundingBox.MinY += Position.y;
+            _boundingBox.MaxZ += Position.z;
+            _boundingBox.MinZ += Position.z;
+
+            _boundingBoxDirty = false;
         }
 
         /// <summary>

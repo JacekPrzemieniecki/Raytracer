@@ -11,5 +11,7 @@ namespace Raytracer.Debugging
         public static int RaysCast;
         public static int RayTriangleTests;
         public static int RayHits;
+        public static int BoundingBoxChecks;
+        public static int BoundingBoxHits;
     }
 }

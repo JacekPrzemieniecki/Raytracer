@@ -35,6 +35,7 @@ namespace Raytracer.SampleShapes
                 7, 0, 4
             };
             TriangleCount = Triangles.Length / 3;
+            Init();
         }
     }
 }
