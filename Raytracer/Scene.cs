@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
 using Raytracer.SampleShapes;
 
 namespace Raytracer
 {
-    internal class Scene
+    internal class Scene : IRaycastable
     {
         public List<Mesh> Meshes;
 
@@ -19,5 +21,25 @@ namespace Raytracer
         }
 
         public Camera Camera { get; set; }
+        public float Raycast(Ray ray, ref Color color, float maxDistance)
+        {
+            float distance = maxDistance;
+            foreach (var mesh in Meshes)
+            {
+                if (!mesh.BoundingBox.Raycast(ray, distance))
+                {
+                    continue;
+                }
+                #if DEBUG
+                Interlocked.Increment(ref Debugging.Counters.BoundingBoxHits);
+                #endif
+                float meshDistance = mesh.Raycast(ray, ref color, distance);
+                if (meshDistance < distance)
+                {
+                    distance = meshDistance;
+                }
+            }
+            return distance;
+        }
     }
 }

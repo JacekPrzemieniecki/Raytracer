@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Threading;
 
 namespace Raytracer
 {
@@ -30,22 +29,7 @@ namespace Raytracer
             float viewportY = 1 - (screenY + 0.5f) / _pictureHeight * 2;
             var ray = _scene.Camera.ViewportPointToRay(viewportX, viewportY);
             Color pixel = Color.White;
-            float distance = float.MaxValue;
-            foreach (var mesh in _scene.Meshes)
-            {
-                if (!mesh.BoundingBox.Raycast(ray, distance))
-                {
-                    continue;
-                }
-                #if DEBUG
-                Interlocked.Increment(ref Debugging.Counters.BoundingBoxHits);
-                #endif
-                float meshDistance = mesh.Raycast(ray, ref pixel, distance);
-                if (meshDistance < distance)
-                {
-                    distance = meshDistance;
-                }
-            }
+            _scene.Raycast(ray, ref pixel, float.MaxValue);
             return pixel;
         }
     }
