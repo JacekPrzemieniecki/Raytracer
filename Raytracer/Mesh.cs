@@ -142,15 +142,12 @@ namespace Raytracer
             if (hitInfo.v < 0 || hitInfo.v + hitInfo.u > 1) return false;
             hitInfo.t = Vector3.Dot(edge2, qVec) * invDeterminant;
 #if DEBUG
-            if (hitInfo.t > 0)
-            {
-                Interlocked.Increment(ref Counters.RayHits);
-                return true;
-            }
-            return false;
+            if (hitInfo.t < 0) return false;
+            Interlocked.Increment(ref Counters.RayHits);
+            return true;
 #else
             return hitInfo.t > 0;
-            #endif
+#endif
         }
     }
 }
