@@ -1,26 +1,15 @@
 ﻿using System.Drawing;
 using System.Threading;
+using Raytracer.Debugging;
 
 namespace Raytracer
 {
-    internal class Mesh : IRaycastable
+    internal class Mesh
     {
         public int[] Triangles;
         public Vector3[] Vertices;
-        public int TriangleCount { get; protected set; }
-        public Vector3 Position { get; set; }
         private Box _boundingBox;
         private bool _boundingBoxDirty = true;
-        public Box BoundingBox {
-            get
-            {
-                if (_boundingBoxDirty)
-                {
-                    CalculateBoundingBox();
-                }
-                return _boundingBox;
-            }
-            protected set { _boundingBox = value; } }
 
         public Mesh(Vector3[] vertices, int[] triangles, Vector3 position)
         {
@@ -35,6 +24,50 @@ namespace Raytracer
         {
         }
 
+        public int TriangleCount { get; protected set; }
+        public Vector3 Position { get; set; }
+
+        public Box BoundingBox
+        {
+            get
+            {
+                if (_boundingBoxDirty)
+                {
+                    CalculateBoundingBox();
+                }
+                return _boundingBox;
+            }
+        }
+
+        /// <summary>
+        ///     Casts a ray against mesh
+        /// </summary>
+        /// <param name="ray">Ray to be cast</param>
+        /// <param name="color">Color of the point where ray hit</param>
+        /// <param name="maxDistance">Maximum distance to trace ray</param>
+        /// <returns>Distance along the ray the hit was found</returns>
+        public float Raycast(Ray ray, ref Color color, float maxDistance)
+        {
+#if DEBUG
+            Interlocked.Increment(ref Counters.RaysCast);
+#endif
+            var localRay = new Ray(ray.Origin - Position, ray.Direction);
+            var closestHit = new RaycastHit {t = maxDistance};
+            for (int i = 0; i < TriangleCount; i++)
+            {
+                RaycastHit hitInfo;
+                if (RaycastTriangle(i, localRay, out hitInfo) && (closestHit.t > hitInfo.t))
+                {
+                    closestHit = hitInfo;
+                }
+            }
+            if (closestHit.t < maxDistance)
+            {
+                color = Color.Red;
+            }
+            return closestHit.t;
+        }
+
         protected void Init()
         {
             CalculateBoundingBox();
@@ -43,8 +76,11 @@ namespace Raytracer
         private void CalculateBoundingBox()
         {
             Vector3 firstVertex = Vertices[0];
-            _boundingBox = new Box(firstVertex.x, firstVertex.x, firstVertex.y, firstVertex.y, firstVertex.z, firstVertex.z);
-            foreach (var vertex in Vertices)
+            _boundingBox = new Box(
+                firstVertex.x, firstVertex.x, 
+                firstVertex.y, firstVertex.y, 
+                firstVertex.z, firstVertex.z);
+            foreach (Vector3 vertex in Vertices)
             {
                 if (_boundingBox.MaxX < vertex.x)
                 {
@@ -81,40 +117,11 @@ namespace Raytracer
             _boundingBoxDirty = false;
         }
 
-        /// <summary>
-        /// Casts a ray against mesh
-        /// </summary>
-        /// <param name="ray">Ray to be cast</param>
-        /// <param name="color">Color of the point where ray hit</param>
-        /// <param name="maxDistance">Maximum distance to trace ray</param>
-        /// <returns>Distance along the ray the hit was found</returns>
-        public float Raycast(Ray ray, ref Color color, float maxDistance)
-        {
-            #if DEBUG
-            Interlocked.Increment(ref Debugging.Counters.RaysCast);
-            #endif
-            Ray localRay = new Ray(ray.Origin - Position, ray.Direction);
-            var closestHit = new RaycastHit { t = maxDistance };
-            for (int i = 0; i < TriangleCount; i++)
-            {
-                RaycastHit hitInfo;
-                if (RaycastTriangle(i, localRay, out hitInfo) && (closestHit.t > hitInfo.t))
-                {
-                    closestHit = hitInfo;
-                }
-            }
-            if (closestHit.t < maxDistance)
-            {
-                color = Color.Red;
-            }
-            return closestHit.t;
-        }
-
         private bool RaycastTriangle(int triangleId, Ray ray, out RaycastHit hitInfo)
         {
-            #if DEBUG
-            Interlocked.Increment(ref Debugging.Counters.RayTriangleTests);
-            #endif
+#if DEBUG
+            Interlocked.Increment(ref Counters.RayTriangleTests);
+#endif
             hitInfo = new RaycastHit();
             int triangleOffset = triangleId * 3;
             Vector3 vert0 = Vertices[Triangles[triangleOffset]];
@@ -134,14 +141,14 @@ namespace Raytracer
             hitInfo.v = Vector3.Dot(ray.Direction, qVec) * invDeterminant;
             if (hitInfo.v < 0 || hitInfo.v + hitInfo.u > 1) return false;
             hitInfo.t = Vector3.Dot(edge2, qVec) * invDeterminant;
-            #if DEBUG
+#if DEBUG
             if (hitInfo.t > 0)
             {
-                Interlocked.Increment(ref Debugging.Counters.RayHits);
+                Interlocked.Increment(ref Counters.RayHits);
                 return true;
             }
             return false;
-            #else
+#else
             return hitInfo.t > 0;
             #endif
         }

@@ -6,21 +6,18 @@ namespace Raytracer
 {
     internal class Camera
     {
-        public float AspectRatio { get; set; }
+        private float AspectRatio { get; set; }
 
-        private float _fov;
-        public float FoV
+        private float FoV
         {
-            get { return _fov; }
             set
             {
-                tanHalfFoV = (float) Math.Tan(value/2);
-                _fov = value;
-                Debug.Print(tanHalfFoV.ToString(CultureInfo.InvariantCulture));
+                _tanHalfFoV = (float) Math.Tan(value/2);
+                Debug.Print(_tanHalfFoV.ToString(CultureInfo.InvariantCulture));
             }
         }
 
-        private float tanHalfFoV;
+        private float _tanHalfFoV;
 
         public Camera(float aspectRatio, float fov)
         {
@@ -30,9 +27,9 @@ namespace Raytracer
 
         public Ray ViewportPointToRay(float posX, float posY)
         {
-            float dirY = posY*tanHalfFoV;
-            float dirX = posX*tanHalfFoV*AspectRatio;
-            Vector3 rayDirection = new Vector3(dirX, dirY, -1.0f);
+            float dirY = posY*_tanHalfFoV;
+            float dirX = posX*_tanHalfFoV*AspectRatio;
+            var rayDirection = new Vector3(dirX, dirY, -1.0f);
             return new Ray(Vector3.Zero, rayDirection);
         }
     }

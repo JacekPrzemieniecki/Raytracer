@@ -6,7 +6,7 @@ using Raytracer.SampleShapes;
 
 namespace Raytracer
 {
-    internal class Scene : IRaycastable
+    internal class Scene
     {
         public List<Mesh> Meshes;
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Raytracer.SampleShapes
+﻿namespace Raytracer.SampleShapes
 {
     class Cube : Mesh
     {
@@ -12,7 +6,7 @@ namespace Raytracer.SampleShapes
         {
             Position = position;
             float h = edge / 2;
-            Vertices = new Vector3[]
+            Vertices = new[]
             {
                 new Vector3(-h, h, -h),
                 new Vector3(h, h, -h),
@@ -23,7 +17,7 @@ namespace Raytracer.SampleShapes
                 new Vector3(h, -h, h),
                 new Vector3(-h, -h, h)       
             };
-            Triangles = new int[]
+            Triangles = new[]
             {
                 0, 1, 4,
                 1, 2, 5,
