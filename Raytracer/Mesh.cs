@@ -10,12 +10,14 @@ namespace Raytracer
         public Vector3[] Vertices;
         private Box _boundingBox;
         private bool _boundingBoxDirty = true;
+        protected Shader Shader { get; set; }
 
-        public Mesh(Vector3[] vertices, int[] triangles, Vector3 position)
+        public Mesh(Vector3[] vertices, int[] triangles, Vector3 position, Shader shader)
         {
             Vertices = vertices;
             Triangles = triangles;
             TriangleCount = Triangles.Length / 3;
+            Shader = shader;
             Position = position;
             Init();
         }
@@ -52,7 +54,7 @@ namespace Raytracer
             Interlocked.Increment(ref Counters.RaysCast);
 #endif
             var localRay = new Ray(ray.Origin - Position, ray.Direction);
-            var closestHit = new RaycastHit {t = maxDistance};
+            var closestHit = new RaycastHit { t = maxDistance };
             for (int i = 0; i < TriangleCount; i++)
             {
                 RaycastHit hitInfo;
@@ -63,13 +65,14 @@ namespace Raytracer
             }
             if (closestHit.t < maxDistance)
             {
-                color = Color.Red;
+                color = Shader.Shade(this, closestHit);
             }
             return closestHit.t;
         }
 
         protected void Init()
         {
+            TriangleCount = Triangles.Length / 3;
             CalculateBoundingBox();
         }
 
@@ -77,8 +80,8 @@ namespace Raytracer
         {
             Vector3 firstVertex = Vertices[0];
             _boundingBox = new Box(
-                firstVertex.x, firstVertex.x, 
-                firstVertex.y, firstVertex.y, 
+                firstVertex.x, firstVertex.x,
+                firstVertex.y, firstVertex.y,
                 firstVertex.z, firstVertex.z);
             foreach (Vector3 vertex in Vertices)
             {
@@ -131,7 +134,7 @@ namespace Raytracer
             Vector3 edge2 = vert2 - vert0;
             Vector3 pVec = Vector3.Cross(ray.Direction, edge2);
             float determinant = Vector3.Dot(edge1, pVec);
-// ReSharper disable once CompareOfFloatsByEqualityOperator
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (determinant == 0) return false;
             float invDeterminant = 1 / determinant;
             Vector3 tVec = ray.Origin - vert0;

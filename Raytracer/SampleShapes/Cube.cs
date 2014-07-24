@@ -2,7 +2,7 @@
 {
     class Cube : Mesh
     {
-        public Cube(Vector3 position, float edge)
+        public Cube(Vector3 position, float edge, Shader shader)
         {
             Position = position;
             float h = edge / 2;
@@ -32,7 +32,7 @@
                 4, 5, 6,
                 6, 7, 4
             };
-            TriangleCount = Triangles.Length / 3;
+            Shader = shader;
             Init();
         }
     }

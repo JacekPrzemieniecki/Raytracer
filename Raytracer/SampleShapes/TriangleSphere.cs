@@ -11,9 +11,10 @@ namespace Raytracer.SampleShapes
         /// <param name="radius">Radius of the sphere</param>
         /// <param name="rings">Nummber of horizontal vertex rings approximating the sphere. Poles not included</param>
         /// <param name="segments">Number of segments per ring</param>
-        public TriangleSphere(Vector3 position, double radius, int rings, int segments)
+        public TriangleSphere(Vector3 position, double radius, int rings, int segments, Shader shader)
         {
             Position = position;
+            Shader = shader;
             int polygonRings = rings - 1;
             TriangleCount = segments * rings * 2;
             int vertexCount = 2 + rings*segments;
