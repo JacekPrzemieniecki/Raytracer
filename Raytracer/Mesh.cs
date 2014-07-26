@@ -44,11 +44,10 @@ namespace Raytracer
         /// <summary>
         ///     Casts a ray against mesh
         /// </summary>
-        /// <param name="scene">Scene context to raycast in</param>
         /// <param name="ray">Ray to be cast</param>
         /// <param name="maxDistance">Maximum distance to trace ray</param>
         /// <returns>Distance along the ray the hit was found</returns>
-        public RaycastHit Raycast(Scene scene, Ray ray, float maxDistance)
+        public RaycastHit Raycast(Ray ray, float maxDistance)
         {
 #if DEBUG
             Interlocked.Increment(ref Counters.RaysCast);
@@ -69,9 +68,9 @@ namespace Raytracer
             return closestHit;
         }
 
-        public Color SampleColor(Scene scene, RaycastHit raycastHit)
+        public Color SampleColor(Scene scene, RaycastHit raycastHit, int maxRecursiveRaycasts)
         {
-            return Shader.Shade(scene, raycastHit);
+            return Shader.Shade(scene, raycastHit, maxRecursiveRaycasts - 1);
         }
 
         protected void Init()

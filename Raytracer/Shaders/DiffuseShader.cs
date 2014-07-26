@@ -5,7 +5,7 @@ namespace Raytracer.Shaders
 {
     class DiffuseShader : Shader
     {
-        public override Color Shade(Scene scene, RaycastHit hitInfo)
+        public override Color Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts)
         {
             float totalIntensity = 0;
             Color c;

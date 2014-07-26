@@ -42,7 +42,7 @@ namespace Raytracer
                 #if DEBUG
                 Interlocked.Increment(ref Debugging.Counters.BoundingBoxHits);
                 #endif
-                RaycastHit meshHit= mesh.Raycast(this, ray, closestHit.Distance);
+                RaycastHit meshHit= mesh.Raycast(ray, closestHit.Distance);
                 if (meshHit.Distance < closestHit.Distance)
                 {
                     closestHit = meshHit;
@@ -51,7 +51,7 @@ namespace Raytracer
             return closestHit;
         }
 
-        public Color SampleColor(float viewportX, float viewportY)
+        public Color SampleColor(float viewportX, float viewportY, int maxRecursiveRaycasts)
         {
             Ray ray = Camera.ViewportPointToRay(viewportX, viewportY);
             RaycastHit raycastHit = Raycast(ray, float.MaxValue);
@@ -59,7 +59,7 @@ namespace Raytracer
             {
                 return Color.White;
             }
-            return raycastHit.Mesh.SampleColor(this, raycastHit);
+            return raycastHit.Mesh.SampleColor(this, raycastHit, maxRecursiveRaycasts - 1);
         }
     }
 }
