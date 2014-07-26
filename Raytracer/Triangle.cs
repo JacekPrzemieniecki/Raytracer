@@ -36,6 +36,7 @@ namespace Raytracer
             Interlocked.Increment(ref Counters.RayTriangleTests);
 #endif
             hitInfo = new RaycastHit();
+            if (Vector3.Dot(Normal, ray.Direction) > 0) return false;
             Vector3 pVec = Vector3.Cross(ray.Direction, _edge2);
             float determinant = Vector3.Dot(_edge1, pVec);
             // ReSharper disable once CompareOfFloatsByEqualityOperator
