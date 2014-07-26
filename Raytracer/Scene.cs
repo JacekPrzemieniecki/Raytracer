@@ -10,6 +10,7 @@ namespace Raytracer
     internal class Scene
     {
         public List<Mesh> Meshes;
+        public List<LightSource> LightSources;
 
         public Scene()
         {
@@ -19,6 +20,7 @@ namespace Raytracer
             new Cube(new Vector3(-3, -1, -7), 0.75f, shader),
             new TriangleSphere(new Vector3(0, 0, -5), 1.0, 10, 10, shader)
             };
+            LightSources = new List<LightSource>();
             Camera = new Camera(8.0f / 6.0f, (float)Math.PI * 60f / 180f);
         }
 
@@ -35,7 +37,7 @@ namespace Raytracer
                 #if DEBUG
                 Interlocked.Increment(ref Debugging.Counters.BoundingBoxHits);
                 #endif
-                float meshDistance = mesh.Raycast(ray, ref color, distance);
+                float meshDistance = mesh.Raycast(this, ray, ref color, distance);
                 if (meshDistance < distance)
                 {
                     distance = meshDistance;

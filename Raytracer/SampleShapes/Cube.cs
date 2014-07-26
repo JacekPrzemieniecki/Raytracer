@@ -1,4 +1,6 @@
-﻿namespace Raytracer.SampleShapes
+﻿using Raytracer.Shaders;
+
+namespace Raytracer.SampleShapes
 {
     class Cube : Mesh
     {

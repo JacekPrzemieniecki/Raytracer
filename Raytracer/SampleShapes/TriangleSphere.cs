@@ -1,4 +1,5 @@
 ﻿using System;
+using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
 {

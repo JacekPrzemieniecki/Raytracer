@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Threading;
 using Raytracer.Debugging;
+using Raytracer.Shaders;
 
 namespace Raytracer
 {
@@ -44,11 +45,12 @@ namespace Raytracer
         /// <summary>
         ///     Casts a ray against mesh
         /// </summary>
+        /// <param name="scene">Scene context to raycast in</param>
         /// <param name="ray">Ray to be cast</param>
         /// <param name="color">Color of the point where ray hit</param>
         /// <param name="maxDistance">Maximum distance to trace ray</param>
         /// <returns>Distance along the ray the hit was found</returns>
-        public float Raycast(Ray ray, ref Color color, float maxDistance)
+        public float Raycast(Scene scene, Ray ray, ref Color color, float maxDistance)
         {
 #if DEBUG
             Interlocked.Increment(ref Counters.RaysCast);
@@ -65,7 +67,7 @@ namespace Raytracer
             }
             if (closestHit.t < maxDistance)
             {
-                color = Shader.Shade(this, closestHit);
+                color = Shader.Shade(scene, this, closestHit);
             }
             return closestHit.t;
         }
