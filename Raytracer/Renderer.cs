@@ -27,10 +27,7 @@ namespace Raytracer
             float viewportX = (screenX + 0.5f) / _pictureWidth * 2 - 1;
             // Screen Y is pointed down
             float viewportY = 1 - (screenY + 0.5f) / _pictureHeight * 2;
-            var ray = _scene.Camera.ViewportPointToRay(viewportX, viewportY);
-            Color pixel = Color.White;
-            _scene.Raycast(ray, ref pixel, float.MaxValue);
-            return pixel;
+            return _scene.SampleColor(viewportX, viewportY);
         }
     }
 }

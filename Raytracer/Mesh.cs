@@ -11,6 +11,7 @@ namespace Raytracer
         public Vector3[] Vertices;
         private Box _boundingBox;
         private bool _boundingBoxDirty = true;
+        private Color _color = Color.Red;
         protected Shader Shader { get; set; }
 
         public Mesh(Vector3[] vertices, int[] triangles, Vector3 position, Shader shader)
@@ -47,29 +48,50 @@ namespace Raytracer
         /// </summary>
         /// <param name="scene">Scene context to raycast in</param>
         /// <param name="ray">Ray to be cast</param>
-        /// <param name="color">Color of the point where ray hit</param>
         /// <param name="maxDistance">Maximum distance to trace ray</param>
         /// <returns>Distance along the ray the hit was found</returns>
-        public float Raycast(Scene scene, Ray ray, ref Color color, float maxDistance)
+        public RaycastHit Raycast(Scene scene, Ray ray, float maxDistance)
         {
 #if DEBUG
             Interlocked.Increment(ref Counters.RaysCast);
 #endif
             var localRay = new Ray(ray.Origin - Position, ray.Direction);
-            var closestHit = new RaycastHit { t = maxDistance };
+            var closestHit = new RaycastHit { Distance = maxDistance };
             for (int i = 0; i < TriangleCount; i++)
             {
                 RaycastHit hitInfo;
-                if (RaycastTriangle(i, localRay, out hitInfo) && (closestHit.t > hitInfo.t))
+                if (RaycastTriangle(i, localRay, out hitInfo) && (closestHit.Distance > hitInfo.Distance))
                 {
                     closestHit = hitInfo;
+                    closestHit.TriangleId = i;
                 }
             }
-            if (closestHit.t < maxDistance)
-            {
-                color = Shader.Shade(scene, this, closestHit);
-            }
-            return closestHit.t;
+            closestHit.Mesh = this;
+            closestHit.Ray = ray;
+            return closestHit;
+        }
+
+        public Color SampleColor(Scene scene, RaycastHit raycastHit)
+        {
+            return Shader.Shade(scene, this, raycastHit);
+        }
+
+        public Color GetDiffuseColor(RaycastHit hit)
+        {
+            return _color;
+        }
+
+        public Vector3 SurfaceNormal(RaycastHit hit)
+        {
+            int triangleOffset = hit.TriangleId * 3;
+            Vector3 v1 = Vertices[Triangles[triangleOffset]];
+            Vector3 v2 = Vertices[Triangles[triangleOffset + 1]];
+            Vector3 v3 = Vertices[Triangles[triangleOffset + 2]];
+            Vector3 edge1 = v3 - v1;
+            Vector3 edge2 = v2 - v1;
+            Vector3 crossProduct = Vector3.Cross(edge1, edge2);
+            Vector3 normal = crossProduct.Normalized();
+            return normal;
         }
 
         protected void Init()
@@ -140,18 +162,18 @@ namespace Raytracer
             if (determinant == 0) return false;
             float invDeterminant = 1 / determinant;
             Vector3 tVec = ray.Origin - vert0;
-            hitInfo.u = Vector3.Dot(tVec, pVec) * invDeterminant;
-            if (hitInfo.u < 0 || hitInfo.u > 1) return false;
+            hitInfo.U = Vector3.Dot(tVec, pVec) * invDeterminant;
+            if (hitInfo.U < 0 || hitInfo.U > 1) return false;
             Vector3 qVec = Vector3.Cross(tVec, edge1);
-            hitInfo.v = Vector3.Dot(ray.Direction, qVec) * invDeterminant;
-            if (hitInfo.v < 0 || hitInfo.v + hitInfo.u > 1) return false;
-            hitInfo.t = Vector3.Dot(edge2, qVec) * invDeterminant;
+            hitInfo.V = Vector3.Dot(ray.Direction, qVec) * invDeterminant;
+            if (hitInfo.V < 0 || hitInfo.V + hitInfo.U > 1) return false;
+            hitInfo.Distance = Vector3.Dot(edge2, qVec) * invDeterminant;
 #if DEBUG
-            if (hitInfo.t < 0) return false;
+            if (hitInfo.Distance < 0) return false;
             Interlocked.Increment(ref Counters.RayHits);
             return true;
 #else
-            return hitInfo.t > 0;
+            return hitInfo.Distance > 0;
 #endif
         }
     }

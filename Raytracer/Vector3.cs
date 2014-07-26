@@ -75,5 +75,10 @@ namespace Raytracer
         {
             return new Vector3(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
         }
+
+        public static Vector3 operator *(float rhs, Vector3 lhs)
+        {
+            return new Vector3(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
+        }
     }
 }

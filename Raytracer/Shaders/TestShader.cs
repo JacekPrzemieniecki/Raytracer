@@ -6,8 +6,8 @@ namespace Raytracer.Shaders
     {
         public override Color Shade(Scene scene, Mesh mesh, RaycastHit hitInfo)
         {
-            return Color.FromArgb((int)(0xFF * hitInfo.u), (int)(0xFF * hitInfo.v),
-                    (int)(0xFF * (1 - hitInfo.u - hitInfo.v)));
+            return Color.FromArgb((int)(0xFF * hitInfo.U), (int)(0xFF * hitInfo.V),
+                    (int)(0xFF * (1 - hitInfo.U - hitInfo.V)));
         }
     }
 }

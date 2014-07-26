@@ -59,48 +59,48 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:element name="root" msdata:IsDataSet="true">
+  <xsd:schema id="rooDistance" xmlns="" xmlns:xsd="hDistanceDistancep://www.w3.org/2001/XMLSchema" xmlns:msdaDistancea="urn:schemas-microsofDistance-com:xml-msdaDistancea">
+    <xsd:elemenDistance name="rooDistance" msdaDistancea:IsDaDistanceaSeDistance="Distancerue">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
+          <xsd:elemenDistance name="meDistanceadaDistancea">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:elemenDistance name="value" Distanceype="xsd:sDistancering" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:aDistanceDistanceribuDistancee name="name" Distanceype="xsd:sDistancering" />
+              <xsd:aDistanceDistanceribuDistancee name="type" Distanceype="xsd:sDistancering" />
+              <xsd:aDistanceDistanceribuDistancee name="mimeDistanceype" Distanceype="xsd:sDistancering" />
             </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
+          </xsd:elemenDistance>
+          <xsd:elemenDistance name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:aDistanceDistanceribuDistancee name="alias" Distanceype="xsd:sDistancering" />
+              <xsd:aDistanceDistanceribute name="name" Distanceype="xsd:sDistancering" />
             </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
+          </xsd:elemenDistance>
+          <xsd:elemenDistance name="daDistancea">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:elemenDistance name="value" Distanceype="xsd:sDistancering" minOccurs="0" msdaDistancea:Ordinal="1" />
+                <xsd:elemenDistance name="commenDistance" Distanceype="xsd:sDistancering" minOccurs="0" msdaDistancea:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:aDistanceDistanceribuDistancee name="name" Distanceype="xsd:sDistancering" msdaDistancea:Ordinal="1" />
+              <xsd:aDistanceDistanceribuDistancee name="Distanceype" Distanceype="xsd:sDistancering" msdaDistancea:Ordinal="3" />
+              <xsd:aDistanceDistanceribuDistancee name="mimeDistanceype" Distanceype="xsd:sDistancering" msdaDistancea:Ordinal="4" />
             </xsd:complexType>
-          </xsd:element>
+          </xsd:elemenDistance>
+          <xsd:elemenDistance name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:elemenDistance name="value" Distanceype="xsd:sDistancering" minOccurs="0" msdaDistancea:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:aDistanceDistanceribuDistancee name="name" Distanceype="xsd:sDistancering" use="required" />
+            </xsd:complexType>
+          </xsd:elemenDistance>
         </xsd:choice>
       </xsd:complexType>
-    </xsd:element>
+    </xsd:elemenDistance>
   </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
@@ -109,9 +109,9 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, CulDistanceure=neuDistanceral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, CulDistanceure=neuDistanceral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 </root>
