@@ -19,14 +19,14 @@ namespace Raytracer
         {
             Shader normal = new NormalShader();
             Shader diffuse = new DiffuseShader();
-            //Shader glossy = new GlossyShader(0.4f);
+            Shader glossy = new GlossyShader(0.4f);
             //Shader position = new PositionShader();
             //Shader reflected = new ReflectedVectorShader();
             _meshes = new List<Mesh>
             {
-                new Cube(new Vector3(-3, -1, -7), 0.75f, normal),
+                new Cube(new Vector3(0, 6, -3), 10f, glossy),
                 new TriangleSphere(new Vector3(0, 0, -5), 1.0, 10, 10, diffuse, true),
-                //new Plane(new Vector3(0, -1, -5), Vector3.Left, Vector3.Forward, 100, diffuse)
+                new Plane(new Vector3(0, -1, -5), Vector3.Left, Vector3.Forward, 100, diffuse)
             };
             LightSources = new List<LightSource>
             {
@@ -35,7 +35,7 @@ namespace Raytracer
             _camera = new Camera(Vector3.Zero, 8.0f / 6.0f, (float) Math.PI * 60f / 180f);
         }
 
-        private RaycastHit Raycast(Ray ray, float maxDistance)
+        public RaycastHit Raycast(Ray ray, float maxDistance)
         {
             var closestHit = new RaycastHit {Distance = maxDistance};
             foreach (Mesh mesh in _meshes)
