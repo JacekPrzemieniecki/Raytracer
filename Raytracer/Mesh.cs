@@ -12,15 +12,19 @@ namespace Raytracer
         private Box _boundingBox;
         private bool _boundingBoxDirty = true;
         private Color _color = Color.Red;
+        private Vector3[] _triangleNormals;
+        private Vector3[] _vertexNormals;
+        public bool IsSmoothShaded { get; set; }
         protected Shader Shader { get; set; }
 
-        public Mesh(Vector3[] vertices, int[] triangles, Vector3 position, Shader shader)
+        public Mesh(Vector3[] vertices, int[] triangles, Vector3 position, Shader shader, bool smooth)
         {
             Vertices = vertices;
             Triangles = triangles;
             TriangleCount = Triangles.Length / 3;
             Shader = shader;
             Position = position;
+            IsSmoothShaded = smooth;
             Init();
         }
 
@@ -81,9 +85,19 @@ namespace Raytracer
             return _color;
         }
 
-        public Vector3 SurfaceNormal(RaycastHit hit)
+        private Vector3 InterpolatedSurfaceNormal(RaycastHit hit)
         {
             int triangleOffset = hit.TriangleId * 3;
+            Vector3 v1Normal = _vertexNormals[Triangles[triangleOffset]];
+            Vector3 v2Normal = _vertexNormals[Triangles[triangleOffset + 1]];
+            Vector3 v3Normal = _vertexNormals[Triangles[triangleOffset + 2]];
+            Vector3 normal = v1Normal * (1 - hit.U - hit.V) + v2Normal * hit.U + v3Normal * hit.V;
+            return normal;
+        }
+
+        private Vector3 FlatSurfaceNormal(int triangleId)
+        {
+            int triangleOffset = triangleId * 3;
             Vector3 v1 = Vertices[Triangles[triangleOffset]];
             Vector3 v2 = Vertices[Triangles[triangleOffset + 1]];
             Vector3 v3 = Vertices[Triangles[triangleOffset + 2]];
@@ -94,10 +108,50 @@ namespace Raytracer
             return normal;
         }
 
+        public Vector3 SurfaceNormal(RaycastHit hit)
+        {
+            return IsSmoothShaded ? InterpolatedSurfaceNormal(hit) : _triangleNormals[hit.TriangleId];
+        }
+
         protected void Init()
         {
             TriangleCount = Triangles.Length / 3;
             CalculateBoundingBox();
+            CalculateTriangleNormals();
+            CalculateVertexNormals();
+        }
+
+        private void CalculateTriangleNormals()
+        {
+            _triangleNormals = new Vector3[TriangleCount];
+            for (int i = 0; i < TriangleCount; i++)
+            {
+                _triangleNormals[i] = FlatSurfaceNormal(i);
+            }
+        }
+
+        private void CalculateVertexNormals()
+        {
+            _vertexNormals = new Vector3[Vertices.Length];
+            for (int i = 0; i < Vertices.Length; i++)
+            {
+                _vertexNormals[i] = Vector3.Zero;
+            }
+
+            for (int triangleId = 0; triangleId < TriangleCount; triangleId++)
+            {
+                int vertexOffset = 3 * triangleId;
+                _vertexNormals[Triangles[vertexOffset]] += _triangleNormals[triangleId];
+                _vertexNormals[Triangles[vertexOffset + 1]] += _triangleNormals[triangleId];
+                _vertexNormals[Triangles[vertexOffset + 2]] += _triangleNormals[triangleId];
+
+            }
+
+            for (int i = 0; i < Vertices.Length; i++)
+            {
+                _vertexNormals[i] = _vertexNormals[i].Normalized();
+            }
+
         }
 
         private void CalculateBoundingBox()

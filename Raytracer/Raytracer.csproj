@@ -89,6 +89,7 @@
     <Compile Include="SampleShapes\Cube.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SampleShapes\TriangleSphere.cs" />
+    <Compile Include="Shaders\NormalShader.cs" />
     <Compile Include="Shaders\Shader.cs" />
     <Compile Include="Shaders\DiffuseShader.cs" />
     <Compile Include="Shaders\TestShader.cs" />

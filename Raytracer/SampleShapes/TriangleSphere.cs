@@ -12,10 +12,12 @@ namespace Raytracer.SampleShapes
         /// <param name="radius">Radius of the sphere</param>
         /// <param name="rings">Nummber of horizontal vertex rings approximating the sphere. Poles not included</param>
         /// <param name="segments">Number of segments per ring</param>
+        /// <param name="shader">Shader to use for the mesh</param>
         public TriangleSphere(Vector3 position, double radius, int rings, int segments, Shader shader)
         {
             Position = position;
             Shader = shader;
+            IsSmoothShaded = true;
             int polygonRings = rings - 1;
             TriangleCount = segments * rings * 2;
             int vertexCount = 2 + rings*segments;
@@ -71,7 +73,7 @@ namespace Raytracer.SampleShapes
 
         private void BuildVertices(double radius, int segments, int polygonRings, int verticesPerRing)
         {
-            double verticalAngleStep = Math.PI / polygonRings;
+            double verticalAngleStep = Math.PI / (polygonRings + 1);
             double horizontalAngleStep = 2*Math.PI / segments;
             const double piHalf = Math.PI / 2;
             for (int ring = 1; ring <= polygonRings; ring++)

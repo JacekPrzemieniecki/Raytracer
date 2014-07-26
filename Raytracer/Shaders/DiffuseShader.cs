@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Raytracer.Shaders
 {
@@ -17,6 +13,10 @@ namespace Raytracer.Shaders
             foreach (var lightSource in scene.LightSources)
             {
                 totalIntensity += Math.Max(lightSource.IntensityAt(hitInfo.Position, normal, scene, out c), 0);
+                if (totalIntensity == Single.NaN)
+                {
+                    int a = 0;
+                }
             }
             Color diffuse = hitInfo.Mesh.GetDiffuseColor(hitInfo);
 

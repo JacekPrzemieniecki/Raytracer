@@ -15,11 +15,12 @@ namespace Raytracer
 
         public Scene()
         {
-            Shader shader = new TestShader();
+            Shader normal = new NormalShader();
+            Shader diffuse = new DiffuseShader();
             Meshes = new List<Mesh>
             { 
-            new Cube(new Vector3(-3, -1, -7), 0.75f, shader),
-            new TriangleSphere(new Vector3(0, 0, -5), 1.0, 10, 10, new DiffuseShader())
+            new Cube(new Vector3(-3, -1, -7), 0.75f, normal),
+            new TriangleSphere(new Vector3(0, 0, -5), 1.0, 10, 10, diffuse)
             };
             LightSources = new List<LightSource>
             {
