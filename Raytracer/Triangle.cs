@@ -49,7 +49,7 @@ namespace Raytracer
             if (hitInfo.V < 0 || hitInfo.V + hitInfo.U > 1) return false;
             hitInfo.Distance = Vector3.Dot(_edge2, qVec) * invDeterminant;
 #if DEBUG
-            if (hitInfo.Distance < 0) return false;
+            if (hitInfo.Distance < 0.0001f) return false;
             Interlocked.Increment(ref Counters.RayHits);
             return true;
 #else
@@ -59,7 +59,7 @@ namespace Raytracer
 
         public Vector3 SurfaceNormal(float u, float v)
         {
-            if (IsSmooth) return Normal;
+            if (!IsSmooth) return Normal;
             Vector3 v1Normal = Mesh.VertexNormals[V1Index];
             Vector3 v2Normal = Mesh.VertexNormals[V2Index];
             Vector3 v3Normal = Mesh.VertexNormals[V3Index];

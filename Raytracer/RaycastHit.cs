@@ -21,7 +21,7 @@
                 Vector3 v3 = Triangle.V3;
                 _position = v1 * (1 - U - V) + U * v2 + V * v3;
                 _positionNotCalculated = false;
-                return _position;
+                return _position + Mesh.Position;
             }
         }
     }

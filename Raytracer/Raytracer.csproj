@@ -87,9 +87,13 @@
     <Compile Include="RaycastHit.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="SampleShapes\Cube.cs" />
+    <Compile Include="SampleShapes\Plane.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SampleShapes\TriangleSphere.cs" />
+    <Compile Include="Shaders\GlossyShader.cs" />
     <Compile Include="Shaders\NormalShader.cs" />
+    <Compile Include="Shaders\PositionShader.cs" />
+    <Compile Include="Shaders\ReflectedVectorShader.cs" />
     <Compile Include="Shaders\Shader.cs" />
     <Compile Include="Shaders\DiffuseShader.cs" />
     <Compile Include="Shaders\TestShader.cs" />

@@ -42,6 +42,21 @@ namespace Raytracer
                 z.ToString("+##0.0;-##0.0", CultureInfo.InvariantCulture));
         }
 
+        public static Vector3 Left
+        {
+            get { return new Vector3(-1, 0, 0); }
+        }
+
+        public static Vector3 Forward
+        {
+            get { return new Vector3(0, 0, 1); }
+        }
+
+        public static Vector3 Back
+        {
+            get { return new Vector3(0, 0, -1); }
+        }
+
         public static Vector3 Zero
         {
             get { return new Vector3(0.0f, 0.0f, 0.0f); }
