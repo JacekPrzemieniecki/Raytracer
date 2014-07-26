@@ -1,4 +1,5 @@
-﻿using Raytracer.Shaders;
+﻿using System.Drawing;
+using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
 {
@@ -8,7 +9,6 @@ namespace Raytracer.SampleShapes
         {
             Position = position;
             Shader = shader;
-            IsSmoothShaded = false;
             float h = edge / 2;
             Vertices = new[]
             {
@@ -23,18 +23,18 @@ namespace Raytracer.SampleShapes
             };
             Triangles = new[]
             {
-                0, 1, 2,
-                2, 3, 0,
-                0, 3, 7,
-                0, 7, 4,
-                1, 0, 4,
-                1, 4, 5,
-                2, 1, 5,
-                2, 5, 6,
-                3, 2, 6,
-                3, 6, 7,
-                4, 6, 5,
-                4, 7, 6
+                new Triangle(this, 0, 1, 2, Color.Red),
+                new Triangle(this, 2, 3, 0, Color.Red),
+                new Triangle(this, 0, 3, 7, Color.Red),
+                new Triangle(this, 0, 7, 4, Color.Red),
+                new Triangle(this, 1, 0, 4, Color.Red),
+                new Triangle(this, 1, 4, 5, Color.Red),
+                new Triangle(this, 2, 1, 5, Color.Red),
+                new Triangle(this, 2, 5, 6, Color.Red),
+                new Triangle(this, 3, 2, 6, Color.Red),
+                new Triangle(this, 3, 6, 7, Color.Red),
+                new Triangle(this, 4, 6, 5, Color.Red),
+                new Triangle(this, 4, 7, 6, Color.Red)
             };
             Init();
         }

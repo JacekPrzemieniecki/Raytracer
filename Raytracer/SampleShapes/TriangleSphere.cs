@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Drawing;
 using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
 {
     class TriangleSphere : Mesh
     {
+        private readonly Color _color = Color.Red;
+
         /// <summary>
         /// Triangle approximation of a sphere
         /// </summary>
@@ -17,46 +20,43 @@ namespace Raytracer.SampleShapes
         {
             Position = position;
             Shader = shader;
-            IsSmoothShaded = true;
             int polygonRings = rings - 1;
-            TriangleCount = segments * rings * 2;
-            int vertexCount = 2 + rings*segments;
+            int triangleCount = segments * rings * 2;
+            int vertexCount = 2 + rings * segments;
             Vertices = new Vector3[vertexCount];
             int lastVertex = vertexCount - 1;
-            int lastTriangleIndex = TriangleCount * 3 - 1;
-            Triangles = new int[3 * TriangleCount];
+            int lastTriangleIndex = triangleCount - 1;
+            Triangles = new Triangle[triangleCount];
 
             // build poles
             Vertices[0] = new Vector3(0, (float)radius, 0);
-            Vertices[lastVertex] = new Vector3(0, (float) -radius, 0);
+            Vertices[lastVertex] = new Vector3(0, (float)-radius, 0);
 
             BuildVertices(radius, segments, rings, segments);
 
             // Build pole triangles - connect pole with each edge on the first/last ring
             for (int triangle = 0; triangle < segments; triangle++)
             {
-                int vertIndex = triangle * 3;
-                Triangles[vertIndex] = 0;
-
-                // North pole
                 int edgeFirstVertex = triangle + 1;
-                Triangles[vertIndex + 1] = edgeFirstVertex;
-                Triangles[vertIndex + 2] = edgeFirstVertex + 1;
+                Triangles[triangle] = new Triangle(this, 0, edgeFirstVertex, edgeFirstVertex + 1, _color);
 
                 // South pole
-                Triangles[lastTriangleIndex - vertIndex] = lastVertex;
-                Triangles[lastTriangleIndex - vertIndex - 1] = lastVertex - edgeFirstVertex - 1;
-                Triangles[lastTriangleIndex - vertIndex - 2] = lastVertex - edgeFirstVertex;
+                int southEdgeFirstVertex = lastVertex - edgeFirstVertex;
+                Triangles[lastTriangleIndex - triangle] = new Triangle(this,
+                    southEdgeFirstVertex,
+                    southEdgeFirstVertex - 1, 
+                    lastVertex, 
+                    _color);
             }
             // Connect last and first vertex on the ring
-            Triangles[3 * segments - 1] = 1;
-            Triangles[lastTriangleIndex - 3 * segments + 2] = lastVertex - 1;
+            Triangles[segments - 1].V3Index = 1;
+            Triangles[lastTriangleIndex - segments + 1].V2Index = lastVertex - 1;
 
             // Build rings
             int triangleIndex = segments;
             for (int ring = 0; ring < polygonRings; ring++)
             {
-                int ringStart = ring*segments + 1;
+                int ringStart = ring * segments + 1;
                 for (int vertex = 0; vertex < segments; vertex++)
                 {
                     int v1 = ringStart + vertex;
@@ -66,7 +66,7 @@ namespace Raytracer.SampleShapes
                     ConnectQuad(v1, v2, v3, v4, triangleIndex);
                     triangleIndex += 2;
                 }
-                
+
             }
             Init();
         }
@@ -74,11 +74,11 @@ namespace Raytracer.SampleShapes
         private void BuildVertices(double radius, int segments, int polygonRings, int verticesPerRing)
         {
             double verticalAngleStep = Math.PI / (polygonRings + 1);
-            double horizontalAngleStep = 2*Math.PI / segments;
+            double horizontalAngleStep = 2 * Math.PI / segments;
             const double piHalf = Math.PI / 2;
             for (int ring = 1; ring <= polygonRings; ring++)
             {
-                double verticalAngle = piHalf - verticalAngleStep*ring;
+                double verticalAngle = piHalf - verticalAngleStep * ring;
                 double y = radius * Math.Sin(verticalAngle);
                 double cosVerticalAngle = Math.Cos(verticalAngle);
                 for (int vertex = 0; vertex < verticesPerRing; vertex++)
@@ -86,7 +86,7 @@ namespace Raytracer.SampleShapes
                     double horizontalAngle = horizontalAngleStep * vertex;
                     double x = radius * Math.Sin(horizontalAngle) * cosVerticalAngle;
                     double z = radius * Math.Cos(horizontalAngle) * cosVerticalAngle;
-                    int vertIndex = (ring - 1)*verticesPerRing + vertex + 1;
+                    int vertIndex = (ring - 1) * verticesPerRing + vertex + 1;
                     Vertices[vertIndex] = new Vector3((float)x, (float)y, (float)z);
                 }
             }
@@ -94,13 +94,8 @@ namespace Raytracer.SampleShapes
 
         private void ConnectQuad(int v1, int v2, int v3, int v4, int triangleIndex)
         {
-            int vertIndex = triangleIndex * 3;
-            Triangles[vertIndex] = v1;
-            Triangles[vertIndex + 1] = v2;
-            Triangles[vertIndex + 2] = v3;
-            Triangles[vertIndex + 3] = v2;
-            Triangles[vertIndex + 4] = v4;
-            Triangles[vertIndex + 5] = v3;
+            Triangles[triangleIndex] = new Triangle(this, v1, v2, v3, _color);
+            Triangles[triangleIndex + 1] = new Triangle(this, v3, v2, v4, _color);
         }
     }
 }

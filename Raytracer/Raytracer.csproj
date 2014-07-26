@@ -93,6 +93,7 @@
     <Compile Include="Shaders\Shader.cs" />
     <Compile Include="Shaders\DiffuseShader.cs" />
     <Compile Include="Shaders\TestShader.cs" />
+    <Compile Include="Triangle.cs" />
     <Compile Include="Vector3.cs" />
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
