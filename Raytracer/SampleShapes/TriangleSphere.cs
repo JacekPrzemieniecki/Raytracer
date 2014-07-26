@@ -4,19 +4,21 @@ using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
 {
-    class TriangleSphere : Mesh
+    internal class TriangleSphere : Mesh
     {
         private readonly Color _color = Color.Red;
 
         /// <summary>
-        /// Triangle approximation of a sphere
+        ///     Triangle approximation of a sphere
         /// </summary>
         /// <param name="position">Center of the sphere</param>
         /// <param name="radius">Radius of the sphere</param>
         /// <param name="rings">Nummber of horizontal vertex rings approximating the sphere. Poles not included</param>
         /// <param name="segments">Number of segments per ring</param>
         /// <param name="shader">Shader to use for the mesh</param>
-        public TriangleSphere(Vector3 position, double radius, int rings, int segments, Shader shader, bool smooth = false)
+        /// <param name="smooth">Is the triangle smoothly shaded (uses interpolated normals)</param>
+        public TriangleSphere(Vector3 position, double radius, int rings, int segments, Shader shader,
+            bool smooth = false)
         {
             Position = position;
             Shader = shader;
@@ -29,8 +31,8 @@ namespace Raytracer.SampleShapes
             Triangles = new Triangle[triangleCount];
 
             // build poles
-            Vertices[0] = new Vector3(0, (float)radius, 0);
-            Vertices[lastVertex] = new Vector3(0, (float)-radius, 0);
+            Vertices[0] = new Vector3(0, (float) radius, 0);
+            Vertices[lastVertex] = new Vector3(0, (float) -radius, 0);
 
             BuildVertices(radius, segments, rings, segments);
 
@@ -44,8 +46,8 @@ namespace Raytracer.SampleShapes
                 int southEdgeFirstVertex = lastVertex - edgeFirstVertex;
                 Triangles[lastTriangleIndex - triangle] = new Triangle(this,
                     southEdgeFirstVertex - 1,
-                    southEdgeFirstVertex, 
-                    lastVertex, 
+                    southEdgeFirstVertex,
+                    lastVertex,
                     _color,
                     smooth);
             }
@@ -67,7 +69,6 @@ namespace Raytracer.SampleShapes
                     ConnectQuad(v1, v2, v3, v4, triangleIndex, smooth);
                     triangleIndex += 2;
                 }
-
             }
             Init();
         }
@@ -88,7 +89,7 @@ namespace Raytracer.SampleShapes
                     double x = radius * Math.Sin(horizontalAngle) * cosVerticalAngle;
                     double z = radius * Math.Cos(horizontalAngle) * cosVerticalAngle;
                     int vertIndex = (ring - 1) * verticesPerRing + vertex + 1;
-                    Vertices[vertIndex] = new Vector3((float)x, (float)y, (float)z);
+                    Vertices[vertIndex] = new Vector3((float) x, (float) y, (float) z);
                 }
             }
         }

@@ -6,9 +6,9 @@ namespace Raytracer
     internal class Vector3
     {
         // ReSharper disable InconsistentNaming
-        public float x;
-        public float y;
-        public float z;
+        public readonly float x;
+        public readonly float y;
+        public readonly float z;
         // ReSharper restore InconsistentNaming
 
         public Vector3(float x, float y, float z)
@@ -16,30 +16,6 @@ namespace Raytracer
             this.x = x;
             this.y = y;
             this.z = z;
-        }
-
-        public float LengthSquared()
-        {
-            return (x * x + y * y + z * z);
-        }
-
-        public float Length()
-        {
-            return (float)Math.Sqrt(LengthSquared());
-        }
-
-        public Vector3 Normalized()
-        {
-            float len = Length();
-            return new Vector3(x / len, y / len, z / len);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("Vector3 {0}, {1}, {2}",
-                x.ToString("+##0.0;-##0.0", CultureInfo.InvariantCulture),
-                y.ToString("+##0.0;-##0.0", CultureInfo.InvariantCulture),
-                z.ToString("+##0.0;-##0.0", CultureInfo.InvariantCulture));
         }
 
         public static Vector3 Left
@@ -60,6 +36,30 @@ namespace Raytracer
         public static Vector3 Zero
         {
             get { return new Vector3(0.0f, 0.0f, 0.0f); }
+        }
+
+        private float LengthSquared()
+        {
+            return (x * x + y * y + z * z);
+        }
+
+        private float Length()
+        {
+            return (float) Math.Sqrt(LengthSquared());
+        }
+
+        public Vector3 Normalized()
+        {
+            float len = Length();
+            return new Vector3(x / len, y / len, z / len);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Vector3 {0}, {1}, {2}",
+                x.ToString("+##0.0;-##0.0", CultureInfo.InvariantCulture),
+                y.ToString("+##0.0;-##0.0", CultureInfo.InvariantCulture),
+                z.ToString("+##0.0;-##0.0", CultureInfo.InvariantCulture));
         }
 
         public static float Dot(Vector3 lhs, Vector3 rhs)

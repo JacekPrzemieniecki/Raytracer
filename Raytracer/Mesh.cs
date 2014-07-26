@@ -7,13 +7,11 @@ namespace Raytracer
 {
     internal class Mesh
     {
-        public Triangle[] Triangles;
+        protected Triangle[] Triangles;
+        public Vector3[] VertexNormals;
         public Vector3[] Vertices;
         private Box _boundingBox;
         private bool _boundingBoxDirty = true;
-        public Vector3[] VertexNormals;
-        protected Shader Shader { get; set; }
-        public Vector3 Position { get; set; }
 
         public Mesh(Vector3[] vertices, Triangle[] triangles, Vector3 position, Shader shader)
         {
@@ -27,6 +25,9 @@ namespace Raytracer
         protected Mesh()
         {
         }
+
+        protected Shader Shader { private get; set; }
+        public Vector3 Position { get; protected set; }
 
 
         public Box BoundingBox
@@ -53,7 +54,7 @@ namespace Raytracer
             Interlocked.Increment(ref Counters.RaysCast);
 #endif
             var localRay = new Ray(ray.Origin - Position, ray.Direction);
-            var closestHit = new RaycastHit { Distance = maxDistance };
+            var closestHit = new RaycastHit {Distance = maxDistance};
             foreach (Triangle triangle in Triangles)
             {
                 RaycastHit hitInfo;
@@ -92,14 +93,12 @@ namespace Raytracer
                 VertexNormals[triangle.V1Index] += triangle.Normal;
                 VertexNormals[triangle.V2Index] += triangle.Normal;
                 VertexNormals[triangle.V3Index] += triangle.Normal;
-
             }
 
             for (int i = 0; i < Vertices.Length; i++)
             {
                 VertexNormals[i] = VertexNormals[i].Normalized();
             }
-
         }
 
         private void CalculateBoundingBox()

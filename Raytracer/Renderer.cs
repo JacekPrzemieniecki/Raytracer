@@ -4,9 +4,9 @@ namespace Raytracer
 {
     internal class Renderer
     {
-        private Scene _scene;
-        private int _pictureWidth;
         private int _pictureHeight;
+        private int _pictureWidth;
+        private Scene _scene;
 
         public void Render(Bitmap bmp, Scene scene)
         {

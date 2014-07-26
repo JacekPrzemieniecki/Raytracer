@@ -1,15 +1,16 @@
 ﻿using System.Threading;
+using Raytracer.Debugging;
 
 namespace Raytracer
 {
     internal class Box
     {
-        public float MinX;
         public float MaxX;
-        public float MinY;
         public float MaxY;
-        public float MinZ;
         public float MaxZ;
+        public float MinX;
+        public float MinY;
+        public float MinZ;
 
         public Box(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
         {
@@ -23,9 +24,9 @@ namespace Raytracer
 
         public bool Raycast(Ray ray, float maxDistance)
         {
-            #if DEBUG
-            Interlocked.Increment(ref Debugging.Counters.BoundingBoxChecks);
-            #endif
+#if DEBUG
+            Interlocked.Increment(ref Counters.BoundingBoxChecks);
+#endif
             float tMin;
             float tMax;
             float rayDirectionXInverse = 1 / ray.Direction.x;
@@ -38,7 +39,6 @@ namespace Raytracer
             {
                 tMax = (MinX - ray.Origin.x) * rayDirectionXInverse;
                 tMin = (MaxX - ray.Origin.x) * rayDirectionXInverse;
-
             }
 
             float tyMin;

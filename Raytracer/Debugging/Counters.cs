@@ -1,6 +1,6 @@
 ﻿namespace Raytracer.Debugging
 {
-    static class Counters
+    internal static class Counters
     {
         public static int RaysCast;
         public static int RayTriangleTests;

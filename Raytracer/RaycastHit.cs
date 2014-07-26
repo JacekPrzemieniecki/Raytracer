@@ -2,12 +2,12 @@
 {
     internal class RaycastHit
     {
+        public float Distance;
+        public Mesh Mesh;
+        public Ray Ray;
+        public Triangle Triangle;
         public float U;
         public float V;
-        public float Distance;
-        public Ray Ray;
-        public Mesh Mesh;
-        public Triangle Triangle;
         private Vector3 _position;
         private bool _positionNotCalculated = true;
 

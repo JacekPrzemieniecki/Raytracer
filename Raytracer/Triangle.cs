@@ -4,30 +4,45 @@ using Raytracer.Debugging;
 
 namespace Raytracer
 {
-    class Triangle
+    internal class Triangle
     {
-        public Mesh Mesh;
+        public readonly Vector3 Normal;
+        private readonly Vector3 _edge1;
+        private readonly Vector3 _edge2;
+        private readonly bool _isSmooth;
+        private readonly Mesh _mesh;
+        public Color Color;
         public int V1Index;
         public int V2Index;
         public int V3Index;
-        public bool IsSmooth = false;
-        private Vector3 _edge1;
-        private Vector3 _edge2;
-        public Color Color;
-        public Vector3 Normal;
 
         public Triangle(Mesh mesh, int v1Index, int v2Index, int v3Index, Color color, bool smooth = false)
         {
-            Mesh = mesh;
+            _mesh = mesh;
             V1Index = v1Index;
             V2Index = v2Index;
             V3Index = v3Index;
-            IsSmooth = smooth;
+            _isSmooth = smooth;
             Color = color;
             _edge1 = V2 - V1;
             _edge2 = V3 - V1;
             Vector3 crossProduct = Vector3.Cross(_edge2, _edge1);
             Normal = crossProduct.Normalized();
+        }
+
+        public Vector3 V1
+        {
+            get { return _mesh.Vertices[V1Index]; }
+        }
+
+        public Vector3 V2
+        {
+            get { return _mesh.Vertices[V2Index]; }
+        }
+
+        public Vector3 V3
+        {
+            get { return _mesh.Vertices[V3Index]; }
         }
 
         public bool RayCast(Ray ray, out RaycastHit hitInfo)
@@ -66,28 +81,12 @@ namespace Raytracer
 
         public Vector3 SurfaceNormal(float u, float v)
         {
-            if (!IsSmooth) return Normal;
-            Vector3 v1Normal = Mesh.VertexNormals[V1Index];
-            Vector3 v2Normal = Mesh.VertexNormals[V2Index];
-            Vector3 v3Normal = Mesh.VertexNormals[V3Index];
+            if (!_isSmooth) return Normal;
+            Vector3 v1Normal = _mesh.VertexNormals[V1Index];
+            Vector3 v2Normal = _mesh.VertexNormals[V2Index];
+            Vector3 v3Normal = _mesh.VertexNormals[V3Index];
             Vector3 normal = v1Normal * (1 - u - v) + v2Normal * u + v3Normal * v;
             return normal;
         }
-
-        public Vector3 V1
-        {
-            get { return Mesh.Vertices[V1Index]; }
-        }
-
-        public Vector3 V2
-        {
-            get { return Mesh.Vertices[V2Index]; }
-        }
-
-        public Vector3 V3
-        {
-            get { return Mesh.Vertices[V3Index]; }
-        }
-
     }
 }

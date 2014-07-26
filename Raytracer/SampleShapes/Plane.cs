@@ -3,9 +3,10 @@ using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
 {
-    class Plane : Mesh
+    internal class Plane : Mesh
     {
-        private Color _color = Color.Gray;
+        private readonly Color _color = Color.Gray;
+
         public Plane(Vector3 position, Vector3 left, Vector3 forward, float edge, Shader shader)
         {
             Position = position;

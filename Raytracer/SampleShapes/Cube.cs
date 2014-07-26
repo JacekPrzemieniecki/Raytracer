@@ -3,7 +3,7 @@ using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
 {
-    class Cube : Mesh
+    internal class Cube : Mesh
     {
         public Cube(Vector3 position, float edge, Shader shader)
         {
@@ -19,7 +19,7 @@ namespace Raytracer.SampleShapes
                 new Vector3(-h, -h, -h),
                 new Vector3(h, -h, -h),
                 new Vector3(h, -h, h),
-                new Vector3(-h, -h, h)       
+                new Vector3(-h, -h, h)
             };
             Triangles = new[]
             {

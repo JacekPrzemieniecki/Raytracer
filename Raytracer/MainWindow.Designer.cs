@@ -15,7 +15,7 @@
         {
             if (disposing && (components != null))
             {
-                drawTarget.Dispose();
+                _drawTarget.Dispose();
                 components.Dispose();
             }
             base.Dispose(disposing);
