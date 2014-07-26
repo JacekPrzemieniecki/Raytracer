@@ -7,5 +7,6 @@
         public static int RayHits;
         public static int BoundingBoxChecks;
         public static int BoundingBoxHits;
+        public static int BackfaceCulls;
     }
 }

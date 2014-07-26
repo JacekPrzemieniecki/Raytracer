@@ -41,6 +41,8 @@
             this.BoundingBoxChecksLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.BoundingBoxHitsLabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.BackfaceCullsLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -151,11 +153,31 @@
             this.BoundingBoxHitsLabel.TabIndex = 11;
             this.BoundingBoxHitsLabel.Text = "label7";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(845, 186);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(78, 13);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Backface Culls";
+            // 
+            // BackfaceCullsLabel
+            // 
+            this.BackfaceCullsLabel.AutoSize = true;
+            this.BackfaceCullsLabel.Location = new System.Drawing.Point(848, 199);
+            this.BackfaceCullsLabel.Name = "BackfaceCullsLabel";
+            this.BackfaceCullsLabel.Size = new System.Drawing.Size(35, 13);
+            this.BackfaceCullsLabel.TabIndex = 13;
+            this.BackfaceCullsLabel.Text = "label8";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.BackfaceCullsLabel);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.BoundingBoxHitsLabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.BoundingBoxChecksLabel);
@@ -189,5 +211,7 @@
         private System.Windows.Forms.Label BoundingBoxChecksLabel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label BoundingBoxHitsLabel;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label BackfaceCullsLabel;
     }
 }

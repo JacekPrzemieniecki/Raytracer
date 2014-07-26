@@ -28,6 +28,7 @@ namespace Raytracer
             RayHitsLabel.Text = Debugging.Counters.RayHits.ToString(CultureInfo.InvariantCulture);
             BoundingBoxChecksLabel.Text = Debugging.Counters.BoundingBoxChecks.ToString(CultureInfo.InvariantCulture);
             BoundingBoxHitsLabel.Text = Debugging.Counters.BoundingBoxHits.ToString(CultureInfo.InvariantCulture);
+            BackfaceCullsLabel.Text = Debugging.Counters.BackfaceCulls.ToString(CultureInfo.InvariantCulture);
         }
     }
 }
