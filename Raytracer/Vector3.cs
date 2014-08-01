@@ -23,6 +23,11 @@ namespace Raytracer
             get { return new Vector3(-1, 0, 0); }
         }
 
+        public static Vector3 Right
+        {
+            get { return new Vector3(1, 0, 0); }
+        }
+
         public static Vector3 Forward
         {
             get { return new Vector3(0, 0, 1); }
@@ -33,9 +38,19 @@ namespace Raytracer
             get { return new Vector3(0, 0, -1); }
         }
 
+        public static Vector3 Up
+        {
+            get { return new Vector3(0, 1, 0); }
+        }
+
+        public static Vector3 Down
+        {
+            get { return new Vector3(0, -1, 0); }
+        }
+
         public static Vector3 Zero
         {
-            get { return new Vector3(0.0f, 0.0f, 0.0f); }
+            get { return new Vector3(0, 0, 0); }
         }
 
         private float LengthSquared()
@@ -43,7 +58,12 @@ namespace Raytracer
             return (x * x + y * y + z * z);
         }
 
-        private float Length()
+        public float DistanceFrom(Vector3 other)
+        {
+            return (this - other).Length();
+        }
+
+        public float Length()
         {
             return (float) Math.Sqrt(LengthSquared());
         }
