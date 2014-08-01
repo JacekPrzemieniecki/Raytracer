@@ -99,14 +99,14 @@ namespace Raytracer
 
         public static Vector3 FromColor(Color color)
         {
-            return new Vector3(color.R / 0xFF, color.G / 0xFF, color.B / 0xFF);
+            return new Vector3(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
         }
 
         public Color ToColor()
         {
-            return Color.FromArgb(Math.Min((int) (this.x * 0xFF), 0xFF),
-                Math.Min((int) (this.y * 0xFF), 0xFF),
-                Math.Min((int) (this.z * 0xFF), 0xFF));
+            return Color.FromArgb(Math.Min((int) (x * 0xFF), 0xFF),
+                Math.Min((int) (y * 0xFF), 0xFF),
+                Math.Min((int) (z * 0xFF), 0xFF));
         }
 
         public static Vector3 operator +(Vector3 lhs, Vector3 rhs)
