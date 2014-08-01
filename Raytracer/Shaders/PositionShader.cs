@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Raytracer.Shaders
 {
@@ -7,7 +8,7 @@ namespace Raytracer.Shaders
         public override Color Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts)
         {
             Vector3 position = hitInfo.Position;
-            return Color.FromArgb((int) (0xff * (5 + position.z)), 0, 0); // (int) Math.Abs(0x01 * position.z));
+            return Color.FromArgb((int) Math.Abs(0xff * position.y)% 0xff, 0, 0);
         }
     }
 }

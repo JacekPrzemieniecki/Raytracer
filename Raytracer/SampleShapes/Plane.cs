@@ -7,17 +7,17 @@ namespace Raytracer.SampleShapes
     {
         private readonly Color _color = Color.Gray;
 
-        public Plane(Vector3 position, Vector3 left, Vector3 forward, float edge, Shader shader)
+        public Plane(Vector3 position, Vector3 right, Vector3 forward, float edge, Shader shader)
         {
             Position = position;
             Shader = shader;
             float halfEdge = edge / 2;
             Vertices = new[]
             {
-                (forward - left) * halfEdge,
-                (forward + left) * halfEdge,
-                (-1 * forward - left) * halfEdge,
-                (left - forward) * halfEdge
+                (forward + right) * halfEdge,
+                (forward - right) * halfEdge,
+                (right - forward) * halfEdge,
+                (-1 * forward - right) * halfEdge
             };
             Triangles = new[]
             {

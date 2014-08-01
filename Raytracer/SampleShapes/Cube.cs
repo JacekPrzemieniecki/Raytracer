@@ -5,7 +5,7 @@ namespace Raytracer.SampleShapes
 {
     internal class Cube : Mesh
     {
-        private Color _color = Color.Silver;
+        private Color _color = Color.White;
         public Cube(Vector3 position, float edge, Shader shader)
         {
             Position = position;

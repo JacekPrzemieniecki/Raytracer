@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Raytracer.LightSources
 {
@@ -20,7 +21,7 @@ namespace Raytracer.LightSources
             color = _color;
             RaycastHit hit = scene.Raycast(new Ray(position, _reverseDirection), float.MaxValue);
             if (hit.Distance < float.MaxValue) return 0;
-            return Vector3.Dot(surfaceNormal, _reverseDirection) * _intensity;
+            return Math.Max(Vector3.Dot(surfaceNormal, _reverseDirection) * _intensity, 0);
         }
     }
 }

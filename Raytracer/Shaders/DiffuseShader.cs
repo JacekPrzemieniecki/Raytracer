@@ -13,7 +13,7 @@ namespace Raytracer.Shaders
             foreach (LightSource lightSource in scene.LightSources)
             {
                 Color c;
-                totalIntensity += Math.Max(lightSource.IntensityAt(hitInfo.Position, normal, scene, out c), 0);
+                totalIntensity += lightSource.IntensityAt(hitInfo.Position, normal, scene, out c);
             }
             Color diffuse = hitInfo.Triangle.Color;
 

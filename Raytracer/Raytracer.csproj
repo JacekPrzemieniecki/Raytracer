@@ -67,8 +67,10 @@
     <Compile Include="Box.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Debugging\Counters.cs" />
+    <Compile Include="LightSources\AmbientLight.cs" />
     <Compile Include="LightSources\DirectionalLight.cs" />
     <Compile Include="LightSources\LightSource.cs" />
+    <Compile Include="LightSources\PointLight.cs" />
     <Compile Include="Mesh.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
