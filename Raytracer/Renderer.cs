@@ -27,7 +27,7 @@ namespace Raytracer
             float viewportX = (screenX + 0.5f) / _pictureWidth * 2 - 1;
             // Screen Y is pointed down
             float viewportY = 1 - (screenY + 0.5f) / _pictureHeight * 2;
-            return _scene.SampleColor(viewportX, viewportY, 4);
+            return _scene.SampleColor(viewportX, viewportY, 4).ToColor();
         }
     }
 }

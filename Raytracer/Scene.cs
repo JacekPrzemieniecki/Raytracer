@@ -22,7 +22,7 @@ namespace Raytracer
 
             //Shader normal = new NormalShader();
             Shader diffuse = new DiffuseShader();
-            Shader glossy = new GlossyShader(0.4f);
+            Shader glossy = new GlossyShader();
             Shader position = new PositionShader();
             //Shader reflected = new ReflectedVectorShader();
 
@@ -105,18 +105,18 @@ namespace Raytracer
             return closestHit;
         }
 
-        public Color SampleColor(float viewportX, float viewportY, int maxRecursiveRaycasts)
+        public Vector3 SampleColor(float viewportX, float viewportY, int maxRecursiveRaycasts)
         {
             Ray ray = _camera.ViewportPointToRay(viewportX, viewportY);
             return SampleColor(ray, maxRecursiveRaycasts);
         }
 
-        public Color SampleColor(Ray ray, int maxRecursiveRaycasts)
+        public Vector3 SampleColor(Ray ray, int maxRecursiveRaycasts)
         {
             RaycastHit raycastHit = Raycast(ray, float.MaxValue);
             if (raycastHit.Mesh == null)
             {
-                return Color.White;
+                return Vector3.Zero;
             }
             return raycastHit.Mesh.SampleColor(this, raycastHit, maxRecursiveRaycasts - 1);
         }

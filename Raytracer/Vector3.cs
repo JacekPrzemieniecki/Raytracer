@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 
 namespace Raytracer
@@ -94,6 +95,18 @@ namespace Raytracer
             return new Vector3(lhs.y * rhs.z - lhs.z * rhs.y,
                 lhs.z * rhs.x - lhs.x * rhs.z,
                 lhs.x * rhs.y - lhs.y * rhs.x);
+        }
+
+        public static Vector3 FromColor(Color color)
+        {
+            return new Vector3(color.R / 0xFF, color.G / 0xFF, color.B / 0xFF);
+        }
+
+        public Color ToColor()
+        {
+            return Color.FromArgb(Math.Min((int) (this.x * 0xFF), 0xFF),
+                Math.Min((int) (this.y * 0xFF), 0xFF),
+                Math.Min((int) (this.z * 0xFF), 0xFF));
         }
 
         public static Vector3 operator +(Vector3 lhs, Vector3 rhs)

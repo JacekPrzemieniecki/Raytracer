@@ -1,10 +1,8 @@
-﻿using System.Drawing;
-
-namespace Raytracer.Shaders
+﻿namespace Raytracer.Shaders
 {
     internal abstract class Shader
     {
-        public abstract Color Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts);
+        public abstract Vector3 Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts);
 
         protected static Ray ReflectedRay(RaycastHit hitInfo)
         {

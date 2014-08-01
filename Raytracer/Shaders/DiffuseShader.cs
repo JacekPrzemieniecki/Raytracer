@@ -6,7 +6,7 @@ namespace Raytracer.Shaders
 {
     internal class DiffuseShader : Shader
     {
-        public override Color Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts)
+        public override Vector3 Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts)
         {
             float totalIntensity = 0;
             Vector3 normal = hitInfo.Triangle.SurfaceNormal(hitInfo.U, hitInfo.V);
@@ -15,13 +15,8 @@ namespace Raytracer.Shaders
                 Color c;
                 totalIntensity += lightSource.IntensityAt(hitInfo.Position, normal, scene, out c);
             }
-            Color diffuse = hitInfo.Triangle.Color;
-
-            return Color.FromArgb(
-                Math.Min((int) (diffuse.R * totalIntensity), 0xFF),
-                Math.Min((int) (diffuse.G * totalIntensity), 0xFF),
-                Math.Min((int) (diffuse.B * totalIntensity), 0xFF)
-                );
+            Vector3 diffuse = Vector3.FromColor(hitInfo.Triangle.Color);
+            return diffuse * totalIntensity;
         }
     }
 }

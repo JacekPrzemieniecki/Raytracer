@@ -69,7 +69,7 @@ namespace Raytracer
             return closestHit;
         }
 
-        public Color SampleColor(Scene scene, RaycastHit raycastHit, int maxRecursiveRaycasts)
+        public Vector3 SampleColor(Scene scene, RaycastHit raycastHit, int maxRecursiveRaycasts)
         {
             return Shader.Shade(scene, raycastHit, maxRecursiveRaycasts - 1);
         }
