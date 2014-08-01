@@ -23,7 +23,7 @@ namespace Raytracer
             //Shader normal = new NormalShader();
             Shader diffuse = new DiffuseShader();
             Shader glossy = new GlossyShader();
-            Shader position = new PositionShader();
+            //Shader position = new PositionShader();
             //Shader reflected = new ReflectedVectorShader();
 
             Mesh sphere = new TriangleSphere(new Vector3(3, 2, -6), 2.0, 16, 20, diffuse, true);
@@ -116,7 +116,7 @@ namespace Raytracer
             RaycastHit raycastHit = Raycast(ray, float.MaxValue);
             if (raycastHit.Mesh == null)
             {
-                return Vector3.Zero;
+                return new Vector3(1, 1, 1);
             }
             return raycastHit.Mesh.SampleColor(this, raycastHit, maxRecursiveRaycasts - 1);
         }
