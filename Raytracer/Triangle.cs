@@ -3,7 +3,7 @@ using Raytracer.Debugging;
 
 namespace Raytracer
 {
-    internal class Triangle
+    public class Triangle
     {
         public readonly Vector3 Normal;
         private readonly Vector3 _edge1;

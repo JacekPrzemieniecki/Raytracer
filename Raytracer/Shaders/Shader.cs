@@ -2,7 +2,7 @@
 
 namespace Raytracer.Shaders
 {
-    internal abstract class Shader
+    public abstract class Shader
     {
         public abstract Vector3 Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts);
 
