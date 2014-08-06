@@ -93,6 +93,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="SampleShapes\TriangleSphere.cs" />
     <Compile Include="Shaders\GlossyShader.cs" />
+    <Compile Include="Shaders\MixShader.cs" />
     <Compile Include="Shaders\NormalShader.cs" />
     <Compile Include="Shaders\PositionShader.cs" />
     <Compile Include="Shaders\ReflectedVectorShader.cs" />
