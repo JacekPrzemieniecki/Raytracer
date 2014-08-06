@@ -1,6 +1,6 @@
 ﻿namespace Raytracer
 {
-    public class RaycastHit
+    internal class RaycastHit
     {
         public float Distance;
         public Mesh Mesh;

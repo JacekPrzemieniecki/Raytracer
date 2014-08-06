@@ -3,7 +3,7 @@ using Raytracer.Debugging;
 
 namespace Raytracer
 {
-    public class Box
+    internal class Box
     {
         public float MaxX;
         public float MaxY;

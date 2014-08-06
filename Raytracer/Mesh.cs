@@ -5,7 +5,7 @@ using Raytracer.Shaders;
 
 namespace Raytracer
 {
-    public class Mesh
+    internal class Mesh
     {
         protected Triangle[] Triangles;
         public Vector3[] VertexNormals;

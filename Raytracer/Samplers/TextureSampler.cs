@@ -1,6 +1,6 @@
 ﻿namespace Raytracer.Samplers
 {
-    public class TextureSampler
+    class TextureSampler
     {
         public virtual Vector3 Sample(RaycastHit hitInfo)
         {

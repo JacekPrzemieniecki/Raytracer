@@ -1,6 +1,6 @@
 ﻿namespace Raytracer
 {
-    public struct Ray
+    internal struct Ray
     {
         public readonly Vector3 Direction;
         public readonly Vector3 Origin;
