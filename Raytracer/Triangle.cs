@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Threading;
+﻿using System.Threading;
 using Raytracer.Debugging;
 
 namespace Raytracer
@@ -9,21 +8,17 @@ namespace Raytracer
         public readonly Vector3 Normal;
         private readonly Vector3 _edge1;
         private readonly Vector3 _edge2;
-        private readonly bool _isSmooth;
         private readonly Mesh _mesh;
-        public Color Color;
         public int V1Index;
         public int V2Index;
         public int V3Index;
 
-        public Triangle(Mesh mesh, int v1Index, int v2Index, int v3Index, Color color, bool smooth = false)
+        public Triangle(Mesh mesh, int v1Index, int v2Index, int v3Index)
         {
             _mesh = mesh;
             V1Index = v1Index;
             V2Index = v2Index;
             V3Index = v3Index;
-            _isSmooth = smooth;
-            Color = color;
             _edge1 = V2 - V1;
             _edge2 = V3 - V1;
             Vector3 crossProduct = Vector3.Cross(_edge2, _edge1);
@@ -81,7 +76,6 @@ namespace Raytracer
 
         public Vector3 SurfaceNormal(float u, float v)
         {
-            if (!_isSmooth) return Normal;
             Vector3 v1Normal = _mesh.VertexNormals[V1Index];
             Vector3 v2Normal = _mesh.VertexNormals[V2Index];
             Vector3 v3Normal = _mesh.VertexNormals[V3Index];

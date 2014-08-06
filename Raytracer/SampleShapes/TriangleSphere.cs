@@ -16,9 +16,7 @@ namespace Raytracer.SampleShapes
         /// <param name="rings">Nummber of horizontal vertex rings approximating the sphere. Poles not included</param>
         /// <param name="segments">Number of segments per ring</param>
         /// <param name="shader">Shader to use for the mesh</param>
-        /// <param name="smooth">Is the triangle smoothly shaded (uses interpolated normals)</param>
-        public TriangleSphere(Vector3 position, double radius, int rings, int segments, Shader shader,
-            bool smooth = false)
+        public TriangleSphere(Vector3 position, double radius, int rings, int segments, Shader shader)
         {
             Position = position;
             Shader = shader;
@@ -40,16 +38,14 @@ namespace Raytracer.SampleShapes
             for (int triangle = 0; triangle < segments; triangle++)
             {
                 int edgeFirstVertex = triangle + 1;
-                Triangles[triangle] = new Triangle(this, 0, edgeFirstVertex + 1, edgeFirstVertex, _color, smooth);
+                Triangles[triangle] = new Triangle(this, 0, edgeFirstVertex + 1, edgeFirstVertex);
 
                 // South pole
                 int southEdgeFirstVertex = lastVertex - edgeFirstVertex;
                 Triangles[lastTriangleIndex - triangle] = new Triangle(this,
                     southEdgeFirstVertex - 1,
                     southEdgeFirstVertex,
-                    lastVertex,
-                    _color,
-                    smooth);
+                    lastVertex);
             }
             // Connect last and first vertex on the ring
             Triangles[segments - 1].V3Index = 1;
@@ -66,7 +62,7 @@ namespace Raytracer.SampleShapes
                     int v2 = ringStart + (vertex + 1) % segments;
                     int v3 = v1 + segments;
                     int v4 = v2 + segments;
-                    ConnectQuad(v1, v2, v3, v4, triangleIndex, smooth);
+                    ConnectQuad(v1, v2, v3, v4, triangleIndex);
                     triangleIndex += 2;
                 }
             }
@@ -94,10 +90,10 @@ namespace Raytracer.SampleShapes
             }
         }
 
-        private void ConnectQuad(int v1, int v2, int v3, int v4, int triangleIndex, bool smooth)
+        private void ConnectQuad(int v1, int v2, int v3, int v4, int triangleIndex)
         {
-            Triangles[triangleIndex] = new Triangle(this, v1, v2, v3, _color, smooth);
-            Triangles[triangleIndex + 1] = new Triangle(this, v3, v2, v4, _color, smooth);
+            Triangles[triangleIndex] = new Triangle(this, v1, v2, v3);
+            Triangles[triangleIndex + 1] = new Triangle(this, v3, v2, v4);
         }
     }
 }

@@ -21,8 +21,8 @@ namespace Raytracer.SampleShapes
             };
             Triangles = new[]
             {
-                new Triangle(this, 0, 1, 2, _color),
-                new Triangle(this, 1, 3, 2, _color)
+                new Triangle(this, 0, 1, 2),
+                new Triangle(this, 1, 3, 2)
             };
             Init();
         }
