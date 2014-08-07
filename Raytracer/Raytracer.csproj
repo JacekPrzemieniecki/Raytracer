@@ -90,7 +90,7 @@
     <Compile Include="RaycastHit.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="Samplers\FlatNormalSampler.cs" />
-    <Compile Include="Samplers\InterpolatedNormalShader.cs" />
+    <Compile Include="Samplers\InterpolatedNormalSampler.cs" />
     <Compile Include="Samplers\SolidColorSampler.cs" />
     <Compile Include="Samplers\TextureSampler.cs" />
     <Compile Include="SampleShapes\Cube.cs" />
