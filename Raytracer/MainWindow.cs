@@ -18,8 +18,8 @@ namespace Raytracer
             var display = new PictureBox {Size = new Size(800, 600), Image = _drawTarget};
             Controls.Add(display);
             display.Padding = new Padding(25);
-
-            var s = new Scene();
+            string path = "F:\\Projects\\Raytracer\\Raytracer\\SampleData\\CompanionCube.obj";
+            var s = new Scene(path);
             Stopwatch watch = Stopwatch.StartNew();
             renderer.Render(_drawTarget, s);
             watch.Stop();

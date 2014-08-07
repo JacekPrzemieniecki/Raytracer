@@ -5,20 +5,24 @@ namespace Raytracer
 {
     internal class Triangle
     {
-        public readonly Vector3 Normal;
-        private readonly Vector3 _edge1;
-        private readonly Vector3 _edge2;
-        private readonly Mesh _mesh;
+        public Vector3 Normal;
+        private Vector3 _edge1;
+        private Vector3 _edge2;
+        private Mesh _mesh;
         public int V1Index;
         public int V2Index;
         public int V3Index;
 
-        public Triangle(Mesh mesh, int v1Index, int v2Index, int v3Index)
+        public Triangle(int v1Index, int v2Index, int v3Index)
         {
-            _mesh = mesh;
             V1Index = v1Index;
             V2Index = v2Index;
             V3Index = v3Index;
+        }
+
+        public void Init(Mesh mesh)
+        {
+            _mesh = mesh;
             _edge1 = V2 - V1;
             _edge2 = V3 - V1;
             Vector3 crossProduct = Vector3.Cross(_edge2, _edge1);

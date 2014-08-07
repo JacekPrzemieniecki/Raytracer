@@ -24,18 +24,18 @@ namespace Raytracer.SampleShapes
             };
             Triangles = new[]
             {
-                new Triangle(this, 0, 1, 2),
-                new Triangle(this, 2, 3, 0),
-                new Triangle(this, 0, 3, 7),
-                new Triangle(this, 0, 7, 4),
-                new Triangle(this, 1, 0, 4),
-                new Triangle(this, 1, 4, 5),
-                new Triangle(this, 2, 1, 5),
-                new Triangle(this, 2, 5, 6),
-                new Triangle(this, 3, 2, 6),
-                new Triangle(this, 3, 6, 7),
-                new Triangle(this, 4, 6, 5),
-                new Triangle(this, 4, 7, 6)
+                new Triangle(0, 1, 2),
+                new Triangle(2, 3, 0),
+                new Triangle(0, 3, 7),
+                new Triangle(0, 7, 4),
+                new Triangle(1, 0, 4),
+                new Triangle(1, 4, 5),
+                new Triangle(2, 1, 5),
+                new Triangle(2, 5, 6),
+                new Triangle(3, 2, 6),
+                new Triangle(3, 6, 7),
+                new Triangle(4, 6, 5),
+                new Triangle(4, 7, 6)
             };
             Init();
         }

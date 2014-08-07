@@ -38,12 +38,11 @@ namespace Raytracer.SampleShapes
             for (int triangle = 0; triangle < segments; triangle++)
             {
                 int edgeFirstVertex = triangle + 1;
-                Triangles[triangle] = new Triangle(this, 0, edgeFirstVertex + 1, edgeFirstVertex);
+                Triangles[triangle] = new Triangle(0, edgeFirstVertex + 1, edgeFirstVertex);
 
                 // South pole
                 int southEdgeFirstVertex = lastVertex - edgeFirstVertex;
-                Triangles[lastTriangleIndex - triangle] = new Triangle(this,
-                    southEdgeFirstVertex - 1,
+                Triangles[lastTriangleIndex - triangle] = new Triangle(southEdgeFirstVertex - 1,
                     southEdgeFirstVertex,
                     lastVertex);
             }
@@ -92,8 +91,8 @@ namespace Raytracer.SampleShapes
 
         private void ConnectQuad(int v1, int v2, int v3, int v4, int triangleIndex)
         {
-            Triangles[triangleIndex] = new Triangle(this, v1, v2, v3);
-            Triangles[triangleIndex + 1] = new Triangle(this, v3, v2, v4);
+            Triangles[triangleIndex] = new Triangle(v1, v2, v3);
+            Triangles[triangleIndex + 1] = new Triangle(v3, v2, v4);
         }
     }
 }

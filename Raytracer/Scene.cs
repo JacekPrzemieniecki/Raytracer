@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using Raytracer.Debugging;
 using Raytracer.LightSources;
+using Raytracer.Parsers;
 using Raytracer.Samplers;
 using Raytracer.SampleShapes;
 using Raytracer.Shaders;
@@ -15,6 +17,22 @@ namespace Raytracer
         public readonly List<LightSource> LightSources;
         private readonly Camera _camera;
         private readonly List<Mesh> _meshes;
+
+        public Scene(string file)
+        {
+            var cameraPosition = new Vector3(-3, 3, 10);
+            _camera = new Camera(cameraPosition, 8.0f / 6.0f, (float)Math.PI * 60f / 180f);
+
+            var parser = new ObjParser();
+            parser.Parse(new StreamReader(file));
+            _meshes = parser.Meshes;
+
+            LightSource cameraLightSource = new PointLight(cameraPosition, 3, 10, Color.White);
+            LightSources = new List<LightSource>
+            {
+                cameraLightSource
+            };
+        }
 
         public Scene()
         {

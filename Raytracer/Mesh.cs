@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Threading;
+﻿using System.Threading;
 using Raytracer.Debugging;
 using Raytracer.Shaders;
 
@@ -76,8 +75,17 @@ namespace Raytracer
 
         protected void Init()
         {
+            BindTriangles();
             CalculateBoundingBox();
             CalculateVertexNormals();
+        }
+
+        private void BindTriangles()
+        {
+            foreach (var triangle in Triangles)
+            {
+                triangle.Init(this);
+            }
         }
 
         private void CalculateVertexNormals()
