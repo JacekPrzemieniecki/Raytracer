@@ -12,12 +12,27 @@ namespace Raytracer
         public int V1Index;
         public int V2Index;
         public int V3Index;
+        private int UV1Index;
+        private int UV2Index;
+        private int UV3Index;
 
         public Triangle(int v1Index, int v2Index, int v3Index)
         {
             V1Index = v1Index;
             V2Index = v2Index;
             V3Index = v3Index;
+        }
+
+        public Triangle(int v1Index, int v2Index, int v3Index,
+                        int uv1Index, int uv2Index, int uv3Index)
+        {
+            V1Index = v1Index;
+            V2Index = v2Index;
+            V3Index = v3Index;
+
+            UV1Index = uv1Index;
+            UV2Index = uv2Index;
+            UV3Index = uv3Index;
         }
 
         public void Init(Mesh mesh)
@@ -42,6 +57,26 @@ namespace Raytracer
         public Vector3 V3
         {
             get { return _mesh.Vertices[V3Index]; }
+        }
+
+        private Vector2 Uv1
+        {
+            get { return _mesh.UVs[UV1Index]; }
+        }
+
+        private Vector2 Uv2
+        {
+            get { return _mesh.UVs[UV2Index]; }
+        }
+
+        private Vector2 Uv3
+        {
+            get { return _mesh.UVs[UV3Index]; }
+        }
+
+        public Vector2 UVCoordinates(float u, float v)
+        {
+            return Uv1 * (1 - u - v) + Uv2 * u + Uv3 * v;
         }
 
         public bool RayCast(Ray ray, out RaycastHit hitInfo)

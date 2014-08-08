@@ -89,6 +89,7 @@
     <Compile Include="Ray.cs" />
     <Compile Include="RaycastHit.cs" />
     <Compile Include="Renderer.cs" />
+    <Compile Include="Samplers\BitmapSampler.cs" />
     <Compile Include="Samplers\FlatNormalSampler.cs" />
     <Compile Include="Samplers\InterpolatedNormalSampler.cs" />
     <Compile Include="Samplers\SolidColorSampler.cs" />

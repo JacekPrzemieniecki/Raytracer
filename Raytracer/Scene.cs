@@ -20,14 +20,14 @@ namespace Raytracer
 
         public Scene(string file)
         {
-            var cameraPosition = new Vector3(-3, 3, 10);
-            _camera = new Camera(cameraPosition, 8.0f / 6.0f, (float)Math.PI * 60f / 180f);
+            var cameraPosition = new Vector3(3, 3, 8);
+            _camera = new Camera(cameraPosition, 8.0f / 6.0f, (float)Math.PI * 80f / 180f);
 
             var parser = new ObjParser();
             parser.Parse(new StreamReader(file));
             _meshes = parser.Meshes;
 
-            LightSource cameraLightSource = new PointLight(cameraPosition, 3, 10, Color.White);
+            LightSource cameraLightSource = new PointLight(cameraPosition, 2, 1000, Color.White);
             LightSources = new List<LightSource>
             {
                 cameraLightSource

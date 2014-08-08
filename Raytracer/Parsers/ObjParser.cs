@@ -13,7 +13,11 @@ namespace Raytracer.Parsers
         public List<Mesh> Meshes { get; set; }
         private List<Vector3> _vertices;
         private List<Triangle> _triangles;
+        private List<Vector2> _uvs;
+        private bool _uvMapped = true;
+        private bool _useSmoothShading = false;
         private int _vertexOffset = 1;
+        private int _uvOffset = 1;
         private Dictionary<string, Action<string[]>> _actionMap;
         private string _currentMeshName;
 
@@ -21,28 +25,32 @@ namespace Raytracer.Parsers
         {
             Meshes = new List<Mesh>();
             _vertices = new List<Vector3>();
+            _uvs = new List<Vector2>();
 
             _actionMap = new Dictionary<string, Action<string[]>>
             {
                 {"o", ParseObject},
                 {"v", ParseVertex},
-                {"vt", NotImplemented},
+                {"vt", ParseTextureVertex},
                 {"vn", Ignore},
                 {"vp", Ignore},
                 {"f", ParseFace},
                 {"mtlib", NotImplemented},
                 {"usemtl", NotImplemented},
                 {"g", NotImplemented},
-                {"s", NotImplemented}
+                {"s", ParseSmoothShading}
             }; 
         }
 
         private void InitBuffers()
         {
             _vertexOffset += _vertices.Count;
+            _uvOffset += _uvs.Count;
             _vertices = new List<Vector3>();
             _triangles = new List<Triangle>();
-
+            _uvs = new List<Vector2>();
+            _uvMapped = true;
+            _useSmoothShading = false;
         }
 
         public void Parse(StreamReader file)
@@ -56,6 +64,13 @@ namespace Raytracer.Parsers
             WrapMesh();
         }
 
+        private void ParseTextureVertex(string[] line)
+        {
+            float x = float.Parse(line[1], NumberStyles.Any, CultureInfo.InvariantCulture);
+            float y = 1 - float.Parse(line[2], NumberStyles.Any, CultureInfo.InvariantCulture);
+            _uvs.Add(new Vector2(x, y));
+            
+        }
 
         private void ParseLine(string[] line)
         {
@@ -89,25 +104,42 @@ namespace Raytracer.Parsers
 
         private void ParseTriangle(string[] line)
         {
-            int v3 = int.Parse(line[1]) - _vertexOffset;
-            int v2 = int.Parse(line[2]) - _vertexOffset;
-            int v1 = int.Parse(line[3]) - _vertexOffset;
-            AddTriangle(v1, v2, v3);
+            int uv3;
+            int v3 = ParseIndexVertUV(line[1], out uv3);
+            int uv2;
+            int v2 = ParseIndexVertUV(line[2], out uv2);
+            int uv1;
+            int v1 = ParseIndexVertUV(line[3], out uv1);
+            AddTriangle(v1, v2, v3, uv1, uv2, uv3);
         }
 
         private void ParseQuad(string[] line)
         {
-            int v4 = int.Parse(line[1]) - _vertexOffset;
-            int v3 = int.Parse(line[2]) - _vertexOffset;
-            int v2 = int.Parse(line[3]) - _vertexOffset;
-            int v1 = int.Parse(line[4]) - _vertexOffset;
-            AddTriangle(v1, v2, v3);
-            AddTriangle(v3, v4, v1);
+            ParseTriangle(new[] {"f", line[1], line[2], line[3]});
+            ParseTriangle(new [] {"f", line[3], line[4], line[1]});
         }
 
-        private void AddTriangle(int v1, int v2, int v3)
+        private int ParseIndexVertUV(string data, out int uv)
         {
-            _triangles.Add(new Triangle(v1, v2, v3));
+            string[] indices = data.Split('/');
+            if (indices.Length == 2)
+            {
+                uv = int.Parse(indices[1]) - _uvOffset;
+            }
+            else
+            {
+                uv = -1;
+            }
+            return int.Parse(indices[0]) - _vertexOffset;
+        }
+
+        private void AddTriangle(int v1, int v2, int v3, int uv1, int uv2, int uv3)
+        {
+            if (uv1 < 0 || uv2 < 0 || uv3 < 0)
+            {
+                _uvMapped = false;
+            }
+            _triangles.Add(_uvMapped ? new Triangle(v1, v2, v3, uv1, uv2, uv3) : new Triangle(v1, v2, v3));
         }
 
         private void ParseVertex(string[] line)
@@ -129,10 +161,46 @@ namespace Raytracer.Parsers
 
         private void WrapMesh()
         {
-            var newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), Vector3.Zero,
-                new DiffuseShader(new SolidColorSampler(Color.Red), new FlatNormalSampler()));
+            Bitmap temp = new Bitmap("F:\\Projects\\Raytracer\\Raytracer\\SampleData\\TutoScene.001_Cube.png");
+            Mesh newMesh;
+            TextureSampler normalSampler;
+            if (_useSmoothShading)
+            {
+                normalSampler = new InterpolatedNormalSampler();;
+            }
+            else
+            {
+                normalSampler = new FlatNormalSampler();
+            }
+
+            if (_uvMapped)
+            {
+                newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), _uvs.ToArray(), Vector3.Zero,
+                        new DiffuseShader(new BitmapSampler(temp), normalSampler));
+            }
+            else
+            {
+                newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), Vector3.Zero,
+                        new DiffuseShader(new SolidColorSampler(Color.Red), normalSampler));
+            }
             Meshes.Add(newMesh);
             InitBuffers();
+        }
+
+        private void ParseSmoothShading(string[] line)
+        {
+            if (line[1] == "off")
+            {
+                _useSmoothShading = false;
+            }
+            else if (line[1] == "1")
+            {
+                _useSmoothShading = true;
+            }
+            else
+            {
+                throw new Exception("OBJ parsing error, unrecognized command: " + string.Join(" ", line));
+            }
         }
 
         private void NotImplemented(string[] s)

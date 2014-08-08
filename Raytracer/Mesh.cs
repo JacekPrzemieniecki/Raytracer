@@ -9,6 +9,7 @@ namespace Raytracer
         protected Triangle[] Triangles;
         public Vector3[] VertexNormals;
         public Vector3[] Vertices;
+        public Vector2[] UVs;
         private Box _boundingBox;
         private bool _boundingBoxDirty = true;
 
@@ -18,6 +19,16 @@ namespace Raytracer
             Triangles = triangles;
             Shader = shader;
             Position = position;
+            Init();
+        }
+
+        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector2[] uvVertices, Vector3 position, Shader shader)
+        {
+            Vertices = vertices;
+            Triangles = triangles;
+            Shader = shader;
+            Position = position;
+            UVs = uvVertices;
             Init();
         }
 
