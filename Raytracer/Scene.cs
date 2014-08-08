@@ -24,7 +24,7 @@ namespace Raytracer
             _camera = new Camera(cameraPosition, 8.0f / 6.0f, (float)Math.PI * 80f / 180f);
 
             var parser = new ObjParser();
-            parser.Parse(new StreamReader(file));
+            parser.Parse(file);
             _meshes = parser.Meshes;
 
             LightSource cameraLightSource = new PointLight(cameraPosition, 2, 1000, Color.White);

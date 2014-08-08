@@ -10,22 +10,26 @@ namespace Raytracer.Parsers
 {
     class ObjParser
     {
-        public List<Mesh> Meshes { get; set; }
+        public List<Mesh> Meshes { get; private set; }
         private List<Vector3> _vertices;
         private List<Triangle> _triangles;
         private List<Vector2> _uvs;
         private bool _uvMapped = true;
-        private bool _useSmoothShading = false;
+        private bool _useSmoothShading;
         private int _vertexOffset = 1;
         private int _uvOffset = 1;
-        private Dictionary<string, Action<string[]>> _actionMap;
+        private readonly Dictionary<string, Action<string[]>> _actionMap;
+        private Dictionary<string, Bitmap> _materials; 
         private string _currentMeshName;
+        private string _currentMaterialName;
+        private string _path;
 
         public ObjParser()
         {
             Meshes = new List<Mesh>();
             _vertices = new List<Vector3>();
             _uvs = new List<Vector2>();
+            _materials = new Dictionary<string, Bitmap>();
 
             _actionMap = new Dictionary<string, Action<string[]>>
             {
@@ -35,8 +39,8 @@ namespace Raytracer.Parsers
                 {"vn", Ignore},
                 {"vp", Ignore},
                 {"f", ParseFace},
-                {"mtlib", NotImplemented},
-                {"usemtl", NotImplemented},
+                {"mtllib", ParseMtLib},
+                {"usemtl", line => { _currentMaterialName = line[1]; }},
                 {"g", NotImplemented},
                 {"s", ParseSmoothShading}
             }; 
@@ -53,13 +57,17 @@ namespace Raytracer.Parsers
             _useSmoothShading = false;
         }
 
-        public void Parse(StreamReader file)
+        public void Parse(string filePath)
         {
-            InitBuffers();
-            string line;
-            while ((line = file.ReadLine()) != null)
+            _path = Path.GetDirectoryName(filePath);
+            using (var file = new StreamReader(filePath))
             {
-                ParseLine(line.Split(' '));
+                InitBuffers();
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    ParseLine(line.Split(' '));
+                }
             }
             WrapMesh();
         }
@@ -74,7 +82,7 @@ namespace Raytracer.Parsers
 
         private void ParseLine(string[] line)
         {
-            if (line.Length == 0) { } // empty line
+            if (line[0] == "") { } // empty line
             else if (line[0].StartsWith("#")) { } // comment
             else if (_actionMap.ContainsKey(line[0])) // command
             {
@@ -119,6 +127,7 @@ namespace Raytracer.Parsers
             ParseTriangle(new [] {"f", line[3], line[4], line[1]});
         }
 
+// ReSharper disable once InconsistentNaming
         private int ParseIndexVertUV(string data, out int uv)
         {
             string[] indices = data.Split('/');
@@ -161,7 +170,6 @@ namespace Raytracer.Parsers
 
         private void WrapMesh()
         {
-            Bitmap temp = new Bitmap("F:\\Projects\\Raytracer\\Raytracer\\SampleData\\TutoScene.001_Cube.png");
             Mesh newMesh;
             TextureSampler normalSampler;
             if (_useSmoothShading)
@@ -176,7 +184,7 @@ namespace Raytracer.Parsers
             if (_uvMapped)
             {
                 newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), _uvs.ToArray(), Vector3.Zero,
-                        new DiffuseShader(new BitmapSampler(temp), normalSampler));
+                        new DiffuseShader(new BitmapSampler(_materials[_currentMaterialName]), normalSampler));
             }
             else
             {
@@ -200,6 +208,17 @@ namespace Raytracer.Parsers
             else
             {
                 throw new Exception("OBJ parsing error, unrecognized command: " + string.Join(" ", line));
+            }
+        }
+
+        private void ParseMtLib(string[] line)
+        {
+            string file = Path.Combine(_path, line[1]);
+            MtlParser parser = new MtlParser();
+            Dictionary<string, Bitmap> materials = parser.Parse(file);
+            foreach (KeyValuePair<string, Bitmap> pair in materials)
+            {
+                _materials[pair.Key] = pair.Value;
             }
         }
 
