@@ -166,7 +166,7 @@ namespace Raytracer.Parsers
             TextureSampler normalSampler;
             if (_useSmoothShading)
             {
-                normalSampler = new InterpolatedNormalSampler();;
+                normalSampler = new InterpolatedNormalSampler();
             }
             else
             {
