@@ -61,9 +61,9 @@
             this.RenderTimeLabel.AutoSize = true;
             this.RenderTimeLabel.Location = new System.Drawing.Point(848, 26);
             this.RenderTimeLabel.Name = "RenderTimeLabel";
-            this.RenderTimeLabel.Size = new System.Drawing.Size(35, 13);
+            this.RenderTimeLabel.Size = new System.Drawing.Size(13, 13);
             this.RenderTimeLabel.TabIndex = 1;
-            this.RenderTimeLabel.Text = "label2";
+            this.RenderTimeLabel.Text = "0";
             // 
             // label2
             // 
@@ -79,9 +79,9 @@
             this.RaysCastLabel.AutoSize = true;
             this.RaysCastLabel.Location = new System.Drawing.Point(848, 69);
             this.RaysCastLabel.Name = "RaysCastLabel";
-            this.RaysCastLabel.Size = new System.Drawing.Size(35, 13);
+            this.RaysCastLabel.Size = new System.Drawing.Size(13, 13);
             this.RaysCastLabel.TabIndex = 3;
-            this.RaysCastLabel.Text = "label3";
+            this.RaysCastLabel.Text = "0";
             // 
             // label3
             // 
@@ -97,9 +97,9 @@
             this.RayTriangleTestsLabel.AutoSize = true;
             this.RayTriangleTestsLabel.Location = new System.Drawing.Point(848, 95);
             this.RayTriangleTestsLabel.Name = "RayTriangleTestsLabel";
-            this.RayTriangleTestsLabel.Size = new System.Drawing.Size(35, 13);
+            this.RayTriangleTestsLabel.Size = new System.Drawing.Size(13, 13);
             this.RayTriangleTestsLabel.TabIndex = 5;
-            this.RayTriangleTestsLabel.Text = "label4";
+            this.RayTriangleTestsLabel.Text = "0";
             // 
             // label4
             // 
@@ -115,9 +115,9 @@
             this.RayHitsLabel.AutoSize = true;
             this.RayHitsLabel.Location = new System.Drawing.Point(848, 121);
             this.RayHitsLabel.Name = "RayHitsLabel";
-            this.RayHitsLabel.Size = new System.Drawing.Size(35, 13);
+            this.RayHitsLabel.Size = new System.Drawing.Size(13, 13);
             this.RayHitsLabel.TabIndex = 7;
-            this.RayHitsLabel.Text = "label5";
+            this.RayHitsLabel.Text = "0";
             // 
             // label5
             // 
@@ -133,9 +133,9 @@
             this.BoundingBoxChecksLabel.AutoSize = true;
             this.BoundingBoxChecksLabel.Location = new System.Drawing.Point(848, 147);
             this.BoundingBoxChecksLabel.Name = "BoundingBoxChecksLabel";
-            this.BoundingBoxChecksLabel.Size = new System.Drawing.Size(35, 13);
+            this.BoundingBoxChecksLabel.Size = new System.Drawing.Size(13, 13);
             this.BoundingBoxChecksLabel.TabIndex = 9;
-            this.BoundingBoxChecksLabel.Text = "label6";
+            this.BoundingBoxChecksLabel.Text = "0";
             // 
             // label6
             // 
@@ -151,9 +151,9 @@
             this.BoundingBoxHitsLabel.AutoSize = true;
             this.BoundingBoxHitsLabel.Location = new System.Drawing.Point(848, 173);
             this.BoundingBoxHitsLabel.Name = "BoundingBoxHitsLabel";
-            this.BoundingBoxHitsLabel.Size = new System.Drawing.Size(35, 13);
+            this.BoundingBoxHitsLabel.Size = new System.Drawing.Size(13, 13);
             this.BoundingBoxHitsLabel.TabIndex = 11;
-            this.BoundingBoxHitsLabel.Text = "label7";
+            this.BoundingBoxHitsLabel.Text = "0";
             // 
             // label7
             // 
@@ -169,9 +169,9 @@
             this.BackfaceCullsLabel.AutoSize = true;
             this.BackfaceCullsLabel.Location = new System.Drawing.Point(848, 199);
             this.BackfaceCullsLabel.Name = "BackfaceCullsLabel";
-            this.BackfaceCullsLabel.Size = new System.Drawing.Size(35, 13);
+            this.BackfaceCullsLabel.Size = new System.Drawing.Size(13, 13);
             this.BackfaceCullsLabel.TabIndex = 13;
-            this.BackfaceCullsLabel.Text = "label8";
+            this.BackfaceCullsLabel.Text = "0";
             // 
             // RenderButton
             // 
