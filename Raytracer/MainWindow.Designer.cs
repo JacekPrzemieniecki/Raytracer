@@ -43,6 +43,8 @@
             this.BoundingBoxHitsLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.BackfaceCullsLabel = new System.Windows.Forms.Label();
+            this.RenderButton = new System.Windows.Forms.Button();
+            this.StopButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -171,11 +173,33 @@
             this.BackfaceCullsLabel.TabIndex = 13;
             this.BackfaceCullsLabel.Text = "label8";
             // 
+            // RenderButton
+            // 
+            this.RenderButton.Location = new System.Drawing.Point(848, 295);
+            this.RenderButton.Name = "RenderButton";
+            this.RenderButton.Size = new System.Drawing.Size(75, 23);
+            this.RenderButton.TabIndex = 14;
+            this.RenderButton.Text = "Render";
+            this.RenderButton.UseVisualStyleBackColor = true;
+            this.RenderButton.Click += new System.EventHandler(this.RenderButton_Click);
+            // 
+            // StopButton
+            // 
+            this.StopButton.Location = new System.Drawing.Point(848, 325);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(75, 23);
+            this.StopButton.TabIndex = 15;
+            this.StopButton.Text = "Stop";
+            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.StopButton);
+            this.Controls.Add(this.RenderButton);
             this.Controls.Add(this.BackfaceCullsLabel);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.BoundingBoxHitsLabel);
@@ -213,5 +237,7 @@
         private System.Windows.Forms.Label BoundingBoxHitsLabel;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label BackfaceCullsLabel;
+        private System.Windows.Forms.Button RenderButton;
+        private System.Windows.Forms.Button StopButton;
     }
 }

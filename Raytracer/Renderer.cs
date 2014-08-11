@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Raytracer
 {
@@ -8,7 +9,7 @@ namespace Raytracer
         private int _pictureWidth;
         private Scene _scene;
 
-        public void Render(Bitmap bmp, Scene scene)
+        public void Render(Bitmap bmp, Scene scene, Action refreshAction, ref bool stopFlag)
         {
             _scene = scene;
             _pictureHeight = bmp.Height;
@@ -19,6 +20,8 @@ namespace Raytracer
                 {
                     bmp.SetPixel(x, y, RenderPixel(x, y));
                 }
+                refreshAction();
+                if (stopFlag) return;
             }
         }
 
