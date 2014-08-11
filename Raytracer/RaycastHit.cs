@@ -1,6 +1,6 @@
 ﻿namespace Raytracer
 {
-    internal class RaycastHit
+    internal struct RaycastHit
     {
         public float Distance;
         public Mesh Mesh;
@@ -9,7 +9,7 @@
         public float U;
         public float V;
         private Vector3 _position;
-        private bool _positionCalculated = false;
+        private bool _positionCalculated;
 
         public Vector3 Position
         {
