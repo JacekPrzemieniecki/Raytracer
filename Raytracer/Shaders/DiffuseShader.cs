@@ -19,7 +19,7 @@ namespace Raytracer.Shaders
         public override Vector3 Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts)
         {
             float totalIntensity = 0;
-            Vector3 normal = hitInfo.Triangle.SurfaceNormal(hitInfo.U, hitInfo.V);
+            Vector3 normal = _normalSampler.Sample(hitInfo);
             foreach (LightSource lightSource in scene.LightSources)
             {
                 Color c;
