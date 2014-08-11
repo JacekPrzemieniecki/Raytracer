@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Drawing;
 using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
 {
     internal class TriangleSphere : Mesh
     {
-        private readonly Color _color = Color.Red;
-
         /// <summary>
         ///     Triangle approximation of a sphere
         /// </summary>
