@@ -47,7 +47,7 @@ namespace Raytracer.SampleShapes
                     lastVertex);
             }
             // Connect last and first vertex on the ring
-            Triangles[segments - 1].V3Index = 1;
+            Triangles[segments - 1].V2Index = 1;
             Triangles[lastTriangleIndex - segments + 1].V2Index = lastVertex - 1;
 
             // Build rings
