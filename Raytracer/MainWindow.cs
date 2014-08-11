@@ -19,11 +19,11 @@ namespace Raytracer
             Controls.Add(display);
             display.Padding = new Padding(25);
             string path = "F:\\Projects\\Raytracer\\Raytracer\\SampleData\\CompanionCube.obj";
-            var s = new Scene(path);
+            var s = new Scene();
             Stopwatch watch = Stopwatch.StartNew();
             renderer.Render(_drawTarget, s);
             watch.Stop();
-            RenderTimeLabel.Text = string.Format("{0} s, {1} ms", watch.Elapsed.Seconds, watch.Elapsed.Milliseconds);
+            RenderTimeLabel.Text = string.Format("{0} min, {1} s, {2} ms", watch.Elapsed.Minutes, watch.Elapsed.Seconds, watch.Elapsed.Milliseconds);
             RaysCastLabel.Text = Counters.RaysCast.ToString(CultureInfo.InvariantCulture);
             RayTriangleTestsLabel.Text = Counters.RayTriangleTests.ToString(CultureInfo.InvariantCulture);
             RayHitsLabel.Text = Counters.RayHits.ToString(CultureInfo.InvariantCulture);

@@ -81,7 +81,7 @@ namespace Raytracer
 
         public Vector3 SampleColor(Scene scene, RaycastHit raycastHit, int maxRecursiveRaycasts)
         {
-            return Shader.Shade(scene, raycastHit, maxRecursiveRaycasts - 1);
+            return Shader.Shade(scene, raycastHit, maxRecursiveRaycasts);
         }
 
         protected void Init()
