@@ -108,8 +108,9 @@ namespace Raytracer
 #if DEBUG
                 Interlocked.Increment(ref Counters.BoundingBoxHits);
 #endif
-                RaycastHit meshHit = mesh.Raycast(ray, dist);
-                if (meshHit.Distance < dist)
+                RaycastHit meshHit = null;
+                bool hitFound = mesh.Raycast(ray, dist, ref meshHit);
+                if (hitFound)
                 {
                     return false;
                 }
@@ -117,25 +118,29 @@ namespace Raytracer
             return true;
         }
 
-        public RaycastHit Raycast(Ray ray, float maxDistance)
+        public bool Raycast(Ray ray, float maxDistance, ref RaycastHit hitInfo)
         {
-            var closestHit = new RaycastHit {Distance = maxDistance};
+            float closestHitDistance = maxDistance;
+            bool hitFound = false;
             foreach (Mesh mesh in _meshes)
             {
-                if (!mesh.BoundingBox.Raycast(ray, closestHit.Distance))
+                if (!mesh.BoundingBox.Raycast(ray, closestHitDistance))
                 {
                     continue;
                 }
 #if DEBUG
                 Interlocked.Increment(ref Counters.BoundingBoxHits);
 #endif
-                RaycastHit meshHit = mesh.Raycast(ray, closestHit.Distance);
-                if (meshHit.Distance < closestHit.Distance)
+                RaycastHit meshHit = null;
+                bool hit = mesh.Raycast(ray, closestHitDistance, ref meshHit);
+                if (hit)
                 {
-                    closestHit = meshHit;
+                    hitInfo = meshHit;
+                    closestHitDistance = meshHit.Distance;
+                    hitFound = true;
                 }
             }
-            return closestHit;
+            return hitFound;
         }
 
         public Vector3 SampleColor(float viewportX, float viewportY, int maxRecursiveRaycasts)
@@ -146,8 +151,9 @@ namespace Raytracer
 
         public Vector3 SampleColor(Ray ray, int maxRecursiveRaycasts)
         {
-            RaycastHit raycastHit = Raycast(ray, float.MaxValue);
-            if (raycastHit.Mesh == null)
+            RaycastHit raycastHit = null;
+            bool hitFound = Raycast(ray, float.MaxValue, ref raycastHit);
+            if (!hitFound)
             {
                 return new Vector3(1, 1, 1);
             }

@@ -19,9 +19,9 @@ namespace Raytracer.LightSources
         public override float IntensityAt(Vector3 position, Vector3 surfaceNormal, Scene scene, out Color color)
         {
             color = _color;
-            RaycastHit hit = scene.Raycast(new Ray(position, _reverseDirection), float.MaxValue);
-            if (hit.Distance < float.MaxValue) return 0;
-            return Math.Max(Vector3.Dot(surfaceNormal, _reverseDirection) * _intensity, 0);
+            RaycastHit hit = null;
+            bool hitFound = scene.Raycast(new Ray(position, _reverseDirection), float.MaxValue, ref hit);
+            return hitFound ? 0 : Math.Max(Vector3.Dot(surfaceNormal, _reverseDirection) * _intensity, 0);
         }
     }
 }

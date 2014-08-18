@@ -58,25 +58,30 @@ namespace Raytracer
         /// <param name="ray">Ray to be cast</param>
         /// <param name="maxDistance">Maximum distance to trace ray</param>
         /// <returns>Distance along the ray the hit was found</returns>
-        public RaycastHit Raycast(Ray ray, float maxDistance)
+        public bool Raycast(Ray ray, float maxDistance, ref RaycastHit hitInfo)
         {
 #if DEBUG
             Interlocked.Increment(ref Counters.RaysCast);
 #endif
+            bool hitFound = false;
             var localRay = new Ray(ray.Origin - Position, ray.Direction);
-            var closestHit = new RaycastHit {Distance = maxDistance};
+            var closestHit = new RayTriangleHit {Distance = maxDistance};
+            Triangle closestTriangle = null;
             foreach (Triangle triangle in Triangles)
             {
-                RaycastHit hitInfo;
-                if (triangle.RayCast(localRay, out hitInfo) && (closestHit.Distance > hitInfo.Distance))
+                RayTriangleHit rayTriangleHitInfo;
+                if (triangle.RayCast(localRay, out rayTriangleHitInfo) && (closestHit.Distance > rayTriangleHitInfo.Distance))
                 {
-                    closestHit = hitInfo;
-                    closestHit.Triangle = triangle;
+                    closestHit = rayTriangleHitInfo;
+                    closestTriangle = triangle;
+                    hitFound = true;
                 }
             }
-            closestHit.Mesh = this;
-            closestHit.Ray = ray;
-            return closestHit;
+            if (hitFound)
+            {
+                hitInfo = new RaycastHit(closestHit, closestTriangle, this, ray);
+            }
+            return hitFound;
         }
 
         public Vector3 SampleColor(Scene scene, RaycastHit raycastHit, int maxRecursiveRaycasts)

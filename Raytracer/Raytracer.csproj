@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="Ray.cs" />
     <Compile Include="RaycastHit.cs" />
+    <Compile Include="RayTriangleHit.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="Samplers\BitmapSampler.cs" />
     <Compile Include="Samplers\FlatNormalSampler.cs" />

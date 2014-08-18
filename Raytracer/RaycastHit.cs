@@ -1,13 +1,26 @@
 ﻿namespace Raytracer
 {
-    internal struct RaycastHit
+    internal class RaycastHit
     {
-        public float Distance;
         public Mesh Mesh;
         public Ray Ray;
         public Triangle Triangle;
-        public float U;
-        public float V;
+
+        public float Distance
+        {
+            get { return _rayTriangleHit.Distance; }
+        }
+
+        public float U
+        {
+            get { return _rayTriangleHit.U; }
+        }
+
+        public float V
+        {
+            get { return _rayTriangleHit.V; }
+        }
+        private RayTriangleHit _rayTriangleHit;
         private Vector3 _position;
         private bool _positionCalculated;
 
@@ -23,6 +36,17 @@
                 _positionCalculated = true;
                 return _position;
             }
+        }
+
+        public RaycastHit(RayTriangleHit rayTriangleHit, Triangle triangle, Mesh mesh, Ray ray)
+        {
+            _rayTriangleHit = rayTriangleHit;
+            Triangle = triangle;
+            Mesh = mesh;
+            Ray = ray;
+            _position = null;
+            _positionCalculated = false;
+
         }
     }
 }

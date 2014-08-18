@@ -79,12 +79,12 @@ namespace Raytracer
             return Uv1 * (1 - u - v) + Uv2 * u + Uv3 * v;
         }
 
-        public bool RayCast(Ray ray, out RaycastHit hitInfo)
+        public bool RayCast(Ray ray, out RayTriangleHit hitInfo)
         {
 #if DEBUG
             Interlocked.Increment(ref Counters.RayTriangleTests);
 #endif
-            hitInfo = new RaycastHit();
+            hitInfo = new RayTriangleHit();
             if (Vector3.Dot(Normal, ray.Direction) > 0)
             {
 #if DEBUG
