@@ -1,6 +1,6 @@
 ﻿namespace Raytracer
 {
-    class Quaternion
+    public class Quaternion
     {
         public readonly Vector3 XYZ;
 
@@ -19,6 +19,8 @@
             get { return XYZ.z; }
         }
         public float W;
+
+        public static readonly Quaternion Identity = new Quaternion(0, 0, 0, 1);
 
         public Quaternion(float x, float y, float z, float w)
         {
