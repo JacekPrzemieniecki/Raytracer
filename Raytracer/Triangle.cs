@@ -94,7 +94,6 @@ namespace Raytracer
             Vector3 pVec = Vector3.Cross(ray.Direction, _edge2);
             float determinant = Vector3.Dot(_edge1, pVec);
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (determinant == 0) return false;
             float invDeterminant = 1 / determinant;
             Vector3 tVec = ray.Origin - V1;
             hitInfo.U = Vector3.Dot(tVec, pVec) * invDeterminant;

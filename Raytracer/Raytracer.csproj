@@ -87,6 +87,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Quaternion.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="RaycastHit.cs" />
     <Compile Include="RayTriangleHit.cs" />
