@@ -84,7 +84,7 @@ namespace Raytracer
 #if DEBUG
             Interlocked.Increment(ref Counters.RayTriangleTests);
 #endif
-            if (Vector3.Dot(Normal, ray.Direction) > 0)
+            if (Vector3.IsDotGreaterThanZero(Normal, ray.Direction))
             {
 #if DEBUG
                 Interlocked.Increment(ref Counters.BackfaceCulls);
@@ -96,19 +96,20 @@ namespace Raytracer
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             float invDeterminant = 1 / determinant;
             Vector3 tVec = ray.Origin - V1;
-            hitInfo.U = Vector3.Dot(tVec, pVec) * invDeterminant;
-            if (hitInfo.U < 0 || hitInfo.U > 1) return false;
+            float u = Vector3.Dot(tVec, pVec) * invDeterminant;
+            if (u < 0 || u > 1) return false;
             Vector3 qVec = Vector3.Cross(tVec, _edge1);
-            hitInfo.V = Vector3.Dot(ray.Direction, qVec) * invDeterminant;
-            if (hitInfo.V < 0 || hitInfo.V + hitInfo.U > 1) return false;
-            hitInfo.Distance = Vector3.Dot(_edge2, qVec) * invDeterminant;
+            float v = Vector3.Dot(ray.Direction, qVec) * invDeterminant;
+            if (v < 0 || u + v > 1) return false;
+            float distance = Vector3.Dot(_edge2, qVec) * invDeterminant;
+            if (distance < 0) return false;
+            hitInfo.U = u;
+            hitInfo.V = v;
+            hitInfo.Distance = distance;
 #if DEBUG
-            if (hitInfo.Distance < 0.0001f) return false;
             Interlocked.Increment(ref Counters.RayHits);
-            return true;
-#else
-            return hitInfo.Distance > 0;
 #endif
+            return true;
         }
 
         public Vector3 SurfaceNormal(float u, float v)
