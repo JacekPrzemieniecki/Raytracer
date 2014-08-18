@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Raytracer
 {
-    internal class Renderer
+    class Renderer
     {
         private int _pictureHeight;
         private int _pictureWidth;

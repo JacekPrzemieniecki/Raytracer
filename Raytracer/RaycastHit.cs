@@ -1,10 +1,10 @@
 ﻿namespace Raytracer
 {
-    internal class RaycastHit
+    class RaycastHit
     {
-        public Mesh Mesh;
-        public Ray Ray;
-        public Triangle Triangle;
+        public readonly Mesh Mesh;
+        public readonly Ray Ray;
+        public readonly Triangle Triangle;
 
         public float Distance
         {

@@ -1,10 +1,12 @@
-﻿using System.Threading;
+﻿#if DEBUG
+using System.Threading;
 using Raytracer.Debugging;
+#endif
 using Raytracer.Shaders;
 
 namespace Raytracer
 {
-    internal class Mesh
+    class Mesh
     {
         protected Triangle[] Triangles;
         public Vector3[] VertexNormals;
@@ -57,6 +59,7 @@ namespace Raytracer
         /// </summary>
         /// <param name="ray">Ray to be cast</param>
         /// <param name="maxDistance">Maximum distance to trace ray</param>
+        /// <param name="hitInfo">Will contain hit information if true is returned</param>
         /// <returns>Distance along the ray the hit was found</returns>
         public bool Raycast(Ray ray, float maxDistance, ref RaycastHit hitInfo)
         {
@@ -67,7 +70,7 @@ namespace Raytracer
             var localRay = new Ray(ray.Origin - Position, ray.Direction);
             var closestHit = new RayTriangleHit {Distance = maxDistance};
             Triangle closestTriangle = null;
-            RayTriangleHit rayTriangleHitInfo = new RayTriangleHit();
+            var rayTriangleHitInfo = new RayTriangleHit();
             foreach (Triangle triangle in Triangles)
             {
                 if (triangle.RayCast(localRay, ref rayTriangleHitInfo) && (closestHit.Distance > rayTriangleHitInfo.Distance))

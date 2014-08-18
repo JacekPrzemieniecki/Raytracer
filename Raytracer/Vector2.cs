@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Raytracer
 {
-    internal class Vector2
+    class Vector2
     {
         // ReSharper disable InconsistentNaming
         public readonly float x;

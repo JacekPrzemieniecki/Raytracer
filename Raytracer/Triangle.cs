@@ -1,9 +1,11 @@
-﻿using System.Threading;
+﻿#if DEBUG
+using System.Threading;
 using Raytracer.Debugging;
+#endif
 
 namespace Raytracer
 {
-    internal class Triangle
+    class Triangle
     {
         public Vector3 Normal;
         private Vector3 _edge1;
@@ -12,9 +14,9 @@ namespace Raytracer
         public int V1Index;
         public int V2Index;
         public int V3Index;
-        private int UV1Index;
-        private int UV2Index;
-        private int UV3Index;
+        private readonly int _uv1Index;
+        private readonly int _uv2Index;
+        private readonly int _uv3Index;
 
         public Triangle(int v1Index, int v2Index, int v3Index)
         {
@@ -30,9 +32,9 @@ namespace Raytracer
             V2Index = v2Index;
             V3Index = v3Index;
 
-            UV1Index = uv1Index;
-            UV2Index = uv2Index;
-            UV3Index = uv3Index;
+            _uv1Index = uv1Index;
+            _uv2Index = uv2Index;
+            _uv3Index = uv3Index;
         }
 
         public void Init(Mesh mesh)
@@ -61,19 +63,20 @@ namespace Raytracer
 
         private Vector2 Uv1
         {
-            get { return _mesh.UVs[UV1Index]; }
+            get { return _mesh.UVs[_uv1Index]; }
         }
 
         private Vector2 Uv2
         {
-            get { return _mesh.UVs[UV2Index]; }
+            get { return _mesh.UVs[_uv2Index]; }
         }
 
         private Vector2 Uv3
         {
-            get { return _mesh.UVs[UV3Index]; }
+            get { return _mesh.UVs[_uv3Index]; }
         }
 
+// ReSharper disable once InconsistentNaming
         public Vector2 UVCoordinates(float u, float v)
         {
             return Uv1 * (1 - u - v) + Uv2 * u + Uv3 * v;

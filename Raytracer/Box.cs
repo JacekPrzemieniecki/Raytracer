@@ -1,9 +1,11 @@
-﻿using System.Threading;
+﻿#if DEBUG
+using System.Threading;
 using Raytracer.Debugging;
+#endif
 
 namespace Raytracer
 {
-    internal class Box
+    class Box
     {
         public float MaxX;
         public float MaxY;

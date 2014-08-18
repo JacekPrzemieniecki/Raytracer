@@ -11,7 +11,7 @@ using Raytracer.Shaders;
 
 namespace Raytracer
 {
-    internal class Scene
+    class Scene
     {
         public readonly List<LightSource> LightSources;
         private readonly Camera _camera;
@@ -35,7 +35,7 @@ namespace Raytracer
 
         public Scene()
         {
-            Vector3 cameraPosition = new Vector3(0, 3, 5);
+            var cameraPosition = new Vector3(0, 3, 5);
             _camera = new Camera(cameraPosition, new Quaternion(0, 0, 0, 1), 8.0f / 6.0f, (float)Math.PI * 60f / 180f);
 
             //Shader normal = new NormalShader();
@@ -92,7 +92,7 @@ namespace Raytracer
         {
             Vector3 direction = to - from;
             float distance = direction.Length();
-            Ray ray = new Ray(from, direction);
+            var ray = new Ray(from, direction);
             return IsVisible(ray, distance);
         }
 

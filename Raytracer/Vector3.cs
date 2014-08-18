@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Raytracer
 {
-    internal class Vector3
+    class Vector3
     {
         // ReSharper disable InconsistentNaming
         public readonly float x;
@@ -77,8 +77,8 @@ namespace Raytracer
 
         public Vector3 RotatedBy(Quaternion quaternion)
         {
-            Vector3 t = 2 * Vector3.Cross(quaternion.XYZ, this);
-            Vector3 rotated = this + quaternion.W * t + Vector3.Cross(quaternion.XYZ, t);
+            Vector3 t = 2 * Cross(quaternion.XYZ, this);
+            Vector3 rotated = this + quaternion.W * t + Cross(quaternion.XYZ, t);
             return rotated;
         }
 
@@ -95,6 +95,11 @@ namespace Raytracer
             return lhs.x * rhs.x +
                    lhs.y * rhs.y +
                    lhs.z * rhs.z;
+        }
+
+        public static bool IsDotGreaterThanZero(Vector3 lhs, Vector3 rhs)
+        {
+            return lhs.x * rhs.x + lhs.y * rhs.y > -lhs.z * rhs.z;
         }
 
         public static Vector3 Cross(Vector3 lhs, Vector3 rhs)

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
 
 namespace Raytracer
 {
-    internal class Camera
+    class Camera
     {
         private readonly Vector3 _position;
         private readonly Quaternion _rotation;
