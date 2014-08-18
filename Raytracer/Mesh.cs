@@ -67,10 +67,10 @@ namespace Raytracer
             var localRay = new Ray(ray.Origin - Position, ray.Direction);
             var closestHit = new RayTriangleHit {Distance = maxDistance};
             Triangle closestTriangle = null;
+            RayTriangleHit rayTriangleHitInfo = new RayTriangleHit();
             foreach (Triangle triangle in Triangles)
             {
-                RayTriangleHit rayTriangleHitInfo;
-                if (triangle.RayCast(localRay, out rayTriangleHitInfo) && (closestHit.Distance > rayTriangleHitInfo.Distance))
+                if (triangle.RayCast(localRay, ref rayTriangleHitInfo) && (closestHit.Distance > rayTriangleHitInfo.Distance))
                 {
                     closestHit = rayTriangleHitInfo;
                     closestTriangle = triangle;
