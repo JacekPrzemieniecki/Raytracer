@@ -11,7 +11,7 @@ namespace Raytracer
         public Camera(Vector3 position, Quaternion rotation, float aspectRatio, float fov)
         {
             _position = position;
-            _rotation = rotation;
+            _rotation = rotation.Normalized();
             AspectRatio = aspectRatio;
             FoV = fov;
         }
@@ -30,7 +30,7 @@ namespace Raytracer
         {
             float dirY = posY * _tanHalfFoV;
             float dirX = posX * _tanHalfFoV * AspectRatio;
-            var rayDirection = new Vector3(dirX, dirY, -1.0f);
+            var rayDirection = new Vector3(dirX, dirY, 1.0f);
             var rotatedDirection = rayDirection.RotatedBy(_rotation);
             return new Ray(_position, rotatedDirection);
         }

@@ -54,7 +54,7 @@ namespace Raytracer
             get { return new Vector3(0, 0, 0); }
         }
 
-        private float LengthSquared()
+        public float LengthSquared()
         {
             return (x * x + y * y + z * z);
         }
@@ -116,9 +116,17 @@ namespace Raytracer
 
         public Color ToColor()
         {
-            return Color.FromArgb(Math.Min((int) (x * 0xFF), 0xFF),
-                Math.Min((int) (y * 0xFF), 0xFF),
-                Math.Min((int) (z * 0xFF), 0xFF));
+            return Color.FromArgb(
+                Mathf.Clamp((int) (x * 0xFF), 0, 0xFF),
+                Mathf.Clamp((int) (y * 0xFF), 0, 0xFF),
+                Mathf.Clamp((int) (z * 0xFF), 0, 0xFF));
+        }
+
+        public bool AlmostEqual(Vector3 rhs, float delta)
+        {
+            return Math.Abs(x - rhs.x) < delta &&
+                   Math.Abs(y - rhs.y) < delta &&
+                   Math.Abs(z - rhs.z) < delta;
         }
 
         public static Vector3 operator +(Vector3 lhs, Vector3 rhs)

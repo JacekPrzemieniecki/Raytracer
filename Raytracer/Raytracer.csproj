@@ -71,6 +71,7 @@
     <Compile Include="LightSources\DirectionalLight.cs" />
     <Compile Include="LightSources\LightSource.cs" />
     <Compile Include="LightSources\PointLight.cs" />
+    <Compile Include="Mathf.cs" />
     <Compile Include="Mesh.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>

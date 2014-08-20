@@ -35,8 +35,8 @@ namespace Raytracer
 
         public Scene()
         {
-            var cameraPosition = new Vector3(0, 3, 5);
-            _camera = new Camera(cameraPosition, new Quaternion(0, 0, 0, 1), 8.0f / 6.0f, (float)Math.PI * 60f / 180f);
+            var cameraPosition = new Vector3(0, 8, 5);
+            _camera = new Camera(cameraPosition, Quaternion.LookRotation(new Vector3(0, -0.8f, -1), Vector3.Up), 8.0f / 6.0f, (float)Math.PI * 60f / 180f);
 
             //Shader normal = new NormalShader();
             Shader diffuseRedSmooth = new DiffuseShader(new SolidColorSampler(Color.Red), new InterpolatedNormalSampler());
