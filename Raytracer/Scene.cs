@@ -101,10 +101,6 @@ namespace Raytracer
             float dist = distance - 0.001f;
             foreach (Mesh mesh in _meshes)
             {
-                if (!mesh.BoundingBox.Raycast(ray, dist))
-                {
-                    continue;
-                }
 #if DEBUG
                 Interlocked.Increment(ref Counters.BoundingBoxHits);
 #endif
@@ -124,10 +120,6 @@ namespace Raytracer
             bool hitFound = false;
             foreach (Mesh mesh in _meshes)
             {
-                if (!mesh.BoundingBox.Raycast(ray, closestHitDistance))
-                {
-                    continue;
-                }
 #if DEBUG
                 Interlocked.Increment(ref Counters.BoundingBoxHits);
 #endif

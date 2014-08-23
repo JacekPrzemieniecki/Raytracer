@@ -12,8 +12,7 @@ namespace Raytracer
         public Vector3[] VertexNormals;
         public Vector3[] Vertices;
         public Vector2[] UVs;
-        private Box _boundingBox;
-        private bool _boundingBoxDirty = true;
+        private Octree _octree;
 
         public Mesh(Vector3[] vertices, Triangle[] triangles, Vector3 position, Shader shader)
         {
@@ -41,19 +40,6 @@ namespace Raytracer
         protected Shader Shader { private get; set; }
         public Vector3 Position { get; protected set; }
 
-
-        public Box BoundingBox
-        {
-            get
-            {
-                if (_boundingBoxDirty)
-                {
-                    CalculateBoundingBox();
-                }
-                return _boundingBox;
-            }
-        }
-
         /// <summary>
         ///     Casts a ray against mesh
         /// </summary>
@@ -66,25 +52,8 @@ namespace Raytracer
 #if DEBUG
             Interlocked.Increment(ref Counters.RaysCast);
 #endif
-            bool hitFound = false;
             var localRay = new Ray(ray.Origin - Position, ray.Direction);
-            var closestHit = new RayTriangleHit {Distance = maxDistance};
-            Triangle closestTriangle = null;
-            var rayTriangleHitInfo = new RayTriangleHit();
-            foreach (Triangle triangle in Triangles)
-            {
-                if (triangle.RayCast(localRay, ref rayTriangleHitInfo) && (closestHit.Distance > rayTriangleHitInfo.Distance))
-                {
-                    closestHit = rayTriangleHitInfo;
-                    closestTriangle = triangle;
-                    hitFound = true;
-                }
-            }
-            if (hitFound)
-            {
-                hitInfo = new RaycastHit(closestHit, closestTriangle, this, ray);
-            }
-            return hitFound;
+            return _octree.Raycast(localRay, maxDistance, ref hitInfo);
         }
 
         public Vector3 SampleColor(Scene scene, RaycastHit raycastHit, int maxRecursiveRaycasts)
@@ -95,8 +64,8 @@ namespace Raytracer
         protected void Init()
         {
             BindTriangles();
-            CalculateBoundingBox();
             CalculateVertexNormals();
+            _octree = new Octree(Triangles, this);
         }
 
         private void BindTriangles()
@@ -126,50 +95,6 @@ namespace Raytracer
             {
                 VertexNormals[i] = VertexNormals[i].Normalized();
             }
-        }
-
-        private void CalculateBoundingBox()
-        {
-            Vector3 firstVertex = Vertices[0];
-            _boundingBox = new Box(
-                firstVertex.x, firstVertex.x,
-                firstVertex.y, firstVertex.y,
-                firstVertex.z, firstVertex.z);
-            foreach (Vector3 vertex in Vertices)
-            {
-                if (_boundingBox.MaxX < vertex.x)
-                {
-                    _boundingBox.MaxX = vertex.x;
-                }
-                if (_boundingBox.MinX > vertex.x)
-                {
-                    _boundingBox.MinX = vertex.x;
-                }
-                if (_boundingBox.MaxY < vertex.y)
-                {
-                    _boundingBox.MaxY = vertex.y;
-                }
-                if (_boundingBox.MinY > vertex.y)
-                {
-                    _boundingBox.MinY = vertex.y;
-                }
-                if (_boundingBox.MaxZ < vertex.z)
-                {
-                    _boundingBox.MaxZ = vertex.z;
-                }
-                if (_boundingBox.MinZ > vertex.z)
-                {
-                    _boundingBox.MinZ = vertex.z;
-                }
-            }
-            _boundingBox.MaxX += Position.x;
-            _boundingBox.MinX += Position.x;
-            _boundingBox.MaxY += Position.y;
-            _boundingBox.MinY += Position.y;
-            _boundingBox.MaxZ += Position.z;
-            _boundingBox.MinZ += Position.z;
-
-            _boundingBoxDirty = false;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿#if DEBUG
+﻿using System;
+#if DEBUG
 using System.Threading;
 using Raytracer.Debugging;
 #endif
@@ -61,6 +62,24 @@ namespace Raytracer
             get { return _mesh.Vertices[V3Index]; }
         }
 
+        public Vector3 this[int i]
+        {
+            get
+            {
+                switch (i)
+                {
+                case 0:
+                    return V1;
+                case 1:
+                    return V2;
+                case 2:
+                    return V3;
+                default:
+                    throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
         private Vector2 Uv1
         {
             get { return _mesh.UVs[_uv1Index]; }
@@ -76,7 +95,7 @@ namespace Raytracer
             get { return _mesh.UVs[_uv3Index]; }
         }
 
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public Vector2 UVCoordinates(float u, float v)
         {
             return Uv1 * (1 - u - v) + Uv2 * u + Uv3 * v;
