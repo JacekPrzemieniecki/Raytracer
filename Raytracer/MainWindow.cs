@@ -11,6 +11,7 @@ namespace Raytracer
         private readonly Bitmap _drawTarget;
         private readonly PictureBox _display;
         private bool _stopFlag;
+        private const int renderPasses = 1;
 
         public MainWindow()
         {
@@ -35,6 +36,7 @@ namespace Raytracer
                     _display.Invalidate();
                     Application.DoEvents();
                 },
+                renderPasses,
                 ref _stopFlag);
             watch.Stop();
             RenderTimeLabel.Text = string.Format("{0} min, {1} s, {2} ms", watch.Elapsed.Minutes, watch.Elapsed.Seconds, watch.Elapsed.Milliseconds);

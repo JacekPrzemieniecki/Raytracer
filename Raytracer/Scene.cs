@@ -53,8 +53,8 @@ namespace Raytracer
             //Shader position = new PositionShader();
             //Shader reflected = new ReflectedVectorShader(new FlatNormalSampler());
 
-            Mesh sphere = new TriangleSphere(new Vector3(3, 2, -6), 2.0, 16, 20, sphereShader);
-            Mesh smallSphere = new TriangleSphere(new Vector3(-1, 1, -4), 1, 10, 10, smallSphereShader);
+            Mesh sphere = new TriangleSphere(new Vector3(3, 2, -6), 2.0, 32, 40, diffuseRedSmooth);
+            Mesh smallSphere = new TriangleSphere(new Vector3(-1, 1, -4), 1, 26, 20, smallSphereShader);
             Mesh cube = new Cube(new Vector3(-3, 1.5f, -8), 3, cubeShader);
             Mesh backWall = new Plane(new Vector3(0, 0, -10), Vector3.Right, Vector3.Down, 100, diffuseSilver);
             Mesh frontWall = new Plane(new Vector3(0, 0, 6), Vector3.Right, Vector3.Up, 100, diffuseSilver);
