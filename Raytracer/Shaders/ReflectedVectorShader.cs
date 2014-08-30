@@ -4,9 +4,9 @@ namespace Raytracer.Shaders
 {
     internal class ReflectedVectorShader : Shader
     {
-        private TextureSampler _normalSampler;
+        private ISampler _normalSampler;
 
-        public ReflectedVectorShader(TextureSampler normalSampler)
+        public ReflectedVectorShader(ISampler normalSampler)
         {
             _normalSampler = normalSampler;
         }

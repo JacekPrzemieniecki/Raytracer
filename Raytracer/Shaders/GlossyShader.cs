@@ -4,9 +4,9 @@ namespace Raytracer.Shaders
 {
     internal class GlossyShader : Shader
     {
-        private TextureSampler _normalSampler;
+        private ISampler _normalSampler;
 
-        public GlossyShader(TextureSampler normalSampler)
+        public GlossyShader(ISampler normalSampler)
         {
             _normalSampler = normalSampler;
         }

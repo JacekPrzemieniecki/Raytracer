@@ -4,8 +4,8 @@ namespace Raytracer.Shaders
 {
     internal class TestShader : Shader
     {
-        private TextureSampler _sampler;
-        public TestShader(TextureSampler sampler)
+        private ISampler _sampler;
+        public TestShader(ISampler sampler)
         {
             _sampler = sampler;
         }

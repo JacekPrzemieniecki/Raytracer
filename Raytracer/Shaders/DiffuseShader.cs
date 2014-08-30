@@ -7,10 +7,10 @@ namespace Raytracer.Shaders
 {
     internal class DiffuseShader : Shader
     {
-        private TextureSampler _textureSampler;
-        private TextureSampler _normalSampler;
+        private ISampler _textureSampler;
+        private ISampler _normalSampler;
 
-        public DiffuseShader(TextureSampler textureSampler, TextureSampler normalSampler)
+        public DiffuseShader(ISampler textureSampler, ISampler normalSampler)
         {
             _textureSampler = textureSampler;
             _normalSampler = normalSampler;

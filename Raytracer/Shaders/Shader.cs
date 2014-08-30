@@ -6,7 +6,7 @@ namespace Raytracer.Shaders
     {
         public abstract Vector3 Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts);
 
-        protected static Ray ReflectedRay(RaycastHit hitInfo, TextureSampler normalSampler)
+        protected static Ray ReflectedRay(RaycastHit hitInfo, ISampler normalSampler)
         {
             Vector3 normal = normalSampler.Sample(hitInfo);
             Vector3 incident = hitInfo.Ray.Direction;

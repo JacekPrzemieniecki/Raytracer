@@ -171,7 +171,7 @@ namespace Raytracer.Parsers
         private void WrapMesh()
         {
             Mesh newMesh;
-            TextureSampler normalSampler;
+            ISampler normalSampler;
             if (_useSmoothShading)
             {
                 normalSampler = new InterpolatedNormalSampler();
