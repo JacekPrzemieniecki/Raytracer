@@ -2,10 +2,10 @@
 
 namespace Raytracer.LightSources
 {
-    class AmbientLight :LightSource
+    internal class AmbientLight : LightSource
     {
-        private float _intensity;
-        private Color _color;
+        private readonly Color _color;
+        private readonly float _intensity;
 
         public AmbientLight(float intensity, Color color)
         {

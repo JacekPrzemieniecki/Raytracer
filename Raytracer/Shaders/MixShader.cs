@@ -1,18 +1,16 @@
-﻿using System;
-
-namespace Raytracer.Shaders
+﻿namespace Raytracer.Shaders
 {
-    class MixShader : Shader
+    internal class MixShader : Shader
     {
-        private readonly Shader _shader1;
-        private Shader _shader2;
         private readonly float _coefficient;
+        private readonly Shader _shader1;
+        private readonly Shader _shader2;
 
         public MixShader(Shader shader1, Shader shader2, float coefficient)
         {
             _shader1 = shader1;
             _shader2 = shader2;
-            this._coefficient = coefficient;
+            _coefficient = coefficient;
         }
 
         public override Vector3 Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts)

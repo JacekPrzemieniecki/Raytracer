@@ -1,5 +1,4 @@
-﻿using System.Dynamic;
-using Raytracer.Samplers;
+﻿using Raytracer.Samplers;
 using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes

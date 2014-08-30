@@ -2,11 +2,11 @@
 
 namespace Raytracer.Samplers
 {
-    class InterpolatedNormalSampler : ISampler
+    internal class InterpolatedNormalSampler : ISampler
     {
-        private readonly float _twoRoughness;
         private readonly bool _isRough;
         private readonly Random _rng;
+        private readonly float _twoRoughness;
 
         public InterpolatedNormalSampler()
         {
@@ -19,14 +19,14 @@ namespace Raytracer.Samplers
             _isRough = true;
             _rng = new Random();
         }
-        
+
         public Vector3 Sample(Triangle triangle, float u, float v)
         {
             Vector3 normal = triangle.SurfaceNormal(u, v);
             if (!_isRough) return normal;
-            return new Vector3(normal.x + (float)(_rng.NextDouble() - 0.5) * _twoRoughness,
-                               normal.y + (float)(_rng.NextDouble() - 0.5) * _twoRoughness,
-                               normal.z + (float)(_rng.NextDouble() - 0.5) * _twoRoughness).Normalized();
+            return new Vector3(normal.x + (float) (_rng.NextDouble() - 0.5) * _twoRoughness,
+                normal.y + (float) (_rng.NextDouble() - 0.5) * _twoRoughness,
+                normal.z + (float) (_rng.NextDouble() - 0.5) * _twoRoughness).Normalized();
         }
     }
 }

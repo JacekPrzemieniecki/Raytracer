@@ -11,7 +11,7 @@ using Raytracer.Shaders;
 
 namespace Raytracer
 {
-    class Scene
+    internal class Scene
     {
         public readonly List<LightSource> LightSources;
         private readonly Camera _camera;
@@ -20,7 +20,7 @@ namespace Raytracer
         public Scene(string file)
         {
             var cameraPosition = new Vector3(3, 3, 8);
-            _camera = new Camera(cameraPosition, new Quaternion(0, 0, 0, 1), 8.0f / 6.0f, (float)Math.PI * 80f / 180f);
+            _camera = new Camera(cameraPosition, new Quaternion(0, 0, 0, 1), 8.0f / 6.0f, (float) Math.PI * 80f / 180f);
 
             var parser = new ObjParser();
             parser.Parse(file);
@@ -36,7 +36,8 @@ namespace Raytracer
         public Scene()
         {
             var cameraPosition = new Vector3(0, 8, 5);
-            _camera = new Camera(cameraPosition, Quaternion.LookRotation(new Vector3(0, -0.8f, -1), Vector3.Up), 8.0f / 6.0f, (float)Math.PI * 60f / 180f);
+            _camera = new Camera(cameraPosition, Quaternion.LookRotation(new Vector3(0, -0.8f, -1), Vector3.Up),
+                8.0f / 6.0f, (float) Math.PI * 60f / 180f);
 
             ISampler smooth = new InterpolatedNormalSampler();
             ISampler flat = new FlatNormalSampler();

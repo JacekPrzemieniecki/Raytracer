@@ -1,20 +1,20 @@
 ﻿using Raytracer.Samplers;
+using Raytracer.Shaders;
 #if DEBUG
 using System.Threading;
 using Raytracer.Debugging;
 #endif
-using Raytracer.Shaders;
 
 namespace Raytracer
 {
-    class Mesh
+    internal class Mesh
     {
+        public readonly Vector2[] UVs;
+        public readonly Vector3[] Vertices;
+        private readonly ISampler _normalSampler;
         private readonly Triangle[] _triangles;
         public Vector3[] VertexNormals;
-        public readonly Vector3[] Vertices;
-        public readonly Vector2[] UVs;
         private Octree _octree;
-        private ISampler _normalSampler;
 
         public Mesh(Vector3[] vertices, Triangle[] triangles, Vector3 position, Shader shader, ISampler normalSampler)
         {
@@ -26,7 +26,8 @@ namespace Raytracer
             Init();
         }
 
-        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector2[] uvVertices, Vector3 position, Shader shader, ISampler normalSampler)
+        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector2[] uvVertices, Vector3 position, Shader shader,
+            ISampler normalSampler)
         {
             Vertices = vertices;
             _triangles = triangles;
@@ -53,7 +54,7 @@ namespace Raytracer
             Interlocked.Increment(ref Counters.RaysCast);
 #endif
             var localRay = new Ray(ray.Origin - Position, ray.Direction);
-            var hit = new RayTriangleHit { Distance = maxDistance };
+            var hit = new RayTriangleHit {Distance = maxDistance};
             Triangle closestTriangle = null;
             bool hitFound = _octree.Raycast(localRay, ref hit, ref closestTriangle);
             if (hitFound)
@@ -78,7 +79,7 @@ namespace Raytracer
 
         private void BindTriangles()
         {
-            foreach (var triangle in _triangles)
+            foreach (Triangle triangle in _triangles)
             {
                 triangle.Init(this);
             }

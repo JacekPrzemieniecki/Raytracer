@@ -1,6 +1,6 @@
 ﻿namespace Raytracer
 {
-    struct RayTriangleHit
+    internal struct RayTriangleHit
     {
         public float Distance;
         public float U;

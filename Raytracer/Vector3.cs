@@ -75,6 +75,11 @@ namespace Raytracer
             return new Vector3(x / len, y / len, z / len);
         }
 
+        public Vector3 Inverse()
+        {
+            return new Vector3(-x, -y, -z);
+        }
+
         public Vector3 RotatedBy(Quaternion quaternion)
         {
             Vector3 t = 2 * Cross(quaternion.XYZ, this);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using Raytracer.LightSources;
 using Raytracer.Samplers;
 
@@ -7,7 +6,7 @@ namespace Raytracer.Shaders
 {
     internal class DiffuseShader : Shader
     {
-        private ISampler _textureSampler;
+        private readonly ISampler _textureSampler;
 
         public DiffuseShader(ISampler textureSampler)
         {

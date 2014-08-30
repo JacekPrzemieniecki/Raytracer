@@ -2,14 +2,14 @@
 
 namespace Raytracer
 {
-    class Octree
+    internal class Octree
     {
         private const int TriangleCountInLeaf = 10;
-        private List<Triangle> _directTriangleChildren;
+        private readonly Box _boundingBox;
         private readonly Octree[] _children;
         private readonly Mesh _parentMesh;
-        private readonly Box _boundingBox;
         private readonly Triangle[] _triangles;
+        private List<Triangle> _directTriangleChildren;
 
         public Octree(Triangle[] triangles, Mesh parentMesh)
         {
@@ -66,7 +66,7 @@ namespace Raytracer
             float maxY = firstVertex.y;
             float minZ = firstVertex.z;
             float maxZ = firstVertex.z;
-            foreach (var triangle in _triangles)
+            foreach (Triangle triangle in _triangles)
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -96,7 +96,7 @@ namespace Raytracer
             }
             _directTriangleChildren = new List<Triangle>();
 
-            foreach (var triangle in _triangles)
+            foreach (Triangle triangle in _triangles)
             {
                 int subnodeIndex = AssignSubnode(triangle, avgX, avgY, avgZ);
                 if (subnodeIndex == -1)

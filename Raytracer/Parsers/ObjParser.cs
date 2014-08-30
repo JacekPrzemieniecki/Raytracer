@@ -8,21 +8,20 @@ using Raytracer.Shaders;
 
 namespace Raytracer.Parsers
 {
-    class ObjParser
+    internal class ObjParser
     {
-        public List<Mesh> Meshes { get; private set; }
-        private List<Vector3> _vertices;
-        private List<Triangle> _triangles;
-        private List<Vector2> _uvs;
-        private bool _uvMapped = true;
-        private bool _useSmoothShading;
-        private int _vertexOffset = 1;
-        private int _uvOffset = 1;
         private readonly Dictionary<string, Action<string[]>> _actionMap;
-        private Dictionary<string, Bitmap> _materials; 
-        private string _currentMeshName;
+        private readonly Dictionary<string, Bitmap> _materials;
         private string _currentMaterialName;
+        private string _currentMeshName;
         private string _path;
+        private List<Triangle> _triangles;
+        private bool _useSmoothShading;
+        private bool _uvMapped = true;
+        private int _uvOffset = 1;
+        private List<Vector2> _uvs;
+        private int _vertexOffset = 1;
+        private List<Vector3> _vertices;
 
         public ObjParser()
         {
@@ -43,8 +42,10 @@ namespace Raytracer.Parsers
                 {"usemtl", line => { _currentMaterialName = line[1]; }},
                 {"g", NotImplemented},
                 {"s", ParseSmoothShading}
-            }; 
+            };
         }
+
+        public List<Mesh> Meshes { get; private set; }
 
         private void InitBuffers()
         {
@@ -77,13 +78,16 @@ namespace Raytracer.Parsers
             float x = float.Parse(line[1], NumberStyles.Any, CultureInfo.InvariantCulture);
             float y = 1 - float.Parse(line[2], NumberStyles.Any, CultureInfo.InvariantCulture);
             _uvs.Add(new Vector2(x, y));
-            
         }
 
         private void ParseLine(string[] line)
         {
-            if (line[0] == "") { } // empty line
-            else if (line[0].StartsWith("#")) { } // comment
+            if (line[0] == "")
+            {
+            } // empty line
+            else if (line[0].StartsWith("#"))
+            {
+            } // comment
             else if (_actionMap.ContainsKey(line[0])) // command
             {
                 _actionMap[line[0]](line);
@@ -124,7 +128,7 @@ namespace Raytracer.Parsers
         private void ParseQuad(string[] line)
         {
             ParseTriangle(new[] {"f", line[1], line[2], line[3]});
-            ParseTriangle(new [] {"f", line[3], line[4], line[1]});
+            ParseTriangle(new[] {"f", line[3], line[4], line[1]});
         }
 
 // ReSharper disable once InconsistentNaming
@@ -184,12 +188,12 @@ namespace Raytracer.Parsers
             if (_uvMapped)
             {
                 newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), _uvs.ToArray(), Vector3.Zero,
-                        new DiffuseShader(new BitmapSampler(_materials[_currentMaterialName])), normalSampler);
+                    new DiffuseShader(new BitmapSampler(_materials[_currentMaterialName])), normalSampler);
             }
             else
             {
                 newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), Vector3.Zero,
-                        new DiffuseShader(new SolidColorSampler(Color.Red)), normalSampler);
+                    new DiffuseShader(new SolidColorSampler(Color.Red)), normalSampler);
             }
             Meshes.Add(newMesh);
             InitBuffers();
@@ -214,9 +218,9 @@ namespace Raytracer.Parsers
         private void ParseMtLib(string[] line)
         {
             string file = Path.Combine(_path, line[1]);
-            MtlParser parser = new MtlParser();
+            var parser = new MtlParser();
             Dictionary<string, Bitmap> materials = parser.Parse(file);
-            foreach (KeyValuePair<string, Bitmap> pair in materials)
+            foreach (var pair in materials)
             {
                 _materials[pair.Key] = pair.Value;
             }
@@ -224,12 +228,10 @@ namespace Raytracer.Parsers
 
         private void NotImplemented(string[] s)
         {
-            
         }
 
         private void Ignore(string[] s)
         {
-            
         }
     }
 }

@@ -5,10 +5,10 @@ namespace Raytracer.LightSources
 {
     internal class PointLight : LightSource
     {
-        private Vector3 _position;
-        private float _intensity;
-        private Color _color;
-        private float _rangeSquared;
+        private readonly Color _color;
+        private readonly float _intensity;
+        private readonly Vector3 _position;
+        private readonly float _rangeSquared;
 
         public PointLight(Vector3 position, float intensity, float range, Color color)
         {
@@ -23,11 +23,12 @@ namespace Raytracer.LightSources
             color = _color;
             Vector3 direction = position - _position;
             float distance = direction.Length();
-            Ray ray = new Ray(_position, direction);
+            var ray = new Ray(_position, direction);
             bool visible = scene.IsVisible(ray, distance);
             if (!visible) return 0;
             float intensity = _intensity * _rangeSquared / (_rangeSquared + distance * distance);
-            float normalAdjustedIntensity = intensity * Vector3.Dot(surfaceNormal, Vector3.Zero - direction.Normalized());
+            float normalAdjustedIntensity = intensity *
+                                            Vector3.Dot(surfaceNormal, Vector3.Zero - direction.Normalized());
             return Math.Max(normalAdjustedIntensity, 0);
         }
     }

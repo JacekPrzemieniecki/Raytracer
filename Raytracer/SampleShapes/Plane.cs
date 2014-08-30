@@ -5,7 +5,8 @@ namespace Raytracer.SampleShapes
 {
     internal static class Plane
     {
-        public static Mesh Create(Vector3 position, Vector3 forward, Vector3 right, float edge, Shader shader, ISampler normalSampler)
+        public static Mesh Create(Vector3 position, Vector3 forward, Vector3 right, float edge, Shader shader,
+            ISampler normalSampler)
         {
             float halfEdge = edge / 2;
             var vertices = new[]

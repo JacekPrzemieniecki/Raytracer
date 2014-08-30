@@ -1,11 +1,25 @@
 ﻿namespace Raytracer
 {
-    class RaycastHit
+    internal class RaycastHit
     {
         public readonly Mesh Mesh;
+        public readonly Vector3 Normal;
         public readonly Ray Ray;
         public readonly Triangle Triangle;
-        public readonly Vector3 Normal;
+        private Vector3 _position;
+        private bool _positionCalculated;
+        private RayTriangleHit _rayTriangleHit;
+
+        public RaycastHit(RayTriangleHit rayTriangleHit, Triangle triangle, Mesh mesh, Ray ray, Vector3 normal)
+        {
+            _rayTriangleHit = rayTriangleHit;
+            Triangle = triangle;
+            Mesh = mesh;
+            Ray = ray;
+            _position = null;
+            _positionCalculated = false;
+            Normal = normal;
+        }
 
         public float Distance
         {
@@ -21,9 +35,6 @@
         {
             get { return _rayTriangleHit.V; }
         }
-        private RayTriangleHit _rayTriangleHit;
-        private Vector3 _position;
-        private bool _positionCalculated;
 
         public Vector3 Position
         {
@@ -37,17 +48,6 @@
                 _positionCalculated = true;
                 return _position;
             }
-        }
-
-        public RaycastHit(RayTriangleHit rayTriangleHit, Triangle triangle, Mesh mesh, Ray ray, Vector3 normal)
-        {
-            _rayTriangleHit = rayTriangleHit;
-            Triangle = triangle;
-            Mesh = mesh;
-            Ray = ray;
-            _position = null;
-            _positionCalculated = false;
-            Normal = normal;
         }
     }
 }

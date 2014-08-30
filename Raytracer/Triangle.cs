@@ -2,22 +2,23 @@
 #if DEBUG
 using System.Threading;
 using Raytracer.Debugging;
+
 #endif
 
 namespace Raytracer
 {
-    class Triangle
+    internal class Triangle
     {
-        public Vector3 Normal;
-        private Vector3 _edge1;
-        private Vector3 _edge2;
-        private Mesh _mesh;
-        public int V1Index;
-        public int V2Index;
-        public int V3Index;
         private readonly int _uv1Index;
         private readonly int _uv2Index;
         private readonly int _uv3Index;
+        public Vector3 Normal;
+        public int V1Index;
+        public int V2Index;
+        public int V3Index;
+        private Vector3 _edge1;
+        private Vector3 _edge2;
+        private Mesh _mesh;
 
         public Triangle(int v1Index, int v2Index, int v3Index)
         {
@@ -27,7 +28,7 @@ namespace Raytracer
         }
 
         public Triangle(int v1Index, int v2Index, int v3Index,
-                        int uv1Index, int uv2Index, int uv3Index)
+            int uv1Index, int uv2Index, int uv3Index)
         {
             V1Index = v1Index;
             V2Index = v2Index;
@@ -36,15 +37,6 @@ namespace Raytracer
             _uv1Index = uv1Index;
             _uv2Index = uv2Index;
             _uv3Index = uv3Index;
-        }
-
-        public void Init(Mesh mesh)
-        {
-            _mesh = mesh;
-            _edge1 = V2 - V1;
-            _edge2 = V3 - V1;
-            Vector3 crossProduct = Vector3.Cross(_edge2, _edge1);
-            Normal = crossProduct.Normalized();
         }
 
         public Vector3 V1
@@ -68,14 +60,14 @@ namespace Raytracer
             {
                 switch (i)
                 {
-                case 0:
-                    return V1;
-                case 1:
-                    return V2;
-                case 2:
-                    return V3;
-                default:
-                    throw new IndexOutOfRangeException();
+                    case 0:
+                        return V1;
+                    case 1:
+                        return V2;
+                    case 2:
+                        return V3;
+                    default:
+                        throw new IndexOutOfRangeException();
                 }
             }
         }
@@ -93,6 +85,15 @@ namespace Raytracer
         private Vector2 Uv3
         {
             get { return _mesh.UVs[_uv3Index]; }
+        }
+
+        public void Init(Mesh mesh)
+        {
+            _mesh = mesh;
+            _edge1 = V2 - V1;
+            _edge2 = V3 - V1;
+            Vector3 crossProduct = Vector3.Cross(_edge2, _edge1);
+            Normal = crossProduct.Normalized();
         }
 
         // ReSharper disable once InconsistentNaming

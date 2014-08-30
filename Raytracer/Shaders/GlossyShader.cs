@@ -1,6 +1,4 @@
-﻿using Raytracer.Samplers;
-
-namespace Raytracer.Shaders
+﻿namespace Raytracer.Shaders
 {
     internal class GlossyShader : Shader
     {

@@ -2,7 +2,7 @@
 
 namespace Raytracer.Samplers
 {
-    class SolidColorSampler : ISampler
+    internal class SolidColorSampler : ISampler
     {
         private readonly Vector3 _color;
 

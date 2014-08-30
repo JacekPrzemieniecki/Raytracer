@@ -15,13 +15,14 @@ namespace Raytracer.SampleShapes
         /// <param name="segments">Number of segments per ring</param>
         /// <param name="shader">Shader to use for the mesh</param>
         /// <param name="normalSampler">Normal sampler to use for the mesh</param>
-        public static Mesh Create(Vector3 position, double radius, int rings, int segments, Shader shader, ISampler normalSampler)
+        public static Mesh Create(Vector3 position, double radius, int rings, int segments, Shader shader,
+            ISampler normalSampler)
         {
-            var vertices = BuildVertices(radius, segments, rings);
-            var triangles = BuildTriangles(segments, rings);
+            Vector3[] vertices = BuildVertices(radius, segments, rings);
+            Triangle[] triangles = BuildTriangles(segments, rings);
 
-            return  new Mesh(vertices, triangles, position, shader, normalSampler);
-        } 
+            return new Mesh(vertices, triangles, position, shader, normalSampler);
+        }
 
         private static Vector3[] BuildVertices(double radius, int segments, int rings)
         {
@@ -29,8 +30,8 @@ namespace Raytracer.SampleShapes
             var vertices = new Vector3[vertexCount];
             int lastVertex = vertexCount - 1;
 
-            vertices[0] = new Vector3(0, (float)radius, 0);
-            vertices[lastVertex] = new Vector3(0, (float)-radius, 0);
+            vertices[0] = new Vector3(0, (float) radius, 0);
+            vertices[lastVertex] = new Vector3(0, (float) -radius, 0);
             double verticalAngleStep = Math.PI / (rings + 1);
             double horizontalAngleStep = 2 * Math.PI / segments;
             const double piHalf = Math.PI / 2;
@@ -45,7 +46,7 @@ namespace Raytracer.SampleShapes
                     double x = radius * Math.Sin(horizontalAngle) * cosVerticalAngle;
                     double z = radius * Math.Cos(horizontalAngle) * cosVerticalAngle;
                     int vertIndex = (ring - 1) * segments + vertex + 1;
-                    vertices[vertIndex] = new Vector3((float)x, (float)y, (float)z);
+                    vertices[vertIndex] = new Vector3((float) x, (float) y, (float) z);
                 }
             }
             return vertices;

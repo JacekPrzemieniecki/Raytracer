@@ -1,27 +1,28 @@
 ﻿#if DEBUG
 using System.Threading;
 using Raytracer.Debugging;
+
 #endif
 
 namespace Raytracer
 {
-    class Box
+    internal class Box
     {
-        public float MaxX;
-        public float MaxY;
-        public float MaxZ;
-        public float MinX;
-        public float MinY;
-        public float MinZ;
+        private readonly float _maxX;
+        private readonly float _maxY;
+        private readonly float _maxZ;
+        private readonly float _minX;
+        private readonly float _minY;
+        private readonly float _minZ;
 
         public Box(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
         {
-            MinX = minX;
-            MaxX = maxX;
-            MinY = minY;
-            MaxY = maxY;
-            MinZ = minZ;
-            MaxZ = maxZ;
+            _minX = minX;
+            _maxX = maxX;
+            _minY = minY;
+            _maxY = maxY;
+            _minZ = minZ;
+            _maxZ = maxZ;
         }
 
         public bool Raycast(Ray ray, float maxDistance)
@@ -34,13 +35,13 @@ namespace Raytracer
             float rayDirectionXInverse = 1 / ray.Direction.x;
             if (rayDirectionXInverse >= 0)
             {
-                tMin = (MinX - ray.Origin.x) * rayDirectionXInverse;
-                tMax = (MaxX - ray.Origin.x) * rayDirectionXInverse;
+                tMin = (_minX - ray.Origin.x) * rayDirectionXInverse;
+                tMax = (_maxX - ray.Origin.x) * rayDirectionXInverse;
             }
             else
             {
-                tMax = (MinX - ray.Origin.x) * rayDirectionXInverse;
-                tMin = (MaxX - ray.Origin.x) * rayDirectionXInverse;
+                tMax = (_minX - ray.Origin.x) * rayDirectionXInverse;
+                tMin = (_maxX - ray.Origin.x) * rayDirectionXInverse;
             }
 
             float tyMin;
@@ -48,13 +49,13 @@ namespace Raytracer
             float rayDirectionYInverse = 1 / ray.Direction.y;
             if (rayDirectionYInverse >= 0)
             {
-                tyMin = (MinY - ray.Origin.y) * rayDirectionYInverse;
-                tyMax = (MaxY - ray.Origin.y) * rayDirectionYInverse;
+                tyMin = (_minY - ray.Origin.y) * rayDirectionYInverse;
+                tyMax = (_maxY - ray.Origin.y) * rayDirectionYInverse;
             }
             else
             {
-                tyMax = (MinY - ray.Origin.y) * rayDirectionYInverse;
-                tyMin = (MaxY - ray.Origin.y) * rayDirectionYInverse;
+                tyMax = (_minY - ray.Origin.y) * rayDirectionYInverse;
+                tyMin = (_maxY - ray.Origin.y) * rayDirectionYInverse;
             }
 
             if ((tMin > tyMax) || (tyMin > tMax))
@@ -76,13 +77,13 @@ namespace Raytracer
             float rayDirectionZInverse = 1 / ray.Direction.z;
             if (rayDirectionZInverse >= 0)
             {
-                tzMin = (MinZ - ray.Origin.z) * rayDirectionZInverse;
-                tzMax = (MaxZ - ray.Origin.z) * rayDirectionZInverse;
+                tzMin = (_minZ - ray.Origin.z) * rayDirectionZInverse;
+                tzMax = (_maxZ - ray.Origin.z) * rayDirectionZInverse;
             }
             else
             {
-                tzMax = (MinZ - ray.Origin.z) * rayDirectionZInverse;
-                tzMin = (MaxZ - ray.Origin.z) * rayDirectionZInverse;
+                tzMax = (_minZ - ray.Origin.z) * rayDirectionZInverse;
+                tzMin = (_maxZ - ray.Origin.z) * rayDirectionZInverse;
             }
 
             if (tMin > tzMax || tzMin > tMax)

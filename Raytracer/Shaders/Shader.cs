@@ -1,8 +1,6 @@
-﻿using Raytracer.Samplers;
-
-namespace Raytracer.Shaders
+﻿namespace Raytracer.Shaders
 {
-    abstract class Shader
+    internal abstract class Shader
     {
         public abstract Vector3 Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts);
 

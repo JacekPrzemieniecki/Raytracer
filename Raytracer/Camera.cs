@@ -2,7 +2,7 @@
 
 namespace Raytracer
 {
-    class Camera
+    internal class Camera
     {
         private readonly Vector3 _position;
         private readonly Quaternion _rotation;
@@ -20,10 +20,7 @@ namespace Raytracer
 
         private float FoV
         {
-            set
-            {
-                _tanHalfFoV = (float) Math.Tan(value / 2);
-            }
+            set { _tanHalfFoV = (float) Math.Tan(value / 2); }
         }
 
         public Ray ViewportPointToRay(float posX, float posY)
@@ -31,7 +28,7 @@ namespace Raytracer
             float dirY = posY * _tanHalfFoV;
             float dirX = posX * _tanHalfFoV * AspectRatio;
             var rayDirection = new Vector3(dirX, dirY, 1.0f);
-            var rotatedDirection = rayDirection.RotatedBy(_rotation);
+            Vector3 rotatedDirection = rayDirection.RotatedBy(_rotation);
             return new Ray(_position, rotatedDirection);
         }
     }
