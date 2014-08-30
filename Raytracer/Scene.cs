@@ -47,21 +47,21 @@ namespace Raytracer
             Shader glossyFlat = new GlossyShader(new FlatNormalSampler());
             Shader mirror = new MixShader(diffuseSilver, glossyFlat, 0.6f);
             Shader cubeShader = new MixShader(diffuseWhite, glossyFlat, 0.6f);
-            Shader sphereShader = new MixShader(diffuseRedSmooth, glossySmooth, 0.9f);
+            //Shader sphereShader = new MixShader(diffuseRedSmooth, glossySmooth, 0.9f);
             Shader smallSphereShader = new MixShader(diffuseGreenSmooth, glossySmooth, 0.4f);
             //Shader testShader = new TestShader(new FlatNormalSampler());
             //Shader position = new PositionShader();
             //Shader reflected = new ReflectedVectorShader(new FlatNormalSampler());
 
-            Mesh sphere = new TriangleSphere(new Vector3(3, 2, -6), 2.0, 32, 40, diffuseRedSmooth);
-            Mesh smallSphere = new TriangleSphere(new Vector3(-1, 1, -4), 1, 26, 20, smallSphereShader);
-            Mesh cube = new Cube(new Vector3(-3, 1.5f, -8), 3, cubeShader);
-            Mesh backWall = new Plane(new Vector3(0, 0, -10), Vector3.Right, Vector3.Down, 100, diffuseSilver);
-            Mesh frontWall = new Plane(new Vector3(0, 0, 6), Vector3.Right, Vector3.Up, 100, diffuseSilver);
-            Mesh floor = new Plane(new Vector3(0, 0, 0), Vector3.Right, Vector3.Forward, 100, diffuseSilver);
-            Mesh ceiling = new Plane(new Vector3(0, 10, 0), Vector3.Left, Vector3.Forward, 100, diffuseSilver);
-            Mesh leftWall = new Plane(new Vector3(-5, 0, 0), Vector3.Forward, Vector3.Up, 100, mirror);
-            Mesh rightWall = new Plane(new Vector3(5, 0, 0), Vector3.Back, Vector3.Up, 100, mirror);
+            Mesh sphere = TriangleSphere.Create(new Vector3(3, 2, -6), 2.0, 32, 40, diffuseRedSmooth);
+            Mesh smallSphere = TriangleSphere.Create(new Vector3(-1, 1, -4), 1, 26, 20, smallSphereShader);
+            Mesh cube = Cube.Create(new Vector3(-3, 1.5f, -8), 3, cubeShader);
+            Mesh backWall = Plane.Create(new Vector3(0, 0, -10), Vector3.Down, Vector3.Right, 100, diffuseSilver);
+            Mesh frontWall = Plane.Create(new Vector3(0, 0, 6), Vector3.Up, Vector3.Right, 100, diffuseSilver);
+            Mesh floor = Plane.Create(new Vector3(0, 0, 0), Vector3.Forward, Vector3.Right, 100, diffuseSilver);
+            Mesh ceiling = Plane.Create(new Vector3(0, 10, 0), Vector3.Forward, Vector3.Left, 100, diffuseSilver);
+            Mesh leftWall = Plane.Create(new Vector3(-5, 0, 0), Vector3.Forward, Vector3.Down, 100, mirror);
+            Mesh rightWall = Plane.Create(new Vector3(5, 0, 0), Vector3.Forward, Vector3.Up, 100, mirror);
 
             _meshes = new List<Mesh>
             {

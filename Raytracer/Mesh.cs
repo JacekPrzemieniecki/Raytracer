@@ -8,16 +8,16 @@ namespace Raytracer
 {
     class Mesh
     {
-        protected Triangle[] Triangles;
+        private readonly Triangle[] _triangles;
         public Vector3[] VertexNormals;
-        public Vector3[] Vertices;
-        public Vector2[] UVs;
+        public readonly Vector3[] Vertices;
+        public readonly Vector2[] UVs;
         private Octree _octree;
 
         public Mesh(Vector3[] vertices, Triangle[] triangles, Vector3 position, Shader shader)
         {
             Vertices = vertices;
-            Triangles = triangles;
+            _triangles = triangles;
             Shader = shader;
             Position = position;
             Init();
@@ -26,19 +26,15 @@ namespace Raytracer
         public Mesh(Vector3[] vertices, Triangle[] triangles, Vector2[] uvVertices, Vector3 position, Shader shader)
         {
             Vertices = vertices;
-            Triangles = triangles;
+            _triangles = triangles;
             Shader = shader;
             Position = position;
             UVs = uvVertices;
             Init();
         }
 
-        protected Mesh()
-        {
-        }
-
-        protected Shader Shader { private get; set; }
-        public Vector3 Position { get; protected set; }
+        private Shader Shader { get; set; }
+        public Vector3 Position { get; private set; }
 
         /// <summary>
         ///     Casts a ray against mesh
@@ -61,16 +57,16 @@ namespace Raytracer
             return Shader.Shade(scene, raycastHit, maxRecursiveRaycasts);
         }
 
-        protected void Init()
+        private void Init()
         {
             BindTriangles();
             CalculateVertexNormals();
-            _octree = new Octree(Triangles, this);
+            _octree = new Octree(_triangles, this);
         }
 
         private void BindTriangles()
         {
-            foreach (var triangle in Triangles)
+            foreach (var triangle in _triangles)
             {
                 triangle.Init(this);
             }
@@ -84,7 +80,7 @@ namespace Raytracer
                 VertexNormals[i] = Vector3.Zero;
             }
 
-            foreach (Triangle triangle in Triangles)
+            foreach (Triangle triangle in _triangles)
             {
                 VertexNormals[triangle.V1Index] += triangle.Normal;
                 VertexNormals[triangle.V2Index] += triangle.Normal;

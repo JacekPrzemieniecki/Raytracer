@@ -1,17 +1,14 @@
-﻿using System.Drawing;
+﻿using System.Dynamic;
 using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
 {
-    internal class Cube : Mesh
+    internal static class Cube
     {
-        private Color _color = Color.White;
-        public Cube(Vector3 position, float edge, Shader shader)
+        public static Mesh Create(Vector3 position, float edge, Shader shader)
         {
-            Position = position;
-            Shader = shader;
             float h = edge / 2;
-            Vertices = new[]
+            var vertices = new[]
             {
                 new Vector3(-h, h, -h),
                 new Vector3(h, h, -h),
@@ -22,7 +19,7 @@ namespace Raytracer.SampleShapes
                 new Vector3(h, -h, h),
                 new Vector3(-h, -h, h)
             };
-            Triangles = new[]
+            var triangles = new[]
             {
                 new Triangle(0, 1, 2),
                 new Triangle(2, 3, 0),
@@ -37,7 +34,8 @@ namespace Raytracer.SampleShapes
                 new Triangle(4, 6, 5),
                 new Triangle(4, 7, 6)
             };
-            Init();
+
+            return new Mesh(vertices, triangles, position, shader);
         }
     }
 }
