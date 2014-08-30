@@ -2,7 +2,7 @@
 
 namespace Raytracer.Samplers
 {
-    class SolidColorSampler : TextureSampler
+    class SolidColorSampler : ISampler
     {
         private readonly Vector3 _color;
 
@@ -11,7 +11,7 @@ namespace Raytracer.Samplers
             _color = Vector3.FromColor(color);
         }
 
-        public override Vector3 Sample(RaycastHit hitInfo)
+        public Vector3 Sample(RaycastHit hitInfo)
         {
             return _color;
         }

@@ -1,8 +1,8 @@
 ﻿namespace Raytracer.Samplers
 {
-    class FlatNormalSampler : TextureSampler
+    class FlatNormalSampler : ISampler
     {
-        public override Vector3 Sample(RaycastHit hitInfo)
+        public Vector3 Sample(RaycastHit hitInfo)
         {
             return hitInfo.Triangle.Normal;
         }

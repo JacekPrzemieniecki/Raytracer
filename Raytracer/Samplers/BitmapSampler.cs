@@ -2,7 +2,7 @@
 
 namespace Raytracer.Samplers
 {
-    class BitmapSampler : TextureSampler
+    class BitmapSampler : ISampler
     {
         private readonly Bitmap _bmp;
 
@@ -11,7 +11,7 @@ namespace Raytracer.Samplers
             _bmp = bmp;
         }
 
-        public override Vector3 Sample(RaycastHit hitInfo)
+        public Vector3 Sample(RaycastHit hitInfo)
         {
             Vector2 position = hitInfo.Triangle.UVCoordinates(hitInfo.U, hitInfo.V);
             Color color = _bmp.GetPixel((int) (position.x * _bmp.Width + 0.5), (int) (position.y * _bmp.Height + 0.5));

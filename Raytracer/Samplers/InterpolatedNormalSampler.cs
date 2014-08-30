@@ -2,7 +2,7 @@
 
 namespace Raytracer.Samplers
 {
-    class InterpolatedNormalSampler : TextureSampler
+    class InterpolatedNormalSampler : ISampler
     {
         private float _twoRoughness;
         private bool _isRough;
@@ -20,7 +20,7 @@ namespace Raytracer.Samplers
             _rng = new Random();
         }
 
-        public override Vector3 Sample(RaycastHit hitInfo)
+        public Vector3 Sample(RaycastHit hitInfo)
         {
             Vector3 normal = hitInfo.Triangle.SurfaceNormal(hitInfo.U, hitInfo.V);
             if (!_isRough) return normal;
