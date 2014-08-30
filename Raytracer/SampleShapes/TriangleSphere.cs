@@ -76,19 +76,24 @@ namespace Raytracer.SampleShapes
             int triangleIndex = segments;
             for (int ring = 0; ring < rings - 1; ring++)
             {
-                int ringStart = ring * segments + 1;
-                for (int vertex = 0; vertex < segments; vertex++)
-                {
-                    int v1 = ringStart + vertex;
-                    int v2 = ringStart + (vertex + 1) % segments;
-                    int v3 = v1 + segments;
-                    int v4 = v2 + segments;
-                    triangles[triangleIndex] = new Triangle(v1, v2, v3);
-                    triangles[triangleIndex + 1] = new Triangle(v3, v2, v4);
-                    triangleIndex += 2;
-                }
+                BuildRing(segments, ring, triangles, triangleIndex);
             }
             return triangles;
+        }
+
+        private static void BuildRing(int segments, int ring, Triangle[] triangles, int triangleIndex)
+        {
+            int ringStart = ring * segments + 1;
+            for (int vertex = 0; vertex < segments; vertex++)
+            {
+                int v1 = ringStart + vertex;
+                int v2 = ringStart + (vertex + 1) % segments;
+                int v3 = v1 + segments;
+                int v4 = v2 + segments;
+                triangles[triangleIndex] = new Triangle(v1, v2, v3);
+                triangles[triangleIndex + 1] = new Triangle(v3, v2, v4);
+                triangleIndex += 2;
+            }
         }
     }
 }
