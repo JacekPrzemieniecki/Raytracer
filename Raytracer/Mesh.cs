@@ -1,4 +1,5 @@
-﻿#if DEBUG
+﻿using Raytracer.Samplers;
+#if DEBUG
 using System.Threading;
 using Raytracer.Debugging;
 #endif
@@ -13,22 +14,25 @@ namespace Raytracer
         public readonly Vector3[] Vertices;
         public readonly Vector2[] UVs;
         private Octree _octree;
+        private ISampler _normalSampler;
 
-        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector3 position, Shader shader)
+        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector3 position, Shader shader, ISampler normalSampler)
         {
             Vertices = vertices;
             _triangles = triangles;
             Shader = shader;
             Position = position;
+            _normalSampler = normalSampler;
             Init();
         }
 
-        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector2[] uvVertices, Vector3 position, Shader shader)
+        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector2[] uvVertices, Vector3 position, Shader shader, ISampler normalSampler)
         {
             Vertices = vertices;
             _triangles = triangles;
             Shader = shader;
             Position = position;
+            _normalSampler = normalSampler;
             UVs = uvVertices;
             Init();
         }
@@ -54,7 +58,8 @@ namespace Raytracer
             bool hitFound = _octree.Raycast(localRay, ref hit, ref closestTriangle);
             if (hitFound)
             {
-                hitInfo = new RaycastHit(hit, closestTriangle, this, ray);
+                Vector3 normal = _normalSampler.Sample(closestTriangle, hit.U, hit.V);
+                hitInfo = new RaycastHit(hit, closestTriangle, this, ray, normal);
             }
             return hitFound;
         }

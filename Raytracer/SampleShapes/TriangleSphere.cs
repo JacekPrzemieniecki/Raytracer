@@ -1,4 +1,5 @@
 ﻿using System;
+using Raytracer.Samplers;
 using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
@@ -13,12 +14,13 @@ namespace Raytracer.SampleShapes
         /// <param name="rings">Nummber of horizontal vertex rings approximating the sphere. Poles not included</param>
         /// <param name="segments">Number of segments per ring</param>
         /// <param name="shader">Shader to use for the mesh</param>
-        public static Mesh Create(Vector3 position, double radius, int rings, int segments, Shader shader)
+        /// <param name="normalSampler">Normal sampler to use for the mesh</param>
+        public static Mesh Create(Vector3 position, double radius, int rings, int segments, Shader shader, ISampler normalSampler)
         {
             var vertices = BuildVertices(radius, segments, rings);
             var triangles = BuildTriangles(segments, rings);
 
-            return  new Mesh(vertices, triangles, position, shader);
+            return  new Mesh(vertices, triangles, position, shader, normalSampler);
         } 
 
         private static Vector3[] BuildVertices(double radius, int segments, int rings)

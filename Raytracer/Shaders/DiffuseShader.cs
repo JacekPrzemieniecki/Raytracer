@@ -8,24 +8,21 @@ namespace Raytracer.Shaders
     internal class DiffuseShader : Shader
     {
         private ISampler _textureSampler;
-        private ISampler _normalSampler;
 
-        public DiffuseShader(ISampler textureSampler, ISampler normalSampler)
+        public DiffuseShader(ISampler textureSampler)
         {
             _textureSampler = textureSampler;
-            _normalSampler = normalSampler;
         }
 
         public override Vector3 Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts)
         {
             float totalIntensity = 0;
-            Vector3 normal = _normalSampler.Sample(hitInfo);
             foreach (LightSource lightSource in scene.LightSources)
             {
                 Color c;
-                totalIntensity += lightSource.IntensityAt(hitInfo.Position, normal, scene, out c);
+                totalIntensity += lightSource.IntensityAt(hitInfo.Position, hitInfo.Normal, scene, out c);
             }
-            Vector3 diffuse = _textureSampler.Sample(hitInfo);
+            Vector3 diffuse = _textureSampler.Sample(hitInfo.Triangle, hitInfo.U, hitInfo.V);
             return diffuse * totalIntensity;
         }
     }

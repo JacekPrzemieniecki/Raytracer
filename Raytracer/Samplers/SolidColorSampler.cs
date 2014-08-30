@@ -11,7 +11,7 @@ namespace Raytracer.Samplers
             _color = Vector3.FromColor(color);
         }
 
-        public Vector3 Sample(RaycastHit hitInfo)
+        public Vector3 Sample(Triangle triangle, float u, float v)
         {
             return _color;
         }

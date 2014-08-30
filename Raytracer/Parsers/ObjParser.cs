@@ -184,12 +184,12 @@ namespace Raytracer.Parsers
             if (_uvMapped)
             {
                 newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), _uvs.ToArray(), Vector3.Zero,
-                        new DiffuseShader(new BitmapSampler(_materials[_currentMaterialName]), normalSampler));
+                        new DiffuseShader(new BitmapSampler(_materials[_currentMaterialName])), normalSampler);
             }
             else
             {
                 newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), Vector3.Zero,
-                        new DiffuseShader(new SolidColorSampler(Color.Red), normalSampler));
+                        new DiffuseShader(new SolidColorSampler(Color.Red)), normalSampler);
             }
             Meshes.Add(newMesh);
             InitBuffers();

@@ -1,11 +1,12 @@
 ﻿using System.Dynamic;
+using Raytracer.Samplers;
 using Raytracer.Shaders;
 
 namespace Raytracer.SampleShapes
 {
     internal static class Cube
     {
-        public static Mesh Create(Vector3 position, float edge, Shader shader)
+        public static Mesh Create(Vector3 position, float edge, Shader shader, ISampler normalSampler)
         {
             float h = edge / 2;
             var vertices = new[]
@@ -35,7 +36,7 @@ namespace Raytracer.SampleShapes
                 new Triangle(4, 7, 6)
             };
 
-            return new Mesh(vertices, triangles, position, shader);
+            return new Mesh(vertices, triangles, position, shader, normalSampler);
         }
     }
 }

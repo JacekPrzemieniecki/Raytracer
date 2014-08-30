@@ -2,9 +2,9 @@
 {
     class FlatNormalSampler : ISampler
     {
-        public Vector3 Sample(RaycastHit hitInfo)
+        public Vector3 Sample(Triangle triangle, float u, float v)
         {
-            return hitInfo.Triangle.Normal;
+            return triangle.Normal;
         }
     }
 }

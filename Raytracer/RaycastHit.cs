@@ -5,6 +5,7 @@
         public readonly Mesh Mesh;
         public readonly Ray Ray;
         public readonly Triangle Triangle;
+        public readonly Vector3 Normal;
 
         public float Distance
         {
@@ -38,7 +39,7 @@
             }
         }
 
-        public RaycastHit(RayTriangleHit rayTriangleHit, Triangle triangle, Mesh mesh, Ray ray)
+        public RaycastHit(RayTriangleHit rayTriangleHit, Triangle triangle, Mesh mesh, Ray ray, Vector3 normal)
         {
             _rayTriangleHit = rayTriangleHit;
             Triangle = triangle;
@@ -46,7 +47,7 @@
             Ray = ray;
             _position = null;
             _positionCalculated = false;
-
+            Normal = normal;
         }
     }
 }

@@ -38,13 +38,14 @@ namespace Raytracer
             var cameraPosition = new Vector3(0, 8, 5);
             _camera = new Camera(cameraPosition, Quaternion.LookRotation(new Vector3(0, -0.8f, -1), Vector3.Up), 8.0f / 6.0f, (float)Math.PI * 60f / 180f);
 
-            //Shader normal = new NormalShader();
-            Shader diffuseRedSmooth = new DiffuseShader(new SolidColorSampler(Color.Red), new InterpolatedNormalSampler());
-            Shader diffuseSilver = new DiffuseShader(new SolidColorSampler(Color.Silver), new FlatNormalSampler());
-            Shader diffuseWhite = new DiffuseShader(new SolidColorSampler(Color.White), new FlatNormalSampler());
-            Shader diffuseGreenSmooth = new DiffuseShader(new SolidColorSampler(Color.Green), new InterpolatedNormalSampler());
-            Shader glossySmooth = new GlossyShader(new InterpolatedNormalSampler());
-            Shader glossyFlat = new GlossyShader(new FlatNormalSampler());
+            ISampler smooth = new InterpolatedNormalSampler();
+            ISampler flat = new FlatNormalSampler();
+            Shader diffuseRedSmooth = new DiffuseShader(new SolidColorSampler(Color.Red));
+            Shader diffuseSilver = new DiffuseShader(new SolidColorSampler(Color.Silver));
+            Shader diffuseWhite = new DiffuseShader(new SolidColorSampler(Color.White));
+            Shader diffuseGreenSmooth = new DiffuseShader(new SolidColorSampler(Color.Green));
+            Shader glossySmooth = new GlossyShader();
+            Shader glossyFlat = new GlossyShader();
             Shader mirror = new MixShader(diffuseSilver, glossyFlat, 0.6f);
             Shader cubeShader = new MixShader(diffuseWhite, glossyFlat, 0.6f);
             //Shader sphereShader = new MixShader(diffuseRedSmooth, glossySmooth, 0.9f);
@@ -53,15 +54,15 @@ namespace Raytracer
             //Shader position = new PositionShader();
             //Shader reflected = new ReflectedVectorShader(new FlatNormalSampler());
 
-            Mesh sphere = TriangleSphere.Create(new Vector3(3, 2, -6), 2.0, 32, 40, diffuseRedSmooth);
-            Mesh smallSphere = TriangleSphere.Create(new Vector3(-1, 1, -4), 1, 26, 20, smallSphereShader);
-            Mesh cube = Cube.Create(new Vector3(-3, 1.5f, -8), 3, cubeShader);
-            Mesh backWall = Plane.Create(new Vector3(0, 0, -10), Vector3.Down, Vector3.Right, 100, diffuseSilver);
-            Mesh frontWall = Plane.Create(new Vector3(0, 0, 6), Vector3.Up, Vector3.Right, 100, diffuseSilver);
-            Mesh floor = Plane.Create(new Vector3(0, 0, 0), Vector3.Forward, Vector3.Right, 100, diffuseSilver);
-            Mesh ceiling = Plane.Create(new Vector3(0, 10, 0), Vector3.Forward, Vector3.Left, 100, diffuseSilver);
-            Mesh leftWall = Plane.Create(new Vector3(-5, 0, 0), Vector3.Forward, Vector3.Down, 100, mirror);
-            Mesh rightWall = Plane.Create(new Vector3(5, 0, 0), Vector3.Forward, Vector3.Up, 100, mirror);
+            Mesh sphere = TriangleSphere.Create(new Vector3(3, 2, -6), 2.0, 32, 40, diffuseRedSmooth, smooth);
+            Mesh smallSphere = TriangleSphere.Create(new Vector3(-1, 1, -4), 1, 26, 20, smallSphereShader, smooth);
+            Mesh cube = Cube.Create(new Vector3(-3, 1.5f, -8), 3, cubeShader, flat);
+            Mesh backWall = Plane.Create(new Vector3(0, 0, -10), Vector3.Down, Vector3.Right, 100, diffuseSilver, flat);
+            Mesh frontWall = Plane.Create(new Vector3(0, 0, 6), Vector3.Up, Vector3.Right, 100, diffuseSilver, flat);
+            Mesh floor = Plane.Create(new Vector3(0, 0, 0), Vector3.Forward, Vector3.Right, 100, diffuseSilver, flat);
+            Mesh ceiling = Plane.Create(new Vector3(0, 10, 0), Vector3.Forward, Vector3.Left, 100, diffuseSilver, flat);
+            Mesh leftWall = Plane.Create(new Vector3(-5, 0, 0), Vector3.Forward, Vector3.Down, 100, mirror, flat);
+            Mesh rightWall = Plane.Create(new Vector3(5, 0, 0), Vector3.Forward, Vector3.Up, 100, mirror, flat);
 
             _meshes = new List<Mesh>
             {

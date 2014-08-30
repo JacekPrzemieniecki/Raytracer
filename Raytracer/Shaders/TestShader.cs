@@ -12,7 +12,7 @@ namespace Raytracer.Shaders
 
         public override Vector3 Shade(Scene scene, RaycastHit hitInfo, int maxRecursiveRaycasts)
         {
-            return _sampler.Sample(hitInfo) * 0.5f + new Vector3(0.5f, 0.5f, 0.5f);
+            return _sampler.Sample(hitInfo.Triangle, hitInfo.U, hitInfo.V) * 0.5f + new Vector3(0.5f, 0.5f, 0.5f);
         }
     }
 }
