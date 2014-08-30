@@ -10,18 +10,19 @@ namespace Raytracer.SampleShapes
         ///     Creates triangle approximation of a sphere
         /// </summary>
         /// <param name="position">Center of the sphere</param>
+        /// <param name="rotation">Spheres rotation</param>
         /// <param name="radius">Radius of the sphere</param>
         /// <param name="rings">Nummber of horizontal vertex rings approximating the sphere. Poles not included</param>
         /// <param name="segments">Number of segments per ring</param>
         /// <param name="shader">Shader to use for the mesh</param>
         /// <param name="normalSampler">Normal sampler to use for the mesh</param>
-        public static Mesh Create(Vector3 position, double radius, int rings, int segments, Shader shader,
+        public static Mesh Create(Vector3 position, Quaternion rotation, double radius, int rings, int segments, Shader shader,
             ISampler normalSampler)
         {
             Vector3[] vertices = BuildVertices(radius, segments, rings);
             Triangle[] triangles = BuildTriangles(segments, rings);
 
-            return new Mesh(vertices, triangles, position, shader, normalSampler);
+            return new Mesh(vertices, triangles, position, rotation, shader, normalSampler);
         }
 
         private static Vector3[] BuildVertices(double radius, int segments, int rings)
@@ -77,6 +78,7 @@ namespace Raytracer.SampleShapes
             for (int ring = 0; ring < rings - 1; ring++)
             {
                 BuildRing(segments, ring, triangles, triangleIndex);
+                triangleIndex += segments * 2;
             }
             return triangles;
         }

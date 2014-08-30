@@ -187,12 +187,12 @@ namespace Raytracer.Parsers
 
             if (_uvMapped)
             {
-                newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), _uvs.ToArray(), Vector3.Zero,
+                newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), _uvs.ToArray(), Vector3.Zero, Quaternion.Identity,
                     new DiffuseShader(new BitmapSampler(_materials[_currentMaterialName])), normalSampler);
             }
             else
             {
-                newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), Vector3.Zero,
+                newMesh = new Mesh(_vertices.ToArray(), _triangles.ToArray(), Vector3.Zero, Quaternion.Identity,
                     new DiffuseShader(new SolidColorSampler(Color.Red)), normalSampler);
             }
             Meshes.Add(newMesh);

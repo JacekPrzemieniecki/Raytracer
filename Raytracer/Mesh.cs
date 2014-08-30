@@ -16,23 +16,25 @@ namespace Raytracer
         public Vector3[] VertexNormals;
         private Octree _octree;
 
-        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector3 position, Shader shader, ISampler normalSampler)
+        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector3 position, Quaternion rotation, Shader shader, ISampler normalSampler)
         {
             Vertices = vertices;
             _triangles = triangles;
             Shader = shader;
             Position = position;
+            Rotation = rotation;
             _normalSampler = normalSampler;
             Init();
         }
 
-        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector2[] uvVertices, Vector3 position, Shader shader,
+        public Mesh(Vector3[] vertices, Triangle[] triangles, Vector2[] uvVertices, Vector3 position, Quaternion rotation, Shader shader,
             ISampler normalSampler)
         {
             Vertices = vertices;
             _triangles = triangles;
             Shader = shader;
             Position = position;
+            Rotation = rotation;
             _normalSampler = normalSampler;
             UVs = uvVertices;
             Init();
@@ -40,6 +42,21 @@ namespace Raytracer
 
         private Shader Shader { get; set; }
         public Vector3 Position { get; private set; }
+        private Quaternion _rotation;
+        private Quaternion _invRotation;
+
+        public Quaternion Rotation
+        {
+            get
+            {
+                return _rotation;
+            }
+            private set
+            {
+                _rotation = value;
+                _invRotation = value.Inverse();
+            }
+        }
 
         /// <summary>
         ///     Casts a ray against mesh
@@ -53,16 +70,16 @@ namespace Raytracer
 #if DEBUG
             Interlocked.Increment(ref Counters.RaysCast);
 #endif
-            var localRay = new Ray(ray.Origin - Position, ray.Direction);
+            var localRayDirection = ray.Direction.RotatedBy(_invRotation);
+            var localRayOrigin = (ray.Origin - Position).RotatedBy(_invRotation);
+            var localRay = new Ray(localRayOrigin, localRayDirection);
             var hit = new RayTriangleHit {Distance = maxDistance};
             Triangle closestTriangle = null;
             bool hitFound = _octree.Raycast(localRay, ref hit, ref closestTriangle);
-            if (hitFound)
-            {
-                Vector3 normal = _normalSampler.Sample(closestTriangle, hit.U, hit.V);
-                hitInfo = new RaycastHit(hit, closestTriangle, this, ray, normal);
-            }
-            return hitFound;
+            if (!hitFound) return false;
+            Vector3 normal = _normalSampler.Sample(closestTriangle, hit.U, hit.V).RotatedBy(_rotation);
+            hitInfo = new RaycastHit(hit, closestTriangle, this, ray, normal);
+            return true;
         }
 
         public Vector3 SampleColor(Scene scene, RaycastHit raycastHit, int maxRecursiveRaycasts)

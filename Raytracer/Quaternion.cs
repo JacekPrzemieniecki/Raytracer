@@ -61,6 +61,11 @@ namespace Raytracer
             return new Quaternion(X / length, Y / length, Z / length, W / length);
         }
 
+        public Quaternion Inverse()
+        {
+            return new Quaternion(XYZ.Inverse(), W);
+        }
+
         public static Quaternion operator *(Quaternion lhs, Quaternion rhs)
         {
             return new Quaternion(

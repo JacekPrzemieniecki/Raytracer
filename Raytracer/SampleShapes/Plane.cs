@@ -5,7 +5,7 @@ namespace Raytracer.SampleShapes
 {
     internal static class Plane
     {
-        public static Mesh Create(Vector3 position, Vector3 forward, Vector3 right, float edge, Shader shader,
+        public static Mesh Create(Vector3 position, Quaternion rotation, Vector3 forward, Vector3 right, float edge, Shader shader,
             ISampler normalSampler)
         {
             float halfEdge = edge / 2;
@@ -22,7 +22,7 @@ namespace Raytracer.SampleShapes
                 new Triangle(1, 3, 2)
             };
 
-            return new Mesh(vertices, triangles, position, shader, normalSampler);
+            return new Mesh(vertices, triangles, position, rotation, shader, normalSampler);
         }
     }
 }

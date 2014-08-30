@@ -5,7 +5,7 @@ namespace Raytracer.SampleShapes
 {
     internal static class Cube
     {
-        public static Mesh Create(Vector3 position, float edge, Shader shader, ISampler normalSampler)
+        public static Mesh Create(Vector3 position, Quaternion rotation, float edge, Shader shader, ISampler normalSampler)
         {
             float h = edge / 2;
             var vertices = new[]
@@ -35,7 +35,7 @@ namespace Raytracer.SampleShapes
                 new Triangle(4, 7, 6)
             };
 
-            return new Mesh(vertices, triangles, position, shader, normalSampler);
+            return new Mesh(vertices, triangles, position, rotation, shader, normalSampler);
         }
     }
 }

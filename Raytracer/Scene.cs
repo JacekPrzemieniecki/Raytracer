@@ -54,16 +54,25 @@ namespace Raytracer
             //Shader testShader = new TestShader(new FlatNormalSampler());
             //Shader position = new PositionShader();
             //Shader reflected = new ReflectedVectorShader(new FlatNormalSampler());
-
-            Mesh sphere = TriangleSphere.Create(new Vector3(3, 2, -6), 2.0, 32, 40, diffuseRedSmooth, smooth);
-            Mesh smallSphere = TriangleSphere.Create(new Vector3(-1, 1, -4), 1, 26, 20, smallSphereShader, smooth);
-            Mesh cube = Cube.Create(new Vector3(-3, 1.5f, -8), 3, cubeShader, flat);
-            Mesh backWall = Plane.Create(new Vector3(0, 0, -10), Vector3.Down, Vector3.Right, 100, diffuseSilver, flat);
-            Mesh frontWall = Plane.Create(new Vector3(0, 0, 6), Vector3.Up, Vector3.Right, 100, diffuseSilver, flat);
-            Mesh floor = Plane.Create(new Vector3(0, 0, 0), Vector3.Forward, Vector3.Right, 100, diffuseSilver, flat);
-            Mesh ceiling = Plane.Create(new Vector3(0, 10, 0), Vector3.Forward, Vector3.Left, 100, diffuseSilver, flat);
-            Mesh leftWall = Plane.Create(new Vector3(-5, 0, 0), Vector3.Forward, Vector3.Down, 100, mirror, flat);
-            Mesh rightWall = Plane.Create(new Vector3(5, 0, 0), Vector3.Forward, Vector3.Up, 100, mirror, flat);
+            
+            Mesh sphere = TriangleSphere.Create(
+                new Vector3(3, 2, -6), Quaternion.Identity, 2.0, 32, 40, diffuseRedSmooth, smooth);
+            Mesh smallSphere = TriangleSphere.Create(
+                new Vector3(-1, 1, -4), Quaternion.Identity, 1, 26, 20, smallSphereShader, smooth);
+            Mesh cube = Cube.Create(
+                new Vector3(-3, 1.5f, -8), new Quaternion(0, 1, 0, 0.33f).Normalized(), 3, cubeShader, flat);
+            Mesh backWall = Plane.Create(
+                new Vector3(0, 0, -10), Quaternion.Identity, Vector3.Down, Vector3.Right, 100, diffuseSilver, flat);
+            Mesh frontWall = Plane.Create(
+                new Vector3(0, 0, 6), Quaternion.Identity, Vector3.Up, Vector3.Right, 100, diffuseSilver, flat);
+            Mesh floor = Plane.Create(
+                new Vector3(0, 0, 0), Quaternion.Identity, Vector3.Forward, Vector3.Right, 100, diffuseSilver, flat);
+            Mesh ceiling = Plane.Create(
+                new Vector3(0, 10, 0), Quaternion.Identity, Vector3.Forward, Vector3.Left, 100, diffuseSilver, flat);
+            Mesh leftWall = Plane.Create(
+                new Vector3(-5, 0, 0), Quaternion.Identity, Vector3.Forward, Vector3.Down, 100, mirror, flat);
+            Mesh rightWall = Plane.Create(
+                new Vector3(5, 0, 0), Quaternion.Identity, Vector3.Forward, Vector3.Up, 100, mirror, flat);
 
             _meshes = new List<Mesh>
             {
