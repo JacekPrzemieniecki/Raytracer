@@ -30,21 +30,7 @@ namespace Raytracer
             }
         }
 
-        public bool Raycast(Ray ray, float maxDistance, ref RaycastHit hitInfo)
-        {
-            var closestHit = new RayTriangleHit {Distance = maxDistance};
-            Triangle closestTriangle = null;
-
-            bool hitFound = RaycastTriangleInfoOnly(ray, ref closestHit, ref closestTriangle);
-
-            if (hitFound)
-            {
-                hitInfo = new RaycastHit(closestHit, closestTriangle, _parentMesh, ray);
-            }
-            return hitFound;
-        }
-
-        private bool RaycastTriangleInfoOnly(Ray ray, ref RayTriangleHit closestRayTriangleHitInfo,
+        public bool Raycast(Ray ray, ref RayTriangleHit closestRayTriangleHitInfo,
             ref Triangle closestTriangle)
         {
             if (!_boundingBox.Raycast(ray, closestRayTriangleHitInfo.Distance)) return false;
@@ -64,7 +50,7 @@ namespace Raytracer
             {
                 if (_children[i] != null)
                 {
-                    bool childHit = _children[i].RaycastTriangleInfoOnly(ray, ref closestRayTriangleHitInfo, ref closestTriangle);
+                    bool childHit = _children[i].Raycast(ray, ref closestRayTriangleHitInfo, ref closestTriangle);
                     hitFound |= childHit;
                 }
             }

@@ -49,7 +49,14 @@ namespace Raytracer
             Interlocked.Increment(ref Counters.RaysCast);
 #endif
             var localRay = new Ray(ray.Origin - Position, ray.Direction);
-            return _octree.Raycast(localRay, maxDistance, ref hitInfo);
+            var hit = new RayTriangleHit { Distance = maxDistance };
+            Triangle closestTriangle = null;
+            bool hitFound = _octree.Raycast(localRay, ref hit, ref closestTriangle);
+            if (hitFound)
+            {
+                hitInfo = new RaycastHit(hit, closestTriangle, this, ray);
+            }
+            return hitFound;
         }
 
         public Vector3 SampleColor(Scene scene, RaycastHit raycastHit, int maxRecursiveRaycasts)
