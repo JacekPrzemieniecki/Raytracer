@@ -11,7 +11,7 @@ namespace Raytracer
         private readonly Bitmap _drawTarget;
         private readonly PictureBox _display;
         private bool _stopFlag;
-        private const int renderPasses = 1;
+        private const int RenderPasses = 10;
 
         public MainWindow()
         {
@@ -35,17 +35,23 @@ namespace Raytracer
                 {
                     _display.Invalidate();
                     Application.DoEvents();
+                    UpdateLabels();
                 },
-                renderPasses,
+                RenderPasses,
                 ref _stopFlag);
             watch.Stop();
             RenderTimeLabel.Text = string.Format("{0} min, {1} s, {2} ms", watch.Elapsed.Minutes, watch.Elapsed.Seconds, watch.Elapsed.Milliseconds);
+        }
+
+        private void UpdateLabels()
+        {
             RaysCastLabel.Text = Counters.RaysCast.ToString(CultureInfo.InvariantCulture);
             RayTriangleTestsLabel.Text = Counters.RayTriangleTests.ToString(CultureInfo.InvariantCulture);
             RayHitsLabel.Text = Counters.RayHits.ToString(CultureInfo.InvariantCulture);
             BoundingBoxChecksLabel.Text = Counters.BoundingBoxChecks.ToString(CultureInfo.InvariantCulture);
             BoundingBoxHitsLabel.Text = Counters.BoundingBoxHits.ToString(CultureInfo.InvariantCulture);
             BackfaceCullsLabel.Text = Counters.BackfaceCulls.ToString(CultureInfo.InvariantCulture);
+            RaycastsSkippedLabel.Text = Counters.RaycastsSkipped.ToString(CultureInfo.InvariantCulture);
         }
 
         private void StopButton_Click(object sender, System.EventArgs e)

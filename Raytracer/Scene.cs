@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
-using Raytracer.Debugging;
 using Raytracer.LightSources;
 using Raytracer.Parsers;
 using Raytracer.Samplers;
 using Raytracer.SampleShapes;
 using Raytracer.Shaders;
+
+#if DEBUG
+using System.Threading;
+using Raytracer.Debugging;
+#endif
 
 namespace Raytracer
 {
@@ -36,7 +39,7 @@ namespace Raytracer
         public Scene()
         {
             var cameraPosition = new Vector3(0, 8, 5);
-            _camera = new Camera(cameraPosition, Quaternion.LookRotation(new Vector3(0, -0.8f, -1), Vector3.Up),
+            _camera = new Camera(cameraPosition, Quaternion.LookRotation(new Vector3(0, -1, -1), Vector3.Up),
                 8.0f / 6.0f, (float) Math.PI * 60f / 180f);
 
             ISampler smooth = new InterpolatedNormalSampler();
@@ -55,10 +58,18 @@ namespace Raytracer
             //Shader position = new PositionShader();
             //Shader reflected = new ReflectedVectorShader(new FlatNormalSampler());
             
+            var parser = new ObjParser();
+            parser.Parse("..\\..\\..\\SampleData\\Sample_Ship.obj");
+
+            Mesh ship = parser.Meshes[0];
+            ship.Position = new Vector3(-16.5f, 2, -1.5f);
+            ship.Rotation = new Quaternion(0, 1, 0, 0.5f).Normalized();
+            ship.Rescale(7f);
+
             Mesh sphere = TriangleSphere.Create(
-                new Vector3(3, 2, -6), Quaternion.Identity, 2.0, 32, 40, diffuseRedSmooth, smooth);
+                new Vector3(3, 2, -6), Quaternion.Identity, 2, 32, 40, diffuseRedSmooth, smooth);
             Mesh smallSphere = TriangleSphere.Create(
-                new Vector3(-1, 1, -4), Quaternion.Identity, 1, 26, 20, smallSphereShader, smooth);
+                new Vector3(-2, 1, -4), Quaternion.Identity, 1, 26, 20, smallSphereShader, smooth);
             Mesh cube = Cube.Create(
                 new Vector3(-3, 1.5f, -8), new Quaternion(0, 1, 0, 0.33f).Normalized(), 3, cubeShader, flat);
             Mesh backWall = Plane.Create(
@@ -79,6 +90,7 @@ namespace Raytracer
                 cube,
                 sphere,
                 smallSphere,
+                ship,
                 backWall,
                 frontWall,
                 floor,

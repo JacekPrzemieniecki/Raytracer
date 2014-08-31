@@ -41,7 +41,7 @@ namespace Raytracer
         }
 
         private Shader Shader { get; set; }
-        public Vector3 Position { get; private set; }
+        public Vector3 Position { get; set; }
         private Quaternion _rotation;
         private Quaternion _invRotation;
 
@@ -51,7 +51,7 @@ namespace Raytracer
             {
                 return _rotation;
             }
-            private set
+            set
             {
                 _rotation = value;
                 _invRotation = value.Inverse();
@@ -87,11 +87,20 @@ namespace Raytracer
             return Shader.Shade(scene, raycastHit, maxRecursiveRaycasts);
         }
 
+        public void Rescale(float scale)
+        {
+            for (int i = 0; i < Vertices.Length; i++)
+            {
+                Vertices[i] = Vertices[i] * scale;
+            }
+            Init();
+        }
+
         private void Init()
         {
             BindTriangles();
             CalculateVertexNormals();
-            _octree = new Octree(_triangles, this);
+            BuildOctree();
         }
 
         private void BindTriangles()
@@ -121,6 +130,11 @@ namespace Raytracer
             {
                 VertexNormals[i] = VertexNormals[i].Normalized();
             }
+        }
+
+        private void BuildOctree()
+        {
+            _octree = new Octree(_triangles, this);
         }
     }
 }

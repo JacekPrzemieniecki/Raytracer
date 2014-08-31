@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
+using Raytracer.Debugging;
 
 namespace Raytracer
 {
     internal class Renderer
     {
-        private const float RenderedThreshold = 0.000001f;
+        private const float RenderedThreshold = 0.00001f;
         private int _pictureHeight;
         private int _pictureWidth;
         private Scene _scene;
@@ -29,6 +31,7 @@ namespace Raytracer
                     {
                         if (renderedMask[x][y])
                         {
+                            Interlocked.Increment(ref Counters.RaycastsSkipped);
                             continue;
                         }
 

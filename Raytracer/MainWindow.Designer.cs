@@ -45,6 +45,8 @@
             this.BackfaceCullsLabel = new System.Windows.Forms.Label();
             this.RenderButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.RaycastsSkippedLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -193,11 +195,31 @@
             this.StopButton.UseVisualStyleBackColor = true;
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(845, 212);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(90, 13);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "RaycastsSkipped";
+            // 
+            // RaycastsSkippedLabel
+            // 
+            this.RaycastsSkippedLabel.AutoSize = true;
+            this.RaycastsSkippedLabel.Location = new System.Drawing.Point(848, 225);
+            this.RaycastsSkippedLabel.Name = "RaycastsSkippedLabel";
+            this.RaycastsSkippedLabel.Size = new System.Drawing.Size(13, 13);
+            this.RaycastsSkippedLabel.TabIndex = 17;
+            this.RaycastsSkippedLabel.Text = "0";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.RaycastsSkippedLabel);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.RenderButton);
             this.Controls.Add(this.BackfaceCullsLabel);
@@ -239,5 +261,7 @@
         private System.Windows.Forms.Label BackfaceCullsLabel;
         private System.Windows.Forms.Button RenderButton;
         private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label RaycastsSkippedLabel;
     }
 }
