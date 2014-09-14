@@ -20,22 +20,6 @@ namespace Raytracer
         private readonly Camera _camera;
         private readonly List<Mesh> _meshes;
 
-        public Scene(string file)
-        {
-            var cameraPosition = new Vector3(3, 3, 8);
-            _camera = new Camera(cameraPosition, new Quaternion(0, 0, 0, 1), 8.0f / 6.0f, (float) Math.PI * 80f / 180f);
-
-            var parser = new ObjParser();
-            parser.Parse(file);
-            _meshes = parser.Meshes;
-
-            LightSource cameraLightSource = new PointLight(cameraPosition, 2, 1000, Color.White);
-            LightSources = new List<LightSource>
-            {
-                cameraLightSource
-            };
-        }
-
         public Scene()
         {
             var cameraPosition = new Vector3(0, 8, 5);
@@ -71,7 +55,7 @@ namespace Raytracer
             Mesh smallSphere = TriangleSphere.Create(
                 new Vector3(-2, 1, -4), Quaternion.Identity, 1, 26, 20, smallSphereShader, smooth);
             Mesh cube = Cube.Create(
-                new Vector3(-3, 1.5f, -8), new Quaternion(0, 1, 0, 0.33f).Normalized(), 3, cubeShader, flat);
+                new Vector3(-2.9f, 1.5f, -8), new Quaternion(0, 1, 0, 0.33f).Normalized(), 3, cubeShader, flat);
             Mesh backWall = Plane.Create(
                 new Vector3(0, 0, -10), Quaternion.Identity, Vector3.Down, Vector3.Right, 100, diffuseSilver, flat);
             Mesh frontWall = Plane.Create(

@@ -1,4 +1,5 @@
-﻿namespace Raytracer.Debugging
+﻿#if DEBUG
+namespace Raytracer.Debugging
 {
     internal static class Counters
     {
@@ -11,3 +12,4 @@
         public static int RaycastsSkipped;
     }
 }
+#endif

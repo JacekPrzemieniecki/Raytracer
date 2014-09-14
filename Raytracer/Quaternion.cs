@@ -6,6 +6,7 @@ namespace Raytracer
     {
 // ReSharper disable once InconsistentNaming
         public static readonly Quaternion Identity = new Quaternion(0, 0, 0, 1);
+// ReSharper disable once InconsistentNaming
         public readonly Vector3 XYZ;
         public float W;
 

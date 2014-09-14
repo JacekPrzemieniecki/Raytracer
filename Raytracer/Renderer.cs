@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
+#if DEBUG
 using System.Threading;
 using Raytracer.Debugging;
+#endif
 
 namespace Raytracer
 {
@@ -31,7 +33,9 @@ namespace Raytracer
                     {
                         if (renderedMask[x][y])
                         {
+#if DEBUG
                             Interlocked.Increment(ref Counters.RaycastsSkipped);
+#endif
                             continue;
                         }
 

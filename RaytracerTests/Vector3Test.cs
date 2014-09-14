@@ -11,8 +11,8 @@ namespace RaytracerTests
         [TestMethod]
         public void TestAddition()
         {
-            Vector3 lhs = new Vector3(1, 2, 3);
-            Vector3 rhs = new Vector3(3, 3, 3);
+            var lhs = new Vector3(1, 2, 3);
+            var rhs = new Vector3(3, 3, 3);
             var sum = lhs + rhs;
             Assert.AreEqual(sum.x, 1 + 3, Delta);
             Assert.AreEqual(sum.y, 2 + 3, Delta);
@@ -22,8 +22,8 @@ namespace RaytracerTests
         [TestMethod]
         public void DotProductOfEqualVectors()
         {
-            Vector3 v1 = new Vector3(3, 4, 5);
-            Vector3 v2 = new Vector3(3, 4, 5);
+            var v1 = new Vector3(3, 4, 5);
+            var v2 = new Vector3(3, 4, 5);
             var dotProduct = Vector3.Dot(v1, v2);
             Assert.AreEqual(50, dotProduct, Delta);
         }
