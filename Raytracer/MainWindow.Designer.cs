@@ -48,7 +48,11 @@
             this.label8 = new System.Windows.Forms.Label();
             this.RaycastsSkippedLabel = new System.Windows.Forms.Label();
             this.DebugPanel = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BoxOfSolidsRadio = new System.Windows.Forms.RadioButton();
+            this.SpheresRadio = new System.Windows.Forms.RadioButton();
             this.DebugPanel.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -231,16 +235,51 @@
             this.DebugPanel.Controls.Add(this.label3);
             this.DebugPanel.Controls.Add(this.RaysCastLabel);
             this.DebugPanel.Controls.Add(this.label2);
-            this.DebugPanel.Location = new System.Drawing.Point(841, 52);
+            this.DebugPanel.Location = new System.Drawing.Point(845, 454);
             this.DebugPanel.Name = "DebugPanel";
             this.DebugPanel.Size = new System.Drawing.Size(127, 195);
             this.DebugPanel.TabIndex = 18;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.SpheresRadio);
+            this.groupBox1.Controls.Add(this.BoxOfSolidsRadio);
+            this.groupBox1.Location = new System.Drawing.Point(845, 116);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(113, 146);
+            this.groupBox1.TabIndex = 19;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Scene";
+            // 
+            // BoxOfSolidsRadio
+            // 
+            this.BoxOfSolidsRadio.AutoSize = true;
+            this.BoxOfSolidsRadio.Checked = true;
+            this.BoxOfSolidsRadio.Location = new System.Drawing.Point(7, 20);
+            this.BoxOfSolidsRadio.Name = "BoxOfSolidsRadio";
+            this.BoxOfSolidsRadio.Size = new System.Drawing.Size(84, 17);
+            this.BoxOfSolidsRadio.TabIndex = 0;
+            this.BoxOfSolidsRadio.TabStop = true;
+            this.BoxOfSolidsRadio.Text = "Box of solids";
+            this.BoxOfSolidsRadio.UseVisualStyleBackColor = true;
+            // 
+            // SpheresRadio
+            // 
+            this.SpheresRadio.AutoSize = true;
+            this.SpheresRadio.Location = new System.Drawing.Point(7, 44);
+            this.SpheresRadio.Name = "SpheresRadio";
+            this.SpheresRadio.Size = new System.Drawing.Size(64, 17);
+            this.SpheresRadio.TabIndex = 1;
+            this.SpheresRadio.TabStop = true;
+            this.SpheresRadio.Text = "Spheres";
+            this.SpheresRadio.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.DebugPanel);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.RenderButton);
@@ -250,6 +289,8 @@
             this.Text = "MainWindow";
             this.DebugPanel.ResumeLayout(false);
             this.DebugPanel.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -276,5 +317,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label RaycastsSkippedLabel;
         private System.Windows.Forms.Panel DebugPanel;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton SpheresRadio;
+        private System.Windows.Forms.RadioButton BoxOfSolidsRadio;
     }
 }

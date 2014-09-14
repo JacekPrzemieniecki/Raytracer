@@ -33,7 +33,7 @@ namespace Raytracer
         {
             _stopFlag = false;
             var renderer = new Renderer();
-            var scene = SceneBuilder.Spheres();
+            Scene scene = SpheresRadio.Checked ? SceneBuilder.Spheres() : SceneBuilder.GeometricFiguresBox();
             Stopwatch watch = Stopwatch.StartNew();
             renderer.Render(
                 _drawTarget,
