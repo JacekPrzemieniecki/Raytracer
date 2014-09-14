@@ -47,6 +47,8 @@
             this.StopButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.RaycastsSkippedLabel = new System.Windows.Forms.Label();
+            this.DebugPanel = new System.Windows.Forms.Panel();
+            this.DebugPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -70,7 +72,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(845, 56);
+            this.label2.Location = new System.Drawing.Point(4, 4);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 13);
             this.label2.TabIndex = 2;
@@ -79,7 +81,7 @@
             // RaysCastLabel
             // 
             this.RaysCastLabel.AutoSize = true;
-            this.RaysCastLabel.Location = new System.Drawing.Point(848, 69);
+            this.RaysCastLabel.Location = new System.Drawing.Point(7, 17);
             this.RaysCastLabel.Name = "RaysCastLabel";
             this.RaysCastLabel.Size = new System.Drawing.Size(13, 13);
             this.RaysCastLabel.TabIndex = 3;
@@ -88,7 +90,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(845, 82);
+            this.label3.Location = new System.Drawing.Point(4, 30);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(92, 13);
             this.label3.TabIndex = 4;
@@ -97,7 +99,7 @@
             // RayTriangleTestsLabel
             // 
             this.RayTriangleTestsLabel.AutoSize = true;
-            this.RayTriangleTestsLabel.Location = new System.Drawing.Point(848, 95);
+            this.RayTriangleTestsLabel.Location = new System.Drawing.Point(7, 43);
             this.RayTriangleTestsLabel.Name = "RayTriangleTestsLabel";
             this.RayTriangleTestsLabel.Size = new System.Drawing.Size(13, 13);
             this.RayTriangleTestsLabel.TabIndex = 5;
@@ -106,7 +108,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(845, 108);
+            this.label4.Location = new System.Drawing.Point(4, 56);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 6;
@@ -115,7 +117,7 @@
             // RayHitsLabel
             // 
             this.RayHitsLabel.AutoSize = true;
-            this.RayHitsLabel.Location = new System.Drawing.Point(848, 121);
+            this.RayHitsLabel.Location = new System.Drawing.Point(7, 69);
             this.RayHitsLabel.Name = "RayHitsLabel";
             this.RayHitsLabel.Size = new System.Drawing.Size(13, 13);
             this.RayHitsLabel.TabIndex = 7;
@@ -124,7 +126,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(845, 134);
+            this.label5.Location = new System.Drawing.Point(4, 82);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(110, 13);
             this.label5.TabIndex = 8;
@@ -133,7 +135,7 @@
             // BoundingBoxChecksLabel
             // 
             this.BoundingBoxChecksLabel.AutoSize = true;
-            this.BoundingBoxChecksLabel.Location = new System.Drawing.Point(848, 147);
+            this.BoundingBoxChecksLabel.Location = new System.Drawing.Point(7, 95);
             this.BoundingBoxChecksLabel.Name = "BoundingBoxChecksLabel";
             this.BoundingBoxChecksLabel.Size = new System.Drawing.Size(13, 13);
             this.BoundingBoxChecksLabel.TabIndex = 9;
@@ -142,7 +144,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(845, 160);
+            this.label6.Location = new System.Drawing.Point(4, 108);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(91, 13);
             this.label6.TabIndex = 10;
@@ -151,7 +153,7 @@
             // BoundingBoxHitsLabel
             // 
             this.BoundingBoxHitsLabel.AutoSize = true;
-            this.BoundingBoxHitsLabel.Location = new System.Drawing.Point(848, 173);
+            this.BoundingBoxHitsLabel.Location = new System.Drawing.Point(7, 121);
             this.BoundingBoxHitsLabel.Name = "BoundingBoxHitsLabel";
             this.BoundingBoxHitsLabel.Size = new System.Drawing.Size(13, 13);
             this.BoundingBoxHitsLabel.TabIndex = 11;
@@ -160,7 +162,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(845, 186);
+            this.label7.Location = new System.Drawing.Point(4, 134);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(78, 13);
             this.label7.TabIndex = 12;
@@ -169,7 +171,7 @@
             // BackfaceCullsLabel
             // 
             this.BackfaceCullsLabel.AutoSize = true;
-            this.BackfaceCullsLabel.Location = new System.Drawing.Point(848, 199);
+            this.BackfaceCullsLabel.Location = new System.Drawing.Point(7, 147);
             this.BackfaceCullsLabel.Name = "BackfaceCullsLabel";
             this.BackfaceCullsLabel.Size = new System.Drawing.Size(13, 13);
             this.BackfaceCullsLabel.TabIndex = 13;
@@ -198,7 +200,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(845, 212);
+            this.label8.Location = new System.Drawing.Point(4, 160);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(90, 13);
             this.label8.TabIndex = 16;
@@ -207,37 +209,47 @@
             // RaycastsSkippedLabel
             // 
             this.RaycastsSkippedLabel.AutoSize = true;
-            this.RaycastsSkippedLabel.Location = new System.Drawing.Point(848, 225);
+            this.RaycastsSkippedLabel.Location = new System.Drawing.Point(7, 173);
             this.RaycastsSkippedLabel.Name = "RaycastsSkippedLabel";
             this.RaycastsSkippedLabel.Size = new System.Drawing.Size(13, 13);
             this.RaycastsSkippedLabel.TabIndex = 17;
             this.RaycastsSkippedLabel.Text = "0";
+            // 
+            // DebugPanel
+            // 
+            this.DebugPanel.Controls.Add(this.RaycastsSkippedLabel);
+            this.DebugPanel.Controls.Add(this.label8);
+            this.DebugPanel.Controls.Add(this.BackfaceCullsLabel);
+            this.DebugPanel.Controls.Add(this.label7);
+            this.DebugPanel.Controls.Add(this.BoundingBoxHitsLabel);
+            this.DebugPanel.Controls.Add(this.label6);
+            this.DebugPanel.Controls.Add(this.BoundingBoxChecksLabel);
+            this.DebugPanel.Controls.Add(this.label5);
+            this.DebugPanel.Controls.Add(this.RayHitsLabel);
+            this.DebugPanel.Controls.Add(this.label4);
+            this.DebugPanel.Controls.Add(this.RayTriangleTestsLabel);
+            this.DebugPanel.Controls.Add(this.label3);
+            this.DebugPanel.Controls.Add(this.RaysCastLabel);
+            this.DebugPanel.Controls.Add(this.label2);
+            this.DebugPanel.Location = new System.Drawing.Point(841, 52);
+            this.DebugPanel.Name = "DebugPanel";
+            this.DebugPanel.Size = new System.Drawing.Size(127, 195);
+            this.DebugPanel.TabIndex = 18;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 661);
-            this.Controls.Add(this.RaycastsSkippedLabel);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.DebugPanel);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.RenderButton);
-            this.Controls.Add(this.BackfaceCullsLabel);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.BoundingBoxHitsLabel);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.BoundingBoxChecksLabel);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.RayHitsLabel);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.RayTriangleTestsLabel);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.RaysCastLabel);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.RenderTimeLabel);
             this.Controls.Add(this.label1);
             this.Name = "MainWindow";
             this.Text = "MainWindow";
+            this.DebugPanel.ResumeLayout(false);
+            this.DebugPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -263,5 +275,6 @@
         private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label RaycastsSkippedLabel;
+        private System.Windows.Forms.Panel DebugPanel;
     }
 }

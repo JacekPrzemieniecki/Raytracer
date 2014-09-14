@@ -24,6 +24,9 @@ namespace Raytracer
             _display = new PictureBox {Size = new Size(800, 600), Image = _drawTarget};
             Controls.Add(_display);
             _display.Padding = new Padding(25);
+#if !DEBUG
+            DebugPanel.Hide();
+#endif
         }
 
         private void RenderButton_Click(object sender, EventArgs e)
