@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using Raytracer.LightSources;
-using Raytracer.Parsers;
-using Raytracer.Samplers;
-using Raytracer.SampleShapes;
-using Raytracer.Shaders;
 
 #if DEBUG
 using System.Threading;
@@ -20,79 +14,11 @@ namespace Raytracer
         private readonly Camera _camera;
         private readonly List<Mesh> _meshes;
 
-        public Scene()
+        public Scene(List<Mesh> meshes, List<LightSource> lightSources, Camera camera)
         {
-            var cameraPosition = new Vector3(0, 8, 5);
-            _camera = new Camera(cameraPosition, Quaternion.LookRotation(new Vector3(0, -1, -1), Vector3.Up),
-                8.0f / 6.0f, (float) Math.PI * 60f / 180f);
-
-            ISampler smooth = new InterpolatedNormalSampler();
-            ISampler flat = new FlatNormalSampler();
-            Shader diffuseRedSmooth = new DiffuseShader(new SolidColorSampler(Color.Red));
-            Shader diffuseSilver = new DiffuseShader(new SolidColorSampler(Color.Silver));
-            Shader diffuseWhite = new DiffuseShader(new SolidColorSampler(Color.White));
-            Shader diffuseGreenSmooth = new DiffuseShader(new SolidColorSampler(Color.Green));
-            Shader glossySmooth = new GlossyShader();
-            Shader glossyFlat = new GlossyShader();
-            Shader mirror = new MixShader(diffuseSilver, glossyFlat, 0.6f);
-            Shader cubeShader = new MixShader(diffuseWhite, glossyFlat, 0.6f);
-            //Shader sphereShader = new MixShader(diffuseRedSmooth, glossySmooth, 0.9f);
-            Shader smallSphereShader = new MixShader(diffuseGreenSmooth, glossySmooth, 0.4f);
-            //Shader testShader = new TestShader(new FlatNormalSampler());
-            //Shader position = new PositionShader();
-            //Shader reflected = new ReflectedVectorShader(new FlatNormalSampler());
-            
-            var parser = new ObjParser();
-            parser.Parse("..\\..\\..\\SampleData\\Sample_Ship.obj");
-
-            Mesh ship = parser.Meshes[0];
-            ship.Position = new Vector3(-16.5f, 2, -1.5f);
-            ship.Rotation = new Quaternion(0, 1, 0, 0.5f).Normalized();
-            ship.Rescale(7f);
-
-            Mesh sphere = TriangleSphere.Create(
-                new Vector3(3, 2, -6), Quaternion.Identity, 2, 32, 40, diffuseRedSmooth, smooth);
-            Mesh smallSphere = TriangleSphere.Create(
-                new Vector3(-2, 1, -4), Quaternion.Identity, 1, 26, 20, smallSphereShader, smooth);
-            Mesh cube = Cube.Create(
-                new Vector3(-2.9f, 1.5f, -8), new Quaternion(0, 1, 0, 0.33f).Normalized(), 3, cubeShader, flat);
-            Mesh backWall = Plane.Create(
-                new Vector3(0, 0, -10), Quaternion.Identity, Vector3.Down, Vector3.Right, 100, diffuseSilver, flat);
-            Mesh frontWall = Plane.Create(
-                new Vector3(0, 0, 6), Quaternion.Identity, Vector3.Up, Vector3.Right, 100, diffuseSilver, flat);
-            Mesh floor = Plane.Create(
-                new Vector3(0, 0, 0), Quaternion.Identity, Vector3.Forward, Vector3.Right, 100, diffuseSilver, flat);
-            Mesh ceiling = Plane.Create(
-                new Vector3(0, 10, 0), Quaternion.Identity, Vector3.Forward, Vector3.Left, 100, diffuseSilver, flat);
-            Mesh leftWall = Plane.Create(
-                new Vector3(-5, 0, 0), Quaternion.Identity, Vector3.Forward, Vector3.Down, 100, mirror, flat);
-            Mesh rightWall = Plane.Create(
-                new Vector3(5, 0, 0), Quaternion.Identity, Vector3.Forward, Vector3.Up, 100, mirror, flat);
-
-            _meshes = new List<Mesh>
-            {
-                cube,
-                sphere,
-                smallSphere,
-                ship,
-                backWall,
-                frontWall,
-                floor,
-                ceiling,
-                leftWall,
-                rightWall
-            };
-
-            LightSource cameraLightSource = new PointLight(cameraPosition, 3, 10, Color.White);
-            LightSources = new List<LightSource>
-            {
-                //new PointLight(new Vector3(-4.5f, 0.5f, -9.5f), 2.0f, 5, Color.White),
-                //new PointLight(new Vector3(4.5f, 0.5f, -9.5f), 2.0f, 5, Color.White),
-                new PointLight(new Vector3(-4.5f, 7.5f, -9.5f), 2.0f, 5, Color.White),
-                new PointLight(new Vector3(4.5f, 7.5f, -9.5f), 2.0f, 5, Color.White),
-                cameraLightSource,
-                //new PointLight(new Vector3(0, 1, -3.9f), 3, Color.White ),
-            };
+            _meshes = meshes;
+            LightSources = lightSources;
+            _camera = camera;
         }
 
         public bool IsVisible(Vector3 from, Vector3 to)

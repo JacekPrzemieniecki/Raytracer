@@ -103,6 +103,7 @@
     <Compile Include="SampleShapes\Plane.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SampleShapes\TriangleSphere.cs" />
+    <Compile Include="SceneBuilder.cs" />
     <Compile Include="Shaders\GlossyShader.cs" />
     <Compile Include="Shaders\MixShader.cs" />
     <Compile Include="Shaders\NormalShader.cs" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -33,11 +33,11 @@ namespace Raytracer
         {
             _stopFlag = false;
             var renderer = new Renderer();
-            var s = new Scene();
+            var scene = SceneBuilder.GeometricFiguresBox();
             Stopwatch watch = Stopwatch.StartNew();
             renderer.Render(
                 _drawTarget,
-                s,
+                scene,
                 () =>
                 {
                     _display.Invalidate();
