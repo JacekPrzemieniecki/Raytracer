@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using Raytracer.LightSources;
 
 #if DEBUG
@@ -13,12 +14,14 @@ namespace Raytracer
         public readonly List<LightSource> LightSources;
         private readonly Camera _camera;
         private readonly List<Mesh> _meshes;
+        private readonly Vector3 _skyColor;
 
-        public Scene(List<Mesh> meshes, List<LightSource> lightSources, Camera camera)
+        public Scene(List<Mesh> meshes, List<LightSource> lightSources, Camera camera, Color skyColor)
         {
             _meshes = meshes;
             LightSources = lightSources;
             _camera = camera;
+            _skyColor = Vector3.FromColor(skyColor);
         }
 
         public bool IsVisible(Vector3 from, Vector3 to)
@@ -80,7 +83,7 @@ namespace Raytracer
             bool hitFound = Raycast(ray, float.MaxValue, ref raycastHit);
             if (!hitFound)
             {
-                return new Vector3(1, 1, 1);
+                return _skyColor;
             }
             return raycastHit.Mesh.SampleColor(this, raycastHit, maxRecursiveRaycasts);
         }
