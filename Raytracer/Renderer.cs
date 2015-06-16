@@ -1,64 +1,131 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
-#if DEBUG
-using System.Threading;
-using Raytracer.Debugging;
-#endif
 
 namespace Raytracer
 {
     internal class Renderer
     {
-        private const float RenderedThreshold = 0.00001f;
+        private const int ChunkSize = 64;
         private int _pictureHeight;
         private int _pictureWidth;
-        private Scene _scene;
+
+        private List<RenderJob> PrepareJobs(Scene scene, int passes)
+        {
+            var list = new List<RenderJob>();
+            var pixelsYleft = _pictureHeight;
+            for (var chunkY = 0; chunkY < _pictureHeight/ChunkSize + 1; chunkY++)
+            {
+                var pixelsXleft = _pictureWidth;
+                var chunkHeight = pixelsYleft > ChunkSize ? ChunkSize : pixelsYleft;
+                for (var chunkX = 0; chunkX < _pictureWidth/ChunkSize + 1; chunkX++)
+                {
+                    list.Add(new RenderJob(
+                        x: chunkX*ChunkSize,
+                        y: chunkY*ChunkSize,
+                        width: pixelsXleft > ChunkSize ? ChunkSize : pixelsXleft,
+                        height: chunkHeight,
+                        passes: passes,
+                        scene: scene,
+                        pictureWidth: _pictureWidth,
+                        pictureHeight: _pictureHeight));
+
+                    pixelsXleft -= ChunkSize;
+                }
+                pixelsYleft -= ChunkSize;
+            }
+
+            return list;
+        }
 
         public void Render(Bitmap bmp, Scene scene, Action refreshAction, int passes, ref bool stopFlag)
         {
-            _scene = scene;
             _pictureHeight = bmp.Height;
             _pictureWidth = bmp.Width;
             var renderedMask = new bool[_pictureWidth][];
-            for (int i = 0; i < _pictureWidth; i++)
+            for (var i = 0; i < _pictureWidth; i++)
             {
                 renderedMask[i] = new bool[_pictureHeight];
             }
 
-            var rng = new Random();
-            for (int pass = 0; pass < passes; pass++)
-                for (int y = 0; y < bmp.Size.Height; y++)
-                {
-                    for (int x = 0; x < bmp.Size.Width; x++)
-                    {
-                        if (renderedMask[x][y])
-                        {
+            var waitingJobs = PrepareJobs(scene, passes);
+            var jobsDone = 0;
+            var jobsAssigned = 0;
 #if DEBUG
-                            Interlocked.Increment(ref Counters.RaycastsSkipped);
-#endif
-                            continue;
-                        }
 
-                        Vector3 pixelColor = RenderPixel(x, y, (float) rng.NextDouble(), (float) rng.NextDouble());
-                        if (pass > 0)
+            var processorCount = 1;
+#else
+            var processorCount =  Environment.ProcessorCount;
+#endif
+            var workers = new List<RenderWorker>(processorCount);
+            var lastPassCount = new int[processorCount];
+            for (var i = 0; i < processorCount; i++)
+            {
+                var renderWorker = new RenderWorker();
+                workers.Add(renderWorker);
+                renderWorker.CurrentJob = waitingJobs[i];
+                renderWorker.Start();
+                jobsAssigned++;
+            }
+
+            while (jobsDone < waitingJobs.Count)
+            {
+                for (int workerID = 0; workerID < workers.Count; workerID++)
+                {
+                    var renderWorker = workers[workerID];
+                    var passesLeft = renderWorker.CurrentJob.PassesLeft;
+                    if (passesLeft != 0)
+                    {
+                        if( lastPassCount[workerID] != passesLeft)
                         {
-                            Vector3 lastColor = Vector3.FromColor(bmp.GetPixel(x, y));
-                            pixelColor = (lastColor * pass + pixelColor) / (pass + 1);
-                            renderedMask[x][y] = (lastColor - pixelColor).LengthSquared() < RenderedThreshold;
+                            BlipToScreen(renderWorker.CurrentJob, bmp);
                         }
-                        bmp.SetPixel(x, y, pixelColor.ToColor());
+                        refreshAction();
+                        continue;
                     }
-                    refreshAction();
-                    if (stopFlag) return;
+
+                    var doneJob = renderWorker.CurrentJob;
+                    jobsDone++;
+                    if (jobsAssigned >= waitingJobs.Count)
+                    {
+                        renderWorker.Stop();
+                    }
+                    else
+                    {
+                        renderWorker.Pause(true);
+                        renderWorker.CurrentJob = waitingJobs[jobsAssigned];
+                        jobsAssigned++;
+                        renderWorker.Pause(false);
+                    }
+                    BlipToScreen(doneJob, bmp);
                 }
+                if (stopFlag)
+                {
+                    foreach (var renderWorker in workers)
+                    {
+                        renderWorker.Stop();
+                        return;
+                    }
+                }
+            }
         }
 
-        private Vector3 RenderPixel(int screenX, int screenY, float dX, float dY)
+        private void BlipToScreen(RenderJob job, Bitmap bmp)
         {
-            float viewportX = (screenX + dX) / _pictureWidth * 2 - 1;
-            // Screen Y is pointed down
-            float viewportY = 1 - (screenY + dY) / _pictureHeight * 2;
-            return _scene.SampleColor(viewportX, viewportY, 4);
+            var i = 0;
+            for (var y = job.StartY; y < job.StartY + job.Height; y++)
+            {
+                for (var x = job.StartX; x < job.StartX + job.Width; x++)
+                {
+                    var output = job.Output[i];
+                    if (output == null)
+                    {
+                        return;
+                    }
+                    bmp.SetPixel(x, y, output.ToColor());
+                    i++;
+                }
+            }
         }
     }
 }

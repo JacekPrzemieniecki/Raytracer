@@ -94,6 +94,8 @@
     <Compile Include="RaycastHit.cs" />
     <Compile Include="RayTriangleHit.cs" />
     <Compile Include="Renderer.cs" />
+    <Compile Include="RenderJob.cs" />
+    <Compile Include="RenderWorker.cs" />
     <Compile Include="Samplers\BitmapSampler.cs" />
     <Compile Include="Samplers\FlatNormalSampler.cs" />
     <Compile Include="Samplers\InterpolatedNormalSampler.cs" />
@@ -115,9 +117,6 @@
     <Compile Include="Triangle.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="Vector3.cs" />
-    <EmbeddedResource Include="MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
