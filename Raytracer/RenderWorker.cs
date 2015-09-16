@@ -37,7 +37,10 @@ namespace Raytracer
 
         public void Start()
         {
-            var t = new Thread(Render);
+            var t = new Thread(Render)
+            {
+                IsBackground = true
+            };
             t.Start();
         }
 
